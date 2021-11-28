@@ -80,20 +80,24 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void addPlace(View view) {
-        if (province.getId() == 0) {
-            Toast.makeText(this, getString(R.string.province_not_selected), Toast.LENGTH_SHORT).show();
+        EditText etName = findViewById(R.id.place_name);
+        EditText etDesc = findViewById(R.id.place_desc);
+        EditText etLat = findViewById(R.id.place_lat);
+        EditText etLong = findViewById(R.id.place_long);
+
+        String name = etName.getText().toString();
+        String desc = etDesc.getText().toString();
+        String latitudeString = etLat.getText().toString();
+        String longitudeString = etLong.getText().toString();
+
+        if ((province.getId() == 0) || (name.equals("")) || (desc.equals(""))
+                || (latitudeString.equals("")) || (longitudeString.equals(""))) {
+            Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
-            EditText etName = findViewById(R.id.place_name);
-            EditText etDesc = findViewById(R.id.place_desc);
-            EditText etLat = findViewById(R.id.place_lat);
-            EditText etLong = findViewById(R.id.place_long);
+            float latitude = Float.parseFloat(latitudeString);
+            float longitude = Float.parseFloat(longitudeString);
 
-            String name = etName.getText().toString();
-            String desc = etDesc.getText().toString();
-            String latitude = etLat.getText().toString();
-            String longitude = etLong.getText().toString();
-
-            Place place = new Place(0, name, desc, Float.parseFloat(latitude), Float.parseFloat(longitude), province.getId());
+            Place place = new Place(0, name, desc, latitude, longitude, province.getId());
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "places").allowMainThreadQueries().build();
@@ -121,6 +125,7 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.countries_list_places) {
             Country country = countries.get(position);
+            province.setId(0);
             loadProvinces(country.getId());
         } else {
             province = provinces.get(position);

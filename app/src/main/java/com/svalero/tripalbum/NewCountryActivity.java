@@ -21,9 +21,11 @@ public class NewCountryActivity extends AppCompatActivity {
 
     public void addCountry(View view) {
         EditText etName = findViewById(R.id.country_name);
-
         String name = etName.getText().toString();
 
+        if (name.equals("")) {
+            Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
+        } else {
         Country country = new Country(0, name);
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -33,5 +35,6 @@ public class NewCountryActivity extends AppCompatActivity {
         Toast.makeText(this, getString(R.string.country_added), Toast.LENGTH_SHORT).show();
 
         etName.setText("");
+        }
     }
 }

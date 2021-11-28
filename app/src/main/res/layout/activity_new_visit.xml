@@ -5,19 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".MyVisitsActivity">
+    tools:context=".NewVisitActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/new_visit_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,18 +31,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textView17"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="País"
-                android:textSize="16sp" />
+                android:text="Fecha" />
 
-            <ListView
-                android:id="@+id/countries_list_visits"
+            <EditText
+                android:id="@+id/visit_date"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="date" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,61 +52,62 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/textView18"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Provincia"
-                android:textSize="16sp" />
+                android:text="Valoración" />
 
-            <ListView
-                android:id="@+id/provinces_list_visits"
+            <EditText
+                android:id="@+id/visit_rating"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberDecimal" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/textView19"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Lugar"
-                android:textSize="16sp" />
+                android:text="Comentario" />
 
-            <ListView
-                android:id="@+id/places_list_visits"
+            <EditText
+                android:id="@+id/visit_comment"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
-        <GridView
-            android:id="@+id/visits_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnWidth="120dp"
-            android:numColumns="3" />
-
+        <ImageView
+            android:id="@+id/visit_image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:cropToPadding="false"
+            android:onClick="selectPicture"
+            android:scaleType="centerInside"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_visit"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:onClick="openNewVisit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
+        android:onClick="addVisit"
+        android:text="Añadir"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
+        tools:layout_editor_absoluteX="10dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
