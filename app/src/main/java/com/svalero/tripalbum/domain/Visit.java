@@ -7,10 +7,11 @@ import androidx.room.TypeConverters;
 
 import com.svalero.tripalbum.database.TimestampConverter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class Visit {
+public class Visit implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo
@@ -84,6 +85,6 @@ public class Visit {
 
     @Override
     public String toString() {
-        return date + ", " + commentary + " " + image;
+        return date + ", " + rating + ", " + commentary + ", " + id + ", " + placeId + " " + image;
     }
 }
