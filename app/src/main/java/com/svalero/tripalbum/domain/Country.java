@@ -1,7 +1,14 @@
 package com.svalero.tripalbum.domain;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Country {
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo
     private String name;
 
     public Country(int id, String name) {

@@ -1,12 +1,14 @@
 package com.svalero.tripalbum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Country;
 
 public class NewCountryActivity extends AppCompatActivity {
@@ -24,7 +26,10 @@ public class NewCountryActivity extends AppCompatActivity {
 
         Country country = new Country(0, name);
 
-        NewProvinceActivity.countries.add(country);
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "countries").allowMainThreadQueries().build();
+        db.countryDao().insert(country);
+
         Toast.makeText(this, getString(R.string.country_added), Toast.LENGTH_SHORT).show();
 
         etName.setText("");

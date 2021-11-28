@@ -1,27 +1,35 @@
 package com.svalero.tripalbum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NewPlaceActivity extends AppCompatActivity {
+public class NewPlaceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    public static ArrayList<Province> provinces;
+    public List<Province> provinces;
     private ArrayAdapter<Province> provincesAdapter;
+    public List<Country> countries;
+    private ArrayAdapter<Country> countriesAdapter;
     private Button buttonProvince;
     private Button buttonCountry;
+    Province province = new Province(0, null, 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,13 @@ public class NewPlaceActivity extends AppCompatActivity {
         ListView lvProvinces = findViewById(R.id.provinces_list);
         provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provinces);
         lvProvinces.setAdapter(provincesAdapter);
+        lvProvinces.setOnItemClickListener(this);
+
+        countries = new ArrayList<>();
+        ListView lvCountries = findViewById(R.id.countries_list_places);
+        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        lvCountries.setAdapter(countriesAdapter);
+        lvCountries.setOnItemClickListener(this);
 
         buttonProvince = findViewById(R.id.new_province);
         buttonProvince.setOnClickListener(v -> openNewProvince());
@@ -43,29 +58,54 @@ public class NewPlaceActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadCountries();
+    }
+
+    private void loadCountries() {
+        countries.clear();
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "countries").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        countries.addAll(db.countryDao().getAll());
+        countriesAdapter.notifyDataSetChanged();
+    }
+
+    private void loadProvinces(int idCountry) {
+        provinces.clear();
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "provinces").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        provinces.addAll(db.provinceDao().getProvincesByCountry(idCountry));
         provincesAdapter.notifyDataSetChanged();
     }
 
-//    public void addPlace(View view) {
-//        EditText etName = findViewById(R.id.place_name);
-//        EditText etDesc = findViewById(R.id.place_desc);
-//        EditText etLat = findViewById(R.id.place_lat);
-//        EditText etLong = findViewById(R.id.place_long);
-//
-//        String name = etName.getText().toString();
-//        String desc = etDesc.getText().toString();
-//        String latitude = etLat.getText().toString();
-//        String longitude = etLong.getText().toString();
-//
-//        Place place = new Place(1, name, desc, Float.parseFloat(latitude), Float.parseFloat(longitude), null);
-//
-//        Toast.makeText(this, getString(R.string.province_added), Toast.LENGTH_SHORT).show();
-//        etName.setText("");
-//        etDesc.setText("");
-//        etLat.setText("");
-//        etLong.setText("");
-//    }
+    public void addPlace(View view) {
+        if (province.getId() == 0) {
+            Toast.makeText(this, getString(R.string.province_not_selected), Toast.LENGTH_SHORT).show();
+        } else {
+            EditText etName = findViewById(R.id.place_name);
+            EditText etDesc = findViewById(R.id.place_desc);
+            EditText etLat = findViewById(R.id.place_lat);
+            EditText etLong = findViewById(R.id.place_long);
 
+            String name = etName.getText().toString();
+            String desc = etDesc.getText().toString();
+            String latitude = etLat.getText().toString();
+            String longitude = etLong.getText().toString();
+
+            Place place = new Place(0, name, desc, Float.parseFloat(latitude), Float.parseFloat(longitude), province.getId());
+
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "places").allowMainThreadQueries().build();
+            db.placeDao().insert(place);
+
+            Toast.makeText(this, getString(R.string.place_added), Toast.LENGTH_SHORT).show();
+            etName.setText("");
+            etDesc.setText("");
+            etLat.setText("");
+            etLong.setText("");
+        }
+    }
 
     public void openNewProvince() {
         Intent intent = new Intent(this, NewProvinceActivity.class);
@@ -75,5 +115,15 @@ public class NewPlaceActivity extends AppCompatActivity {
     public void openNewCountry() {
         Intent intent = new Intent(this, NewCountryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.countries_list_places) {
+            Country country = countries.get(position);
+            loadProvinces(country.getId());
+        } else {
+            province = provinces.get(position);
+        }
     }
 }

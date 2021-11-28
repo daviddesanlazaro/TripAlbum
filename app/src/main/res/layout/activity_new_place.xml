@@ -182,6 +182,7 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:onClick="addPlace"
         android:text="Añadir"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="10dp" />

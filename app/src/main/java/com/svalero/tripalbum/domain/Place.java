@@ -1,20 +1,31 @@
 package com.svalero.tripalbum.domain;
 
-public class Place {
-    private int id;
-    private String name;
-    private String description;
-    private float latitude;
-    private float longitude;
-    private Province province;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public Place(int id, String name, String description, float latitude, float longitude, Province province) {
+@Entity
+public class Place {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo
+    private String name;
+    @ColumnInfo
+    private String description;
+    @ColumnInfo
+    private float latitude;
+    @ColumnInfo
+    private float longitude;
+    @ColumnInfo
+    private int provinceId;
+
+    public Place(int id, String name, String description, float latitude, float longitude, int provinceId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.province = province;
+        this.provinceId = provinceId;
     }
 
     public int getId() {
@@ -57,12 +68,12 @@ public class Place {
         this.longitude = longitude;
     }
 
-    public Province getProvince() {
-        return province;
+    public int getProvinceId() {
+        return provinceId;
     }
 
-    public void setProvince(Province province) {
-        this.province = province;
+    public void setProvinceId(int provinceId) {
+        this.provinceId = provinceId;
     }
 
     @Override

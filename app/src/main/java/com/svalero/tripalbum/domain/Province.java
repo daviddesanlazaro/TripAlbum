@@ -1,15 +1,22 @@
 package com.svalero.tripalbum.domain;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Province {
-
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo
     private String name;
-    private Country country;
+    @ColumnInfo
+    private int countryId;
 
-    public Province(int id, String name, Country country) {
+    public Province(int id, String name, int countryId) {
         this.id = id;
         this.name = name;
-        this.country = country;
+        this.countryId = countryId;
     }
 
     public int getId() {
@@ -28,12 +35,12 @@ public class Province {
         this.name = name;
     }
 
-    public Country getCountry() {
-        return country;
+    public int getCountryId() {
+        return countryId;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
     }
 
     @Override
