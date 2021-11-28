@@ -43,6 +43,7 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
         GridView gvVisits = findViewById(R.id.visits_list);
         visitsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visits);
         gvVisits.setAdapter(visitsAdapter);
+        gvVisits.setOnItemClickListener(this);
 
         places = new ArrayList<>();
         ListView lvPlaces = findViewById(R.id.places_list_visits);
@@ -122,9 +123,16 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
             visitsAdapter.notifyDataSetChanged();
             place.setId(0);
             loadPlaces(province.getId());
-        } else {
+        } else if (parent.getId() == R.id.places_list_visits) {
             place = places.get(position);
             loadVisits(place.getId());
+        } else {
+            Visit visit = visits.get(position);
+            Intent intent = new Intent(this, ModifyVisitActivity.class);
+            intent.putExtra("name", 1);
+            intent.putExtra("placeName", place.getName());
+            intent.putExtra("Visit", visit);
+            startActivity(intent);
         }
     }
 
@@ -132,7 +140,8 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
         if (place.getId() == 0) {
             Toast.makeText(this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, NewVisitActivity.class);
+            Intent intent = new Intent(this, ModifyVisitActivity.class);
+            intent.putExtra("name", 2);
             intent.putExtra("placeId", place.getId());
             intent.putExtra("placeName", place.getName());
             startActivity(intent);

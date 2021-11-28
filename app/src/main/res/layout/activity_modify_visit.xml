@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".NewVisitActivity">
+    tools:context=".ModifyVisitActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/linearLayout6"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/new_visit_info"
+            android:id="@+id/modify_visit_info"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textAlignment="center"
@@ -31,14 +31,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/textView20"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Fecha" />
 
             <EditText
-                android:id="@+id/visit_date"
+                android:id="@+id/modify_visit_date"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -52,20 +52,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/textView21"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Valoración" />
 
             <EditText
-                android:id="@+id/visit_rating"
+                android:id="@+id/modify_visit_rating"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="numberDecimal" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -74,40 +73,59 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/textView22"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Comentario" />
 
             <EditText
-                android:id="@+id/visit_comment"
+                android:id="@+id/modify_visit_comment"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName" />
+
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/visit_image"
+            android:id="@+id/modify_visit_image"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:cropToPadding="false"
             android:onClick="selectPicture"
-            android:scaleType="centerInside"
+            android:scaleType="center"
             android:visibility="visible"
             app:srcCompat="@android:drawable/ic_menu_add"
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="addVisit"
-        android:text="Añadir"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
-        tools:layout_editor_absoluteX="10dp" />
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="10dp">
+
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:onClick="modifyVisit"
+            android:text="Modificar" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:onClick="deleteVisit"
+            android:text="Eliminar"
+            android:visibility="visible" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,29 +19,49 @@ import com.svalero.tripalbum.util.ImageUtils;
 
 import java.time.LocalDate;
 
-public class NewVisitActivity extends AppCompatActivity {
+public class ModifyVisitActivity extends AppCompatActivity {
 
     private int SELECT_PICTURE_RESULT = 1;
     private Visit visit = new Visit(0, null, 0, null, 0, null);
+    private int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_visit);
+        setContentView(R.layout.activity_modify_visit);
 
         Intent intent = getIntent();
-        visit.setPlaceId(intent.getIntExtra("placeId", 0));
+        num = intent.getIntExtra("name", 0);
+        TextView tvInfo = findViewById(R.id.modify_visit_info);
         String placeName = intent.getStringExtra("placeName");
 
-        TextView tvInfo = findViewById(R.id.new_visit_info);
-        tvInfo.setText("Registra tu visita a " + placeName);
+        if (num == 1) {
+            visit = (Visit)intent.getSerializableExtra("Visit");
+
+            EditText etDate = findViewById(R.id.modify_visit_date);
+            EditText etRating = findViewById(R.id.modify_visit_rating);
+            EditText etComment = findViewById(R.id.modify_visit_comment);
+
+            etDate.setText(visit.getDate().toString());
+            etRating.setText(Float.toString(visit.getRating()));
+            etComment.setText(visit.getCommentary());
+
+            tvInfo.setText("Modifica tu visita a " + placeName);
+        } else {
+            visit.setPlaceId(intent.getIntExtra("placeId", 0));
+            tvInfo.setText("Registra tu visita a " + placeName);
+            Button deleteButton = findViewById(R.id.delete_button);
+            deleteButton.setVisibility(View.GONE);
+            Button modifyButton = findViewById(R.id.update_button);
+            modifyButton.setText("Añadir visita");
+        }
     }
 
-    public void addVisit(View view) {
-        EditText etDate = findViewById(R.id.visit_date);
-        EditText etRating = findViewById(R.id.visit_rating);
-        EditText etComment = findViewById(R.id.visit_comment);
-        ImageView ivImage = findViewById(R.id.visit_image);
+    public void modifyVisit(View view) {
+        EditText etDate = findViewById(R.id.modify_visit_date);
+        EditText etRating = findViewById(R.id.modify_visit_rating);
+        EditText etComment = findViewById(R.id.modify_visit_comment);
+        ImageView ivImage = findViewById(R.id.modify_visit_image);
 
         String dateString = etDate.getText().toString();
         String ratingString = etRating.getText().toString();
@@ -60,13 +81,24 @@ public class NewVisitActivity extends AppCompatActivity {
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "visits").allowMainThreadQueries().build();
-            db.visitDao().insert(visit);
+
+            if (num == 1) {
+                db.visitDao().update(visit);
+            } else {
+                db.visitDao().insert(visit);
+            }
 
             Toast.makeText(this, getString(R.string.visit_added), Toast.LENGTH_SHORT).show();
             etDate.setText("");
             etRating.setText("");
             etComment.setText("");
         }
+    }
+
+    public void deleteVisit(View view) {
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "visits").allowMainThreadQueries().build();
+        db.visitDao().delete(visit);
     }
 
     public void selectPicture(View view) {
@@ -80,8 +112,7 @@ public class NewVisitActivity extends AppCompatActivity {
         if ((requestCode == SELECT_PICTURE_RESULT) && (resultCode == RESULT_OK)
                 && (data != null)) {
             Picasso.get().load(data.getData()).noPlaceholder().centerCrop().fit()
-                    .into((ImageView) findViewById(R.id.visit_image));
-
+                    .into((ImageView) findViewById(R.id.modify_visit_image));
         }
     }
 }
