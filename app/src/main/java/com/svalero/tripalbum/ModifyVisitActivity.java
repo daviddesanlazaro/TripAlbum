@@ -31,7 +31,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_visit);
 
         Intent intent = getIntent();
-        num = intent.getIntExtra("name", 0);
+        num = intent.getIntExtra("modify", 0);
         TextView tvInfo = findViewById(R.id.modify_visit_info);
         String placeName = intent.getStringExtra("placeName");
 
@@ -41,15 +41,19 @@ public class ModifyVisitActivity extends AppCompatActivity {
             EditText etDate = findViewById(R.id.modify_visit_date);
             EditText etRating = findViewById(R.id.modify_visit_rating);
             EditText etComment = findViewById(R.id.modify_visit_comment);
+            ImageView img = findViewById(R.id.modify_visit_image);
 
             etDate.setText(visit.getDate().toString());
             etRating.setText(Float.toString(visit.getRating()));
             etComment.setText(visit.getCommentary());
+            img.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
 
             tvInfo.setText("Modifica tu visita a " + placeName);
+
         } else {
             visit.setPlaceId(intent.getIntExtra("placeId", 0));
             tvInfo.setText("Registra tu visita a " + placeName);
+
             Button deleteButton = findViewById(R.id.delete_button);
             deleteButton.setVisibility(View.GONE);
             Button modifyButton = findViewById(R.id.update_button);

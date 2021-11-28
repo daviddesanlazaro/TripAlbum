@@ -1,6 +1,5 @@
 package com.svalero.tripalbum;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -129,7 +128,7 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
         } else {
             Visit visit = visits.get(position);
             Intent intent = new Intent(this, ModifyVisitActivity.class);
-            intent.putExtra("name", 1);
+            intent.putExtra("modify", 1);
             intent.putExtra("placeName", place.getName());
             intent.putExtra("Visit", visit);
             startActivity(intent);
@@ -141,7 +140,7 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, ModifyVisitActivity.class);
-            intent.putExtra("name", 2);
+            intent.putExtra("modify", 0);
             intent.putExtra("placeId", place.getId());
             intent.putExtra("placeName", place.getName());
             startActivity(intent);
