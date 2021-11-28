@@ -58,12 +58,12 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void addProvince(View view) {
-        if (country.getId() == 0) {
-            Toast.makeText(this, getString(R.string.country_not_selected), Toast.LENGTH_SHORT).show();
-        } else {
-            EditText etName = findViewById(R.id.province_name);
-            String name = etName.getText().toString();
+        EditText etName = findViewById(R.id.province_name);
+        String name = etName.getText().toString();
 
+        if ((country.getId() == 0) || (name.equals(""))) {
+            Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
+        } else {
             Province province = new Province(0, name, country.getId());
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),

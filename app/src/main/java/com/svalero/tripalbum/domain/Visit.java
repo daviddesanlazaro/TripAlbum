@@ -1,20 +1,37 @@
 package com.svalero.tripalbum.domain;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.svalero.tripalbum.database.TimestampConverter;
+
 import java.time.LocalDate;
 
+@Entity
 public class Visit {
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo
+    @TypeConverters({TimestampConverter.class})
     private LocalDate date;
+    @ColumnInfo
     private float rating;
+    @ColumnInfo
     private String commentary;
-    private Place place;
+    @ColumnInfo
+    private int placeId;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] image;
 
-    public Visit(int id, LocalDate date, float rating, String commentary, Place place) {
+    public Visit(int id, LocalDate date, float rating, String commentary, int placeId, byte[] image) {
         this.id = id;
         this.date = date;
         this.rating = rating;
         this.commentary = commentary;
-        this.place = place;
+        this.placeId = placeId;
+        this.image = image;
     }
 
     public int getId() {
@@ -49,16 +66,24 @@ public class Visit {
         this.commentary = commentary;
     }
 
-    public Place getPlace() {
-        return place;
+    public int getPlaceId() {
+        return placeId;
     }
 
-    public void setPlace(Place place) {
-        this.place = place;
+    public void setPlaceId(int placeId) {
+        this.placeId = placeId;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override
     public String toString() {
-        return place.getName() + ", " + rating;
+        return date + ", " + commentary + " " + image;
     }
 }
