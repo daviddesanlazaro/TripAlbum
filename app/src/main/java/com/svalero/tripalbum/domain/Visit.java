@@ -1,11 +1,14 @@
 package com.svalero.tripalbum.domain;
 
+import android.widget.ImageView;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.svalero.tripalbum.database.TimestampConverter;
+import com.svalero.tripalbum.util.ImageUtils;
 
 import java.io.Serializable;
 import java.time.LocalDate;
