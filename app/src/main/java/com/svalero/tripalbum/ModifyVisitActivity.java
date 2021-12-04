@@ -1,8 +1,10 @@
 package com.svalero.tripalbum;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -74,35 +76,61 @@ public class ModifyVisitActivity extends AppCompatActivity {
         if ((dateString.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
-            LocalDate date = LocalDate.parse(dateString);
-            float rating = Float.parseFloat(ratingString);
-            byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.modify_confirm_dialog)
+                    .setPositiveButton(R.string.confirm_yes,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    LocalDate date = LocalDate.parse(dateString);
+                                    float rating = Float.parseFloat(ratingString);
+                                    byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
 
-            visit.setDate(date);
-            visit.setRating(rating);
-            visit.setCommentary(comment);
-            visit.setImage(visitImage);
+                                    visit.setDate(date);
+                                    visit.setRating(rating);
+                                    visit.setCommentary(comment);
+                                    visit.setImage(visitImage);
 
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "visits").allowMainThreadQueries().build();
+                                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                            AppDatabase.class, "visits").allowMainThreadQueries().build();
 
-            if (num == 1) {
-                db.visitDao().update(visit);
-            } else {
-                db.visitDao().insert(visit);
-            }
-
-            Toast.makeText(this, getString(R.string.visit_added), Toast.LENGTH_SHORT).show();
-            etDate.setText("");
-            etRating.setText("");
-            etComment.setText("");
+                                    if (num == 1) {
+                                        db.visitDao().update(visit);
+                                    } else {
+                                        db.visitDao().insert(visit);
+                                    }
+                                    etDate.setText("");
+                                    etRating.setText("");
+                                    etComment.setText("");
+                                }})
+                    .setNegativeButton(R.string.confirm_no,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }});
+            builder.create().show();
         }
     }
 
     public void deleteVisit(View view) {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "visits").allowMainThreadQueries().build();
-        db.visitDao().delete(visit);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_confirm_dialog)
+                .setPositiveButton(R.string.confirm_yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                        AppDatabase.class, "visits").allowMainThreadQueries().build();
+                                db.visitDao().delete(visit);
+                            }})
+                .setNegativeButton(R.string.confirm_no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }});
+        builder.create().show();
     }
 
     public void selectPicture(View view) {

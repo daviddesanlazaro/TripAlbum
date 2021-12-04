@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,8 +28,8 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
     private ArrayAdapter<Country> countriesAdapter;
     public List<Place> places;
     private ArrayAdapter<Place> placesAdapter;
-    public List<Visit> visits;
-    private ArrayAdapter<Visit> visitsAdapter;
+    public ArrayList<Visit> visits;
+    private VisitAdapter visitsAdapter;
     private Place place = new Place(0, null, null, 0, 0, 0);
 
     @Override
@@ -39,8 +38,8 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_my_visits);
 
         visits = new ArrayList<>();
-        GridView gvVisits = findViewById(R.id.visits_list);
-        visitsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visits);
+        ListView gvVisits = (ListView) findViewById(R.id.visit_list);
+        visitsAdapter = new VisitAdapter(this, visits);
         gvVisits.setAdapter(visitsAdapter);
         gvVisits.setOnItemClickListener(this);
 
@@ -61,6 +60,7 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
         countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
         lvCountries.setAdapter(countriesAdapter);
         lvCountries.setOnItemClickListener(this);
+
     }
 
     @Override
