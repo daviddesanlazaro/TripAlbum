@@ -13,6 +13,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
@@ -21,7 +27,8 @@ import com.svalero.tripalbum.domain.Province;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewPlaceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class NewPlaceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
+        OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     public List<Province> provinces;
     private ArrayAdapter<Province> provincesAdapter;
@@ -30,11 +37,18 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     private Button buttonProvince;
     private Button buttonCountry;
     Province province = new Province(0, null, 0);
+    private float[] position = {0, 0};
+    private GoogleMap map;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_place);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment!=null) {
+            mapFragment.getMapAsync(this);
+        }
 
         provinces = new ArrayList<>();
         ListView lvProvinces = findViewById(R.id.provinces_list);
@@ -82,22 +96,14 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     public void addPlace(View view) {
         EditText etName = findViewById(R.id.place_name);
         EditText etDesc = findViewById(R.id.place_desc);
-        EditText etLat = findViewById(R.id.place_lat);
-        EditText etLong = findViewById(R.id.place_long);
 
         String name = etName.getText().toString();
         String desc = etDesc.getText().toString();
-        String latitudeString = etLat.getText().toString();
-        String longitudeString = etLong.getText().toString();
 
-        if ((province.getId() == 0) || (name.equals("")) || (desc.equals(""))
-                || (latitudeString.equals("")) || (longitudeString.equals(""))) {
+        if ((province.getId() == 0) || (name.equals("")) || (desc.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
-            float latitude = Float.parseFloat(latitudeString);
-            float longitude = Float.parseFloat(longitudeString);
-
-            Place place = new Place(0, name, desc, latitude, longitude, province.getId());
+            Place place = new Place(0, name, desc, position[0], position[1], province.getId());
 
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "places").allowMainThreadQueries().build();
@@ -106,8 +112,6 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, getString(R.string.place_added), Toast.LENGTH_SHORT).show();
             etName.setText("");
             etDesc.setText("");
-            etLat.setText("");
-            etLong.setText("");
         }
     }
 
@@ -130,5 +134,22 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
         } else {
             province = provinces.get(position);
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        googleMap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if (marker != null) {
+            marker.remove();
+        }
+        marker = map.addMarker(new MarkerOptions().position(latLng));
+        position[0] = (float) latLng.latitude;
+        position[1] = (float) latLng.longitude;
+        Toast.makeText(this, latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
     }
 }

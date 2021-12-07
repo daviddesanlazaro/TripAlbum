@@ -146,4 +146,14 @@ public class MyVisitsActivity extends AppCompatActivity implements AdapterView.O
             startActivity(intent);
         }
     }
+
+    public void openViewPlace(View view) {
+        if (place.getId() == 0) {
+            Toast.makeText(this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(this, ViewPlaceActivity.class);
+            intent.putExtra("place", place);
+            startActivity(intent);
+        }
+    }
 }
