@@ -1,8 +1,11 @@
 package com.svalero.tripalbum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -12,10 +15,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.svalero.tripalbum.domain.Place;
 
-public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnMapClickListener {
 
-    GoogleMap map;
-    Place place = new Place(0, null, null, 0, 0, 0);
+    private GoogleMap map;
+    private Place place = new Place(0, null, null, 0, 0, 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +51,14 @@ public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCa
                 .position(new LatLng(lat, longitude))
                 .snippet(description)
                 .title(title));
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return;
+        }
+        googleMap.setMyLocationEnabled(true);
     }
 }

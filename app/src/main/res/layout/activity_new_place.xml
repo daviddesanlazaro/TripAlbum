@@ -21,7 +21,7 @@
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Introduce la información del lugar"
+            android:text="@string/new_place_title"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nombre"
+                android:text="@string/name"
                 android:textSize="16sp" />
 
             <EditText
@@ -59,7 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Descripción"
+                android:text="@string/description"
                 android:textSize="16sp" />
 
             <EditText
@@ -81,7 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="País"
+                android:text="@string/country"
                 android:textSize="16sp" />
 
             <ListView
@@ -95,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nuevo país"
+                android:text="@string/new_country"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -109,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Provincia"
+                android:text="@string/province"
                 android:textSize="16sp" />
 
             <ListView
@@ -123,7 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nueva provincia"
+                android:text="@string/new_province"
                 android:textSize="10sp" />
 
         </LinearLayout>
@@ -143,7 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="addPlace"
-        android:text="Añadir"
+        android:text="@string/add_button"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="10dp" />
 

@@ -41,7 +41,7 @@
 
             <EditText
                 android:id="@+id/country_name"
-                android:layout_width="200dp"
+                android:layout_width="400dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"

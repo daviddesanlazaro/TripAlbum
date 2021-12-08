@@ -21,7 +21,7 @@
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Introduce la información de la provincia"
+            android:text="@string/new_province_title"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nombre"
+                android:text="@string/name"
                 android:textSize="16sp" />
 
             <EditText
@@ -58,7 +58,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="País"
+                android:text="@string/country"
                 android:textSize="16sp" />
 
             <ListView
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Nuevo país"
+                android:text="@string/new_country"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -84,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="addProvince"
-        android:text="Añadir"
+        android:text="@string/add_button"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         tools:layout_editor_absoluteX="10dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

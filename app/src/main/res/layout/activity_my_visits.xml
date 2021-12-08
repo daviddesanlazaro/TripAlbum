@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="País"
+                android:text="@string/country"
                 android:textSize="16sp" />
 
             <ListView
@@ -50,7 +50,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Provincia"
+                android:text="@string/province"
                 android:textSize="16sp" />
 
             <ListView
@@ -71,7 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Lugar"
+                android:text="@string/place"
                 android:textSize="16sp" />
 
             <ListView
