@@ -34,9 +34,7 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     private ArrayAdapter<Province> provincesAdapter;
     public List<Country> countries;
     private ArrayAdapter<Country> countriesAdapter;
-    private Button buttonProvince;
-    private Button buttonCountry;
-    Province province = new Province(0, null, 0);
+    private Province province = new Province (0, null, 0);
     private float[] position = {0, 0};
     private GoogleMap map;
     private Marker marker;
@@ -62,10 +60,10 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
         lvCountries.setAdapter(countriesAdapter);
         lvCountries.setOnItemClickListener(this);
 
-        buttonProvince = findViewById(R.id.new_province);
+        Button buttonProvince = findViewById(R.id.new_province);
         buttonProvince.setOnClickListener(v -> openNewProvince());
 
-        buttonCountry = findViewById(R.id.new_country_place);
+        Button buttonCountry = findViewById(R.id.new_country_place);
         buttonCountry.setOnClickListener(v -> openNewCountry());
     }
 
@@ -155,6 +153,5 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
         marker = map.addMarker(new MarkerOptions().position(latLng));
         position[0] = (float) latLng.latitude;
         position[1] = (float) latLng.longitude;
-        Toast.makeText(this, latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
     }
 }
