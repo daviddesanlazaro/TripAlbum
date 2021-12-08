@@ -24,8 +24,7 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
 
     public static List<Country> countries;
     private ArrayAdapter<Country> countriesAdapter;
-    private Button button;
-    private Country country = new Country(0, null);
+    private Country country = new Country (0, null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
         lvCountries.setAdapter(countriesAdapter);
         lvCountries.setOnItemClickListener(this);
 
-        button = findViewById(R.id.new_country);
+        Button button = findViewById(R.id.new_country);
         button.setOnClickListener(v -> openNewCountry());
     }
 

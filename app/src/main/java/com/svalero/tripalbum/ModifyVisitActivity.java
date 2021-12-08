@@ -24,8 +24,8 @@ import java.time.LocalDate;
 public class ModifyVisitActivity extends AppCompatActivity {
 
     private int SELECT_PICTURE_RESULT = 1;
-    private Visit visit = new Visit(0, null, 0, null, 0, null);
-    private int num;
+    private Visit visit = new Visit (0, null, 0, null, 0, null);
+    private int modify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +33,11 @@ public class ModifyVisitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_visit);
 
         Intent intent = getIntent();
-        num = intent.getIntExtra("modify", 0);
+        modify = intent.getIntExtra("modify", 0);
         TextView tvInfo = findViewById(R.id.modify_visit_info);
         String placeName = intent.getStringExtra("placeName");
 
-        if (num == 1) {
+        if (modify == 1) { // Modificar visita
             visit = (Visit)intent.getSerializableExtra("Visit");
 
             EditText etDate = findViewById(R.id.modify_visit_date);
@@ -52,7 +52,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
             String text = getString(R.string.modify_visit_title, placeName);
             tvInfo.setText(text);
 
-        } else {
+        } else { // Insertar visita
             visit.setPlaceId(intent.getIntExtra("placeId", 0));
             String text = getString(R.string.add_visit_title, placeName);
             tvInfo.setText(text);
@@ -95,7 +95,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
                                     AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                             AppDatabase.class, "visits").allowMainThreadQueries().build();
 
-                                    if (num == 1) {
+                                    if (modify == 1) {
                                         db.visitDao().update(visit);
                                     } else {
                                         db.visitDao().insert(visit);

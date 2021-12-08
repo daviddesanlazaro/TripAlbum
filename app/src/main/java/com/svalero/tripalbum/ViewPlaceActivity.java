@@ -18,8 +18,7 @@ import com.svalero.tripalbum.domain.Place;
 public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
-    private GoogleMap map;
-    private Place place = new Place(0, null, null, 0, 0, 0);
+    private Place place = new Place (0, null, null, 0, 0, 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +40,12 @@ public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
         googleMap.setOnMapClickListener(this);
         String title = place.getName();
         String description = place.getDescription();
         double lat = (double) place.getLatitude();
         double longitude = (double) place.getLongitude();
-        map.addMarker(new MarkerOptions()
+        googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, longitude))
                 .snippet(description)
                 .title(title));

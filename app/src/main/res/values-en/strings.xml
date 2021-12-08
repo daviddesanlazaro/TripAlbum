@@ -22,6 +22,7 @@
     <string name="delete_button">Delete</string>
     <string name="add_visit_title">Register your visit to %1$s</string>
     <string name="modify_visit_title">Modify your visit to %1$s</string>
+    <string name="visit_rating">Rating: %1$f</string>
     <string name="country">Country</string>
     <string name="province">Province</string>
     <string name="place">Place</string>
