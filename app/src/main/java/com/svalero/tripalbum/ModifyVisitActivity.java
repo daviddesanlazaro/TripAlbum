@@ -99,6 +99,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
                                         db.visitDao().update(visit);
                                     } else {
                                         db.visitDao().insert(visit);
+                                        finish();
                                     }
                                     etDate.setText("");
                                     etRating.setText("");
@@ -124,6 +125,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
                                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                                         AppDatabase.class, "visits").allowMainThreadQueries().build();
                                 db.visitDao().delete(visit);
+                                finish();
                             }})
                 .setNegativeButton(R.string.confirm_no,
                         new DialogInterface.OnClickListener() {
