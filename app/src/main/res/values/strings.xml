@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">TripAlbum</string>
+    <string name="google_maps_key">AIzaSyAWJfWDrnJM2eIplqtUxW_X7_p1KN-w4tA</string>
+    <string name="country_added">Se ha añadido el país</string>
+    <string name="province_added">Se ha añadido la provincia</string>
+    <string name="place_added">Se ha añadido el lugar</string>
+    <string name="visit_added">Se ha añadido la visita</string>
+    <string name="no_country_selected">Tienes que seleccionar un país</string>
+    <string name="no_province_selected">Tienes que seleccionar una provincia</string>
+    <string name="no_place_selected">Tienes que seleccionar un lugar</string>
+    <string name="add_missing_data">Tienes que completar todos los campos</string>
+    <string name="add_missing_location">Tienes que seleccionar una posición</string>
+    <string name="modify_confirm_dialog">¿Confirmar cambios?</string>
+    <string name="delete_confirm_dialog">Eliminar la visita permanentemente. ¿Estás seguro?</string>
+    <string name="confirm_yes">Sí</string>
+    <string name="confirm_no">No</string>
+    <string name="date">Fecha</string>
+    <string name="rating">Valoración</string>
+    <string name="commentary">Comentario</string>
+    <string name="add_button">Añadir</string>
+    <string name="modify_button">Modificar</string>
+    <string name="delete_button">Eliminar</string>
+    <string name="add_visit_title">Registra tu visita a %1$s</string>
+    <string name="modify_visit_title">Modifica tu visita a %1$s</string>
+    <string name="country">País</string>
+    <string name="province">Provincia</string>
+    <string name="place">Lugar</string>
+    <string name="name">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="new_country">Nuevo país</string>
+    <string name="new_province">Nueva provincia</string>
+    <string name="new_country_title">Introduce los datos del país</string>
+    <string name="new_province_title">Introduce los datos de la provincia</string>
+    <string name="new_place_title">Introduce los datos del lugar</string>
+</resources>

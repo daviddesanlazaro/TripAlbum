@@ -49,17 +49,18 @@ public class ModifyVisitActivity extends AppCompatActivity {
             etRating.setText(Float.toString(visit.getRating()));
             etComment.setText(visit.getCommentary());
             img.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
-
-            tvInfo.setText("Modifica tu visita a " + placeName);
+            String text = getString(R.string.modify_visit_title, placeName);
+            tvInfo.setText(text);
 
         } else {
             visit.setPlaceId(intent.getIntExtra("placeId", 0));
-            tvInfo.setText("Registra tu visita a " + placeName);
+            String text = getString(R.string.add_visit_title, placeName);
+            tvInfo.setText(text);
 
             Button deleteButton = findViewById(R.id.delete_button);
             deleteButton.setVisibility(View.GONE);
             Button modifyButton = findViewById(R.id.update_button);
-            modifyButton.setText("Añadir visita");
+            modifyButton.setText(R.string.add_button);
         }
     }
 

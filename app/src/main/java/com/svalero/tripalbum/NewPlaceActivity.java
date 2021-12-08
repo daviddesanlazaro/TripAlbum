@@ -102,6 +102,8 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
 
         if ((province.getId() == 0) || (name.equals("")) || (desc.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
+        } else if (position[0] == 0) {
+            Toast.makeText(this, getString(R.string.add_missing_location), Toast.LENGTH_SHORT).show();
         } else {
             Place place = new Place(0, name, desc, position[0], position[1], province.getId());
 
@@ -112,6 +114,9 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, getString(R.string.place_added), Toast.LENGTH_SHORT).show();
             etName.setText("");
             etDesc.setText("");
+            position[0] = 0;
+            position[1] = 0;
+            marker.remove();
         }
     }
 
