@@ -30,7 +30,9 @@
     <string name="description">Descripción</string>
     <string name="new_country">Nuevo país</string>
     <string name="new_province">Nueva provincia</string>
+    <string name="new_place">Nuevo lugar</string>
     <string name="new_country_title">Introduce los datos del país</string>
     <string name="new_province_title">Introduce los datos de la provincia</string>
     <string name="new_place_title">Introduce los datos del lugar</string>
+    <string name="clear">Limpiar</string>
 </resources>

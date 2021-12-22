@@ -153,12 +153,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.new_place) {
-            Intent intent = new Intent(this, NewPlaceActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return false;
+        Intent intent = new Intent(this, NewPlaceActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     public void openNewVisit(View view) {
