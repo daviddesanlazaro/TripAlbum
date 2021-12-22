@@ -12,7 +12,7 @@ import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.domain.Visit;
 
-@Database(entities = {Country.class, Province.class, Place.class, Visit.class}, version = 7)
+@Database(entities = {Country.class, Province.class, Place.class, Visit.class}, version = 8)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract CountryDao countryDao();
     public abstract ProvinceDao provinceDao();

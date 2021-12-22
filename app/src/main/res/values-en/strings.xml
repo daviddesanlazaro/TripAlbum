@@ -30,7 +30,9 @@
     <string name="description">Description</string>
     <string name="new_country">New country</string>
     <string name="new_province">New province</string>
+    <string name="new_place">New place</string>
     <string name="new_country_title">Enter the country data</string>
     <string name="new_province_title">Enter the province data</string>
     <string name="new_place_title">Enter the place data</string>
+    <string name="clear">Clear</string>
 </resources>

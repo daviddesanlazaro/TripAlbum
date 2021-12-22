@@ -1,5 +1,6 @@
 package com.svalero.tripalbum;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -7,6 +8,8 @@ import androidx.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +26,7 @@ import java.time.LocalDate;
 
 public class ModifyVisitActivity extends AppCompatActivity {
 
-    private int SELECT_PICTURE_RESULT = 1;
+    private final int SELECT_PICTURE_RESULT = 1;
     private Visit visit = new Visit (0, null, 0, null, 0, null);
     private int modify;
 
@@ -73,6 +76,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
         String dateString = etDate.getText().toString();
         String ratingString = etRating.getText().toString();
         String comment = etComment.getText().toString();
+        ivImage.getDrawable();
 
         if ((dateString.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
@@ -134,6 +138,26 @@ public class ModifyVisitActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }});
         builder.create().show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_visit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        EditText etDate = findViewById(R.id.modify_visit_date);
+        EditText etRating = findViewById(R.id.modify_visit_rating);
+        EditText etComment = findViewById(R.id.modify_visit_comment);
+        ImageView img = findViewById(R.id.modify_visit_image);
+
+        etDate.setText("");
+        etRating.setText("");
+        etComment.setText("");
+        img.setImageResource(android.R.drawable.ic_menu_add);
+        return true;
     }
 
     public void selectPicture(View view) {
