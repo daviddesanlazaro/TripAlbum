@@ -1,7 +1,6 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,30 +12,29 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.contract.NewProvinceContract;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.presenter.NewProvincePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewProvinceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class NewProvinceActivityView extends AppCompatActivity implements NewProvinceContract.View, AdapterView.OnItemClickListener {
 
-    public static List<Country> countries;
+    public static List<Country> countriesList;
     private ArrayAdapter<Country> countriesAdapter;
     private Country country = new Country (0, null);
+    private NewProvincePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_province);
+        presenter = new NewProvincePresenter(this);
 
-        countries = new ArrayList<>();
-        ListView lvCountries = findViewById(R.id.countries_list);
-        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
-        lvCountries.setAdapter(countriesAdapter);
-        lvCountries.setOnItemClickListener(this);
-
+        initializeCountries();
         Button button = findViewById(R.id.new_country);
         button.setOnClickListener(v -> openNewCountry());
     }
@@ -44,15 +42,21 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
     @Override
     protected void onResume() {
         super.onResume();
-        loadCountries();
+        presenter.loadCountries();
     }
 
-    private void loadCountries() {
-        countries.clear();
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "countries").allowMainThreadQueries()
-                .fallbackToDestructiveMigration().build();
-        countries.addAll(db.countryDao().getAll());
+    private void initializeCountries() {
+        countriesList = new ArrayList<>();
+        ListView lvCountries = findViewById(R.id.countries_list);
+        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countriesList);
+        lvCountries.setAdapter(countriesAdapter);
+        lvCountries.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void listCountries(List<Country> countries) {
+        countriesList.clear();
+        countriesList.addAll(countries);
         countriesAdapter.notifyDataSetChanged();
     }
 
@@ -64,10 +68,7 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
             Province province = new Province(0, name, country.getId());
-
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "provinces").allowMainThreadQueries().build();
-            db.provinceDao().insert(province);
+            presenter.addProvince(province);
 
             Toast.makeText(this, getString(R.string.province_added), Toast.LENGTH_SHORT).show();
             etName.setText("");
@@ -75,13 +76,13 @@ public class NewProvinceActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void openNewCountry() {
-        Intent intent = new Intent(this, NewCountryActivity.class);
+        Intent intent = new Intent(this, NewCountryActivityView.class);
         startActivity(intent);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        country = countries.get(position);
+        country = countriesList.get(position);
     }
 
 }

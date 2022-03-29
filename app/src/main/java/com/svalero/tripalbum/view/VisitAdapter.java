@@ -1,4 +1,4 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.util.ImageUtils;
 

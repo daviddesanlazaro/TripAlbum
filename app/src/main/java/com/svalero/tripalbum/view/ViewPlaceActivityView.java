@@ -1,4 +1,4 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -13,17 +13,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.contract.ViewPlaceContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.presenter.ViewPlacePresenter;
 
-public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class ViewPlaceActivityView extends AppCompatActivity implements ViewPlaceContract.View, OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
     private Place place = new Place (0, null, null, 0, 0, 0);
+    private ViewPlacePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_place);
+        presenter = new ViewPlacePresenter(this);
+
         Intent intent = getIntent();
         place = (Place) intent.getSerializableExtra("place");
 
@@ -43,19 +49,19 @@ public class ViewPlaceActivity extends AppCompatActivity implements OnMapReadyCa
         googleMap.setOnMapClickListener(this);
         String title = place.getName();
         String description = place.getDescription();
-        double lat = (double) place.getLatitude();
-        double longitude = (double) place.getLongitude();
+        double lat = place.getLatitude();
+        double longitude = place.getLongitude();
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, longitude))
                 .snippet(description)
                 .title(title));
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-            PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                return;
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
         }
         googleMap.setMyLocationEnabled(true);
     }
