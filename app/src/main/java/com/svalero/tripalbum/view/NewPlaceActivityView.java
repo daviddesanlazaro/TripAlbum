@@ -1,7 +1,6 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,50 +18,71 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.contract.NewPlaceContract;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.presenter.MainActivityPresenter;
+import com.svalero.tripalbum.presenter.NewPlacePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewPlaceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
+public class NewPlaceActivityView extends AppCompatActivity implements NewPlaceContract.View, AdapterView.OnItemClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
-    public List<Province> provinces;
+    public List<Province> provincesList;
     private ArrayAdapter<Province> provincesAdapter;
-    public List<Country> countries;
+    public List<Country> countriesList;
     private ArrayAdapter<Country> countriesAdapter;
     private Province province = new Province (0, null, 0);
     private float[] position = {0, 0};
     private GoogleMap map;
     private Marker marker;
+    EditText etName;
+    EditText etDesc;
+
+    private NewPlacePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_place);
+        presenter = new NewPlacePresenter(this);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment!=null) {
             mapFragment.getMapAsync(this);
         }
 
-        provinces = new ArrayList<>();
+        etName = findViewById(R.id.place_name);
+        etDesc = findViewById(R.id.place_desc);
+
+        initializeCountriesList();
+        initializeProvincesList();
+        initializeButtons();
+    }
+
+    private void initializeProvincesList() {
+        provincesList = new ArrayList<>();
+        provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provincesList);
         ListView lvProvinces = findViewById(R.id.provinces_list);
-        provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provinces);
         lvProvinces.setAdapter(provincesAdapter);
         lvProvinces.setOnItemClickListener(this);
+    }
 
-        countries = new ArrayList<>();
+    private void initializeCountriesList() {
+        countriesList = new ArrayList<>();
         ListView lvCountries = findViewById(R.id.countries_list_places);
-        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countriesList);
         lvCountries.setAdapter(countriesAdapter);
         lvCountries.setOnItemClickListener(this);
+    }
 
+    private void initializeButtons() {
         Button buttonProvince = findViewById(R.id.new_province);
         buttonProvince.setOnClickListener(v -> openNewProvince());
-
         Button buttonCountry = findViewById(R.id.new_country_place);
         buttonCountry.setOnClickListener(v -> openNewCountry());
     }
@@ -70,31 +90,32 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onResume() {
         super.onResume();
-        loadCountries();
+        presenter.loadCountries();
     }
 
-    private void loadCountries() {
-        countries.clear();
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "countries").allowMainThreadQueries()
-                .fallbackToDestructiveMigration().build();
-        countries.addAll(db.countryDao().getAll());
+    @Override
+    public void listCountries(List<Country> countries) {
+        countriesList.clear();
+        countriesList.addAll(countries);
         countriesAdapter.notifyDataSetChanged();
     }
 
-    private void loadProvinces(int idCountry) {
-        provinces.clear();
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "provinces").allowMainThreadQueries()
-                .fallbackToDestructiveMigration().build();
-        provinces.addAll(db.provinceDao().getProvincesByCountry(idCountry));
+    @Override
+    public void listProvinces(List<Province> provinces) {
+        provincesList.clear();
+        provincesList.addAll(provinces);
         provincesAdapter.notifyDataSetChanged();
     }
 
-    public void addPlace(View view) {
-        EditText etName = findViewById(R.id.place_name);
-        EditText etDesc = findViewById(R.id.place_desc);
+    private void clearFields() {
+        etName.setText("");
+        etDesc.setText("");
+        position[0] = 0;
+        position[1] = 0;
+        marker.remove();
+    }
 
+    public void addPlace(View view) {
         String name = etName.getText().toString();
         String desc = etDesc.getText().toString();
 
@@ -104,38 +125,31 @@ public class NewPlaceActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, getString(R.string.add_missing_location), Toast.LENGTH_SHORT).show();
         } else {
             Place place = new Place(0, name, desc, position[0], position[1], province.getId());
-
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "places").allowMainThreadQueries().build();
-            db.placeDao().insert(place);
+            presenter.addPlace(place);
 
             Toast.makeText(this, getString(R.string.place_added), Toast.LENGTH_SHORT).show();
-            etName.setText("");
-            etDesc.setText("");
-            position[0] = 0;
-            position[1] = 0;
-            marker.remove();
+            clearFields();
         }
     }
 
     public void openNewProvince() {
-        Intent intent = new Intent(this, NewProvinceActivity.class);
+        Intent intent = new Intent(this, NewProvinceActivityView.class);
         startActivity(intent);
     }
 
     public void openNewCountry() {
-        Intent intent = new Intent(this, NewCountryActivity.class);
+        Intent intent = new Intent(this, NewCountryActivityView.class);
         startActivity(intent);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.countries_list_places) {
-            Country country = countries.get(position);
+            Country country = countriesList.get(position);
             province.setId(0);
-            loadProvinces(country.getId());
+            presenter.loadProvinces(country.getId());
         } else {
-            province = provinces.get(position);
+            province = provincesList.get(position);
         }
     }
 

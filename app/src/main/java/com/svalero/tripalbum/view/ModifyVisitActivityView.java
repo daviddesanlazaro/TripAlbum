@@ -1,9 +1,8 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,61 +17,55 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.contract.ModifyVisitContract;
 import com.svalero.tripalbum.domain.Visit;
+import com.svalero.tripalbum.presenter.ModifyVisitPresenter;
 import com.svalero.tripalbum.util.ImageUtils;
 
 import java.time.LocalDate;
 
-public class ModifyVisitActivity extends AppCompatActivity {
+public class ModifyVisitActivityView extends AppCompatActivity implements ModifyVisitContract.View {
 
     private final int SELECT_PICTURE_RESULT = 1;
     private Visit visit = new Visit (0, null, 0, null, 0, null);
-    private int modify;
+    private boolean modify;
+
+    EditText etDate;
+    EditText etRating;
+    EditText etComment;
+    ImageView ivImage;
+    TextView tvInfo;
+
+    private ModifyVisitPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_visit);
+        presenter = new ModifyVisitPresenter(this);
+
+        initializeViews();
 
         Intent intent = getIntent();
-        modify = intent.getIntExtra("modify", 0);
-        TextView tvInfo = findViewById(R.id.modify_visit_info);
+        modify = intent.getBooleanExtra("modify", false);
         String placeName = intent.getStringExtra("placeName");
 
-        if (modify == 1) { // Modificar visita
+        if (modify) { // Modificar visita
             visit = (Visit)intent.getSerializableExtra("Visit");
-
-            EditText etDate = findViewById(R.id.modify_visit_date);
-            EditText etRating = findViewById(R.id.modify_visit_rating);
-            EditText etComment = findViewById(R.id.modify_visit_comment);
-            ImageView img = findViewById(R.id.modify_visit_image);
-
-            etDate.setText(visit.getDate().toString());
-            etRating.setText(Float.toString(visit.getRating()));
-            etComment.setText(visit.getCommentary());
-            img.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
             String text = getString(R.string.modify_visit_title, placeName);
+            displayVisitInfo(visit);
             tvInfo.setText(text);
 
         } else { // Insertar visita
             visit.setPlaceId(intent.getIntExtra("placeId", 0));
             String text = getString(R.string.add_visit_title, placeName);
             tvInfo.setText(text);
-
-            Button deleteButton = findViewById(R.id.delete_button);
-            deleteButton.setVisibility(View.GONE);
-            Button modifyButton = findViewById(R.id.update_button);
-            modifyButton.setText(R.string.add_button);
+            changeButton();
         }
     }
 
     public void modifyVisit(View view) {
-        EditText etDate = findViewById(R.id.modify_visit_date);
-        EditText etRating = findViewById(R.id.modify_visit_rating);
-        EditText etComment = findViewById(R.id.modify_visit_comment);
-        ImageView ivImage = findViewById(R.id.modify_visit_image);
-
         String dateString = etDate.getText().toString();
         String ratingString = etRating.getText().toString();
         String comment = etComment.getText().toString();
@@ -87,27 +80,9 @@ public class ModifyVisitActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    LocalDate date = LocalDate.parse(dateString);
-                                    float rating = Float.parseFloat(ratingString);
-                                    byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
-
-                                    visit.setDate(date);
-                                    visit.setRating(rating);
-                                    visit.setCommentary(comment);
-                                    visit.setImage(visitImage);
-
-                                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                            AppDatabase.class, "visits").allowMainThreadQueries().build();
-
-                                    if (modify == 1) {
-                                        db.visitDao().update(visit);
-                                    } else {
-                                        db.visitDao().insert(visit);
-                                        finish();
-                                    }
-                                    etDate.setText("");
-                                    etRating.setText("");
-                                    etComment.setText("");
+                                    setVisitData(dateString, ratingString, comment);
+                                    presenter.addVisit(visit, modify);
+                                    clearFields();
                                 }})
                     .setNegativeButton(R.string.confirm_no,
                             new DialogInterface.OnClickListener() {
@@ -126,10 +101,7 @@ public class ModifyVisitActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                        AppDatabase.class, "visits").allowMainThreadQueries().build();
-                                db.visitDao().delete(visit);
-                                finish();
+                                presenter.deleteVisit(visit);
                             }})
                 .setNegativeButton(R.string.confirm_no,
                         new DialogInterface.OnClickListener() {
@@ -140,6 +112,45 @@ public class ModifyVisitActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    private void initializeViews() {
+        etDate = findViewById(R.id.modify_visit_date);
+        etRating = findViewById(R.id.modify_visit_rating);
+        etComment = findViewById(R.id.modify_visit_comment);
+        ivImage = findViewById(R.id.modify_visit_image);
+        tvInfo = findViewById(R.id.modify_visit_info);
+    }
+
+    private void displayVisitInfo(Visit visit) {
+        etDate.setText(visit.getDate().toString());
+        etRating.setText(Float.toString(visit.getRating()));
+        etComment.setText(visit.getCommentary());
+        ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
+    }
+
+    private void setVisitData(String dateString, String ratingString, String comment) {
+        LocalDate date = LocalDate.parse(dateString);
+        float rating = Float.parseFloat(ratingString);
+        byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
+
+        visit.setDate(date);
+        visit.setRating(rating);
+        visit.setCommentary(comment);
+        visit.setImage(visitImage);
+    }
+
+    private void clearFields() {
+        etDate.setText("");
+        etRating.setText("");
+        etComment.setText("");
+    }
+
+    private void changeButton() {
+        Button deleteButton = findViewById(R.id.delete_button);
+        deleteButton.setVisibility(View.GONE);
+        Button modifyButton = findViewById(R.id.update_button);
+        modifyButton.setText(R.string.add_button);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_visit, menu);
@@ -148,15 +159,8 @@ public class ModifyVisitActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        EditText etDate = findViewById(R.id.modify_visit_date);
-        EditText etRating = findViewById(R.id.modify_visit_rating);
-        EditText etComment = findViewById(R.id.modify_visit_comment);
-        ImageView img = findViewById(R.id.modify_visit_image);
-
-        etDate.setText("");
-        etRating.setText("");
-        etComment.setText("");
-        img.setImageResource(android.R.drawable.ic_menu_add);
+        clearFields();
+        ivImage.setImageResource(android.R.drawable.ic_menu_add);
         return true;
     }
 

@@ -14,10 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TripAlbum" >
         <activity
-            android:name=".Preferencias"
-            android:exported="false" />
-        <activity
-            android:name=".ViewPlaceActivity"
+            android:name=".view.ViewPlaceActivityView"
             android:exported="false" />
 
         <meta-data
@@ -25,19 +22,19 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ModifyVisitActivity"
+            android:name=".view.ModifyVisitActivityView"
             android:exported="false" />
         <activity
-            android:name=".NewPlaceActivity"
+            android:name=".view.NewPlaceActivityView"
             android:exported="false" />
         <activity
-            android:name=".NewCountryActivity"
+            android:name=".view.NewCountryActivityView"
             android:exported="false" />
         <activity
-            android:name=".NewProvinceActivity"
+            android:name=".view.NewProvinceActivityView"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivityView"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

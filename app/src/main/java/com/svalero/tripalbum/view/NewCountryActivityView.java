@@ -1,22 +1,26 @@
-package com.svalero.tripalbum;
+package com.svalero.tripalbum.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.contract.NewCountryContract;
 import com.svalero.tripalbum.domain.Country;
+import com.svalero.tripalbum.presenter.NewCountryPresenter;
 
-public class NewCountryActivity extends AppCompatActivity {
+public class NewCountryActivityView extends AppCompatActivity implements NewCountryContract.View {
+
+    private NewCountryPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_country);
+        presenter = new NewCountryPresenter(this);
     }
 
     public void addCountry(View view) {
@@ -28,12 +32,9 @@ public class NewCountryActivity extends AppCompatActivity {
         } else {
         Country country = new Country(0, name);
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "countries").allowMainThreadQueries().build();
-        db.countryDao().insert(country);
+        presenter.addCountry(country);
 
         Toast.makeText(this, getString(R.string.country_added), Toast.LENGTH_SHORT).show();
-
         etName.setText("");
         }
     }
