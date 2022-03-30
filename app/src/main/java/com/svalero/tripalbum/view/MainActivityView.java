@@ -37,8 +37,9 @@ public class MainActivityView extends AppCompatActivity implements MainActivityC
     private ArrayAdapter<Country> countriesAdapter;
     public List<Place> placesList;
     private ArrayAdapter<Place> placesAdapter;
-    public ArrayList<Visit> visitsList;
-    private VisitAdapter visitsAdapter;
+    public List<Visit> visitsList;
+//    private VisitAdapter visitsAdapter;
+    private ArrayAdapter<Visit> visitsAdapter;
     private Place place = new Place (0, null, null, 0, 0, 0);
 
     @Override
@@ -79,18 +80,19 @@ public class MainActivityView extends AppCompatActivity implements MainActivityC
 
     private void initializeVisitsList() {
         visitsList = new ArrayList<>();
-        ListView gvVisits = (ListView) findViewById(R.id.visit_list_main);
-        visitsAdapter = new VisitAdapter(this, visitsList);
-        gvVisits.setAdapter(visitsAdapter);
-        gvVisits.setOnItemClickListener(this);
-        registerForContextMenu(gvVisits);
+//        visitsAdapter = new VisitAdapter(this, visitsList);
+        visitsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitsList);
+        ListView lvVisits = findViewById(R.id.visit_list_main);
+        lvVisits.setAdapter(visitsAdapter);
+        lvVisits.setOnItemClickListener(this);
+        registerForContextMenu(lvVisits);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadCountries();
-        presenter.loadVisits(place.getId());
+        presenter.loadAllCountries();
+//        presenter.loadVisits(place.getId());
     }
 
     @Override
@@ -119,6 +121,11 @@ public class MainActivityView extends AppCompatActivity implements MainActivityC
         visitsList.clear();
         visitsList.addAll(visits);
         visitsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void clearPlaces() {

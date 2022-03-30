@@ -62,7 +62,7 @@ public class VisitAdapter extends BaseAdapter {
         String text = context.getString(R.string.visit_rating, visit.getRating());
         holder.rating.setText(text);
         holder.date.setText(visit.getDate().toString());
-
+//
         return convertView;
     }
 
