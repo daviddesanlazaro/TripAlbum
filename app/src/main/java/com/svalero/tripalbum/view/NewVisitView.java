@@ -19,25 +19,21 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.svalero.tripalbum.R;
-import com.svalero.tripalbum.contract.ModifyVisitContract;
+import com.svalero.tripalbum.contract.NewVisitContract;
 import com.svalero.tripalbum.domain.Visit;
-import com.svalero.tripalbum.presenter.ModifyVisitPresenter;
+import com.svalero.tripalbum.presenter.NewVisitPresenter;
 import com.svalero.tripalbum.util.ImageUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class ModifyVisitActivityView extends AppCompatActivity implements ModifyVisitContract.View, CalendarView.OnDateChangeListener {
+public class NewVisitView extends AppCompatActivity implements NewVisitContract.View, CalendarView.OnDateChangeListener {
 
     private final int SELECT_PICTURE_RESULT = 1;
-    private Visit visit = new Visit (0, 0, null, 0, null, null);
+    private Visit visit = new Visit (0, 0, null, 0, null);
     private boolean modify = false;
 
     EditText etRating;
@@ -47,13 +43,13 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
     CalendarView calendar;
     Calendar cal;
 
-    private ModifyVisitPresenter presenter;
+    private NewVisitPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_visit);
-        presenter = new ModifyVisitPresenter(this);
+        setContentView(R.layout.activity_new_visit);
+        presenter = new NewVisitPresenter(this);
 
         initializeViews();
 
@@ -189,7 +185,7 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
     private void displayVisitInfo(Visit visit) {
         etRating.setText(Float.toString(visit.getRating()));
         etComment.setText(visit.getCommentary());
-        ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
+//        ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
     }
 
     private void setVisitData(Date date, String ratingString, String comment) {
@@ -203,7 +199,7 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
         visit.setDate(dateString);
         visit.setRating(rating);
         visit.setCommentary(comment);
-        visit.setImage(visitImage);
+//        visit.setImage(visitImage);
     }
 
     private void clearFields() {

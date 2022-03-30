@@ -35,4 +35,11 @@
     <string name="new_province_title">Introduce los datos de la provincia</string>
     <string name="new_place_title">Introduce los datos del lugar</string>
     <string name="clear">Limpiar</string>
+    <string name="main_my_album">MI ÁLBUM</string>
+    <string name="main_friends">LISTA DE AMIGOS</string>
+    <string name="main_places">BUSCAR LUGARES</string>
+    <string name="main_add_visit">AÑADIR VISITA</string>
+    <string name="visited_places_title">LUGARES VISITADOS</string>
+    <string name="interesting_places_title">LUGARES INTERESANTES</string>
+    <string name="search_places">BUSCAR</string>
 </resources>

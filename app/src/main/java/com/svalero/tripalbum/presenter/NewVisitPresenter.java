@@ -1,17 +1,17 @@
 package com.svalero.tripalbum.presenter;
 
-import com.svalero.tripalbum.contract.ModifyVisitContract;
+import com.svalero.tripalbum.contract.NewVisitContract;
 import com.svalero.tripalbum.domain.Visit;
-import com.svalero.tripalbum.model.ModifyVisitModel;
-import com.svalero.tripalbum.view.ModifyVisitActivityView;
+import com.svalero.tripalbum.model.NewVisitModel;
+import com.svalero.tripalbum.view.NewVisitView;
 
-public class ModifyVisitPresenter implements ModifyVisitContract.Presenter, ModifyVisitContract.Model.OnAddVisitListener {
+public class NewVisitPresenter implements NewVisitContract.Presenter, NewVisitContract.Model.OnAddVisitListener {
 
-    private ModifyVisitModel model;
-    private ModifyVisitActivityView view;
+    private NewVisitModel model;
+    private NewVisitView view;
 
-    public ModifyVisitPresenter(ModifyVisitActivityView view) {
-        model = new ModifyVisitModel();
+    public NewVisitPresenter(NewVisitView view) {
+        model = new NewVisitModel();
         this.view = view;
     }
 

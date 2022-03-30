@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
-import com.svalero.tripalbum.contract.ModifyVisitContract;
+import com.svalero.tripalbum.contract.NewVisitContract;
 import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Visit;
 
@@ -14,7 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ModifyVisitModel implements ModifyVisitContract.Model {
+public class NewVisitModel implements NewVisitContract.Model {
 
     @Override
     public void addVisit(Context context, Visit visit) {

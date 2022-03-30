@@ -2,25 +2,25 @@ package com.svalero.tripalbum.presenter;
 
 import android.content.Intent;
 
-import com.svalero.tripalbum.contract.MainActivityContract;
+import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.domain.Visit;
-import com.svalero.tripalbum.model.MainActivityModel;
-import com.svalero.tripalbum.view.MainActivityView;
-import com.svalero.tripalbum.view.ModifyVisitActivityView;
+import com.svalero.tripalbum.model.ViewVisitsModel;
+import com.svalero.tripalbum.view.ViewVisitsView;
+import com.svalero.tripalbum.view.NewVisitView;
 
 import java.util.List;
 
-public class MainActivityPresenter implements MainActivityContract.Presenter, MainActivityContract.Model.OnLoadCountriesListener,
-        MainActivityContract.Model.OnLoadProvincesListener, MainActivityContract.Model.OnLoadPlacesListener, MainActivityContract.Model.OnLoadVisitsListener {
+public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVisitsContract.Model.OnLoadCountriesListener,
+        ViewVisitsContract.Model.OnLoadProvincesListener, ViewVisitsContract.Model.OnLoadPlacesListener, ViewVisitsContract.Model.OnLoadVisitsListener {
 
-    private MainActivityModel model;
-    private MainActivityView view;
+    private ViewVisitsModel model;
+    private ViewVisitsView view;
 
-    public MainActivityPresenter(MainActivityView view) {
-        model = new MainActivityModel();
+    public ViewVisitsPresenter(ViewVisitsView view) {
+        model = new ViewVisitsModel();
         this.view = view;
     }
 
@@ -55,7 +55,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Ma
     }
 
     public void openModifyVisit(Visit visit, Place place) {
-        Intent intent = new Intent(view, ModifyVisitActivityView.class);
+        Intent intent = new Intent(view, NewVisitView.class);
         intent.putExtra("modify", true);
         intent.putExtra("placeName", place.getName());
         intent.putExtra("Visit", visit);
@@ -63,7 +63,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Ma
     }
 
     public void openNewVisit(Place place) {
-        Intent intent = new Intent(view, ModifyVisitActivityView.class);
+        Intent intent = new Intent(view, NewVisitView.class);
         intent.putExtra("modify", false);
         intent.putExtra("placeId", place.getId());
         intent.putExtra("placeName", place.getName());

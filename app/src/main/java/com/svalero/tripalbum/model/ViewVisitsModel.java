@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
-import com.svalero.tripalbum.contract.MainActivityContract;
+import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivityModel implements MainActivityContract.Model {
+public class ViewVisitsModel implements ViewVisitsContract.Model {
 
     @Override
     public void loadAllCountries(OnLoadCountriesListener listener) {
@@ -58,7 +58,7 @@ public class MainActivityModel implements MainActivityContract.Model {
     @Override
     public void loadPlaces(OnLoadPlacesListener listener, int provinceId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Place>> callPlaces = api.getPlaces(provinceId);
+        Call<List<Place>> callPlaces = api.getPlaces(provinceId, null);
         callPlaces.enqueue(new Callback<List<Place>>() {
             @Override
             public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
