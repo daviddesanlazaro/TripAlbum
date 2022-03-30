@@ -1,5 +1,6 @@
 package com.svalero.tripalbum.contract;
 
+import android.content.ContentQueryMap;
 import android.content.Context;
 
 import com.svalero.tripalbum.domain.Country;
@@ -12,11 +13,31 @@ import java.util.List;
 public interface MainActivityContract {
 
     interface Model {
-        List<Country> loadCountries(Context context);
-        List<Province> loadProvinces(Context context, int idCountry);
-        List<Place> loadPlaces(Context context, int idProvince);
-        List<Visit> loadVisits(Context context, int idPlace);
+        interface OnLoadCountriesListener {
+            void OnLoadCountriesSuccess(List<Country> countries);
+            void OnLoadCountriesError(String message);
+        }
+        interface OnLoadProvincesListener {
+            void OnLoadProvincesSuccess(List<Province> provinces);
+            void OnLoadProvincesError(String message);
+        }
+        interface OnLoadPlacesListener {
+            void OnLoadPlacesSuccess(List<Place> places);
+            void OnLoadPlacesError(String message);
+        }
+        interface OnLoadVisitsListener {
+            void OnLoadVisitsSuccess(List<Visit> visits);
+            void OnLoadVisitsError(String message);
+        }
+
+        void loadAllCountries(OnLoadCountriesListener listener);
+        void loadProvinces(OnLoadProvincesListener listener, int countryId);
+        void loadPlaces(OnLoadPlacesListener listener, int provinceId);
+        void loadVisits(OnLoadVisitsListener listener, int placeId);
+
         void deleteVisit(Context context, Visit visit);
+
+        List<Visit> loadVisits(Context context, int placeId);
     }
 
     interface View {
@@ -24,13 +45,17 @@ public interface MainActivityContract {
         void listProvinces(List<Province> provinces);
         void listPlaces(List<Place> places);
         void listVisits(List<Visit> visits);
+
+        void showErrorMessage(String message);
     }
 
     interface Presenter {
-        void loadCountries();
-        void loadProvinces(int idCountry);
-        void loadPlaces(int idProvince);
-        void loadVisits(int idPlace);
+        void loadAllCountries();
+        void loadProvinces(int countryId);
+        void loadPlaces(int provinceId);
+        void loadVisits(int placeId);
         void deleteVisit(Visit visit);
+
+        void loadVisitsRoom(int placeId);
     }
 }

@@ -2,6 +2,7 @@ package com.svalero.tripalbum.database;
 
 import androidx.room.TypeConverter;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 
 public class TimestampConverter {

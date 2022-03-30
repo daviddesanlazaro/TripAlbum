@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,19 +24,28 @@ import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.presenter.ModifyVisitPresenter;
 import com.svalero.tripalbum.util.ImageUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
-public class ModifyVisitActivityView extends AppCompatActivity implements ModifyVisitContract.View {
+public class ModifyVisitActivityView extends AppCompatActivity implements ModifyVisitContract.View, CalendarView.OnDateChangeListener {
 
     private final int SELECT_PICTURE_RESULT = 1;
-    private Visit visit = new Visit (0, null, 0, null, 0, null);
-    private boolean modify;
+    private Visit visit = new Visit (0, 0, null, 0, null, null);
+    private boolean modify = false;
 
-    EditText etDate;
     EditText etRating;
     EditText etComment;
     ImageView ivImage;
     TextView tvInfo;
+    CalendarView calendar;
+    Calendar cal;
 
     private ModifyVisitPresenter presenter;
 
@@ -63,15 +73,72 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
             tvInfo.setText(text);
             changeButton();
         }
+
+        calendar = (CalendarView) findViewById(R.id.calendarView);
+        cal = new Calendar() {
+
+            @Override
+            protected void computeTime() {
+
+            }
+
+            @Override
+            protected void computeFields() {
+
+            }
+
+            @Override
+            public void add(int field, int amount) {
+
+            }
+
+            @Override
+            public void roll(int field, boolean up) {
+
+            }
+
+            @Override
+            public int getMinimum(int field) {
+                return 0;
+            }
+
+            @Override
+            public int getMaximum(int field) {
+                return 0;
+            }
+
+            @Override
+            public int getGreatestMinimum(int field) {
+                return 0;
+            }
+
+            @Override
+            public int getLeastMaximum(int field) {
+                return 0;
+            }
+        };
+
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                TimeZone tz = TimeZone.getTimeZone("UTC");
+                cal = Calendar.getInstance(tz);
+                cal.set(year, month, dayOfMonth);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = dateFormat.format(cal.getTime());
+                Toast.makeText(getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    @Override
     public void modifyVisit(View view) {
-        String dateString = etDate.getText().toString();
         String ratingString = etRating.getText().toString();
         String comment = etComment.getText().toString();
         ivImage.getDrawable();
 
-        if ((dateString.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
+//        if ((dateString.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
+        if ((ratingString.equals("")) || (comment.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -80,7 +147,7 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    setVisitData(dateString, ratingString, comment);
+                                    setVisitData(cal.getTime(), ratingString, comment);
                                     presenter.addVisit(visit, modify);
                                     clearFields();
                                 }})
@@ -113,7 +180,6 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
     }
 
     private void initializeViews() {
-        etDate = findViewById(R.id.modify_visit_date);
         etRating = findViewById(R.id.modify_visit_rating);
         etComment = findViewById(R.id.modify_visit_comment);
         ivImage = findViewById(R.id.modify_visit_image);
@@ -121,25 +187,26 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
     }
 
     private void displayVisitInfo(Visit visit) {
-        etDate.setText(visit.getDate().toString());
         etRating.setText(Float.toString(visit.getRating()));
         etComment.setText(visit.getCommentary());
         ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
     }
 
-    private void setVisitData(String dateString, String ratingString, String comment) {
-        LocalDate date = LocalDate.parse(dateString);
+    private void setVisitData(Date date, String ratingString, String comment) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = dateFormat.format(date);
         float rating = Float.parseFloat(ratingString);
         byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
 
-        visit.setDate(date);
+        visit.setUserId(65);
+        visit.setPlaceId(visit.getPlaceId());
+        visit.setDate(dateString);
         visit.setRating(rating);
         visit.setCommentary(comment);
         visit.setImage(visitImage);
     }
 
     private void clearFields() {
-        etDate.setText("");
         etRating.setText("");
         etComment.setText("");
     }
@@ -149,6 +216,11 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
         deleteButton.setVisibility(View.GONE);
         Button modifyButton = findViewById(R.id.update_button);
         modifyButton.setText(R.string.add_button);
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -177,5 +249,10 @@ public class ModifyVisitActivityView extends AppCompatActivity implements Modify
             Picasso.get().load(data.getData()).noPlaceholder().centerCrop().fit()
                     .into((ImageView) findViewById(R.id.modify_visit_image));
         }
+    }
+
+    @Override
+    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+        Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
     }
 }
