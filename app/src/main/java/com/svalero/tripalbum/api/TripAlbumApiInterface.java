@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TripAlbumApiInterface {
     @GET("countries")
@@ -21,10 +22,13 @@ public interface TripAlbumApiInterface {
     Call<List<Province>> getProvinces(@Path("countryId") long countryId);
 
     @GET("province/{provinceId}/places")
-    Call<List<Place>> getPlaces(@Path("provinceId") long provinceId);
+    Call<List<Place>> getPlaces(@Path("provinceId") long provinceId, @Query("name") String name);
 
     @GET("user/{userId}/place/{placeId}/visits")
     Call<List<Visit>> getVisits(@Path("userId") long userId, @Path("placeId") long placeId);
+
+    @GET("place/{placeId}/visits")
+    Call<List<Visit>> getVisits(@Path("placeId") long placeId);
 
     @POST("visits")
     Call<Visit> addVisit(@Body Visit visit);

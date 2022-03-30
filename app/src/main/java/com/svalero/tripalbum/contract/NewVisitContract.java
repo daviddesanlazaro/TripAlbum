@@ -7,7 +7,7 @@ import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
 
-public interface ModifyVisitContract {
+public interface NewVisitContract {
 
     interface Model {
         interface OnAddVisitListener {

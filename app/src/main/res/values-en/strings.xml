@@ -35,4 +35,11 @@
     <string name="new_province_title">Enter the province data</string>
     <string name="new_place_title">Enter the place data</string>
     <string name="clear">Clear</string>
+    <string name="main_my_album">MY ALBUM</string>
+    <string name="main_friends">FRIENDS LIST</string>
+    <string name="main_places">SEARCH PLACES</string>
+    <string name="main_add_visit">ADD VISIT</string>
+    <string name="visited_places_title">VISITED PLACES</string>
+    <string name="interesting_places_title">INTERESTING PLACES</string>
+    <string name="search_places">SEARCH</string>
 </resources>

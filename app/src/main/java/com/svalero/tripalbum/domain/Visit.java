@@ -25,17 +25,17 @@ public class Visit implements Serializable {
     private float rating;
     @ColumnInfo
     private String commentary;
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] image;
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    private byte[] image;
 
-    public Visit(long userId, long placeId, String date, float rating, String commentary, byte[] image) {
+    public Visit(long userId, long placeId, String date, float rating, String commentary) {
 //        this.id = id;
         this.userId = userId;
         this.placeId = placeId;
         this.date = date;
         this.rating = rating;
         this.commentary = commentary;
-        this.image = image;
+//        this.image = image;
     }
 
     public long getId() {
@@ -86,16 +86,16 @@ public class Visit implements Serializable {
         this.userId = userId;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 
     @Override
     public String toString() {
-        return date + ", " + rating + ", " + commentary + ", " + id + ", " + placeId + " " + image;
+        return date + ", " + rating + ", " + commentary + ", " + id + ", " + placeId;
     }
 }

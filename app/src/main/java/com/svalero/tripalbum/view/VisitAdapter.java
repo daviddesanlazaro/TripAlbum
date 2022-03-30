@@ -58,7 +58,7 @@ public class VisitAdapter extends BaseAdapter {
         }
 
         Visit visit = listaVisits.get(position);
-        holder.foto.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
+//        holder.foto.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
         String text = context.getString(R.string.visit_rating, visit.getRating());
         holder.rating.setText(text);
         holder.date.setText(visit.getDate().toString());

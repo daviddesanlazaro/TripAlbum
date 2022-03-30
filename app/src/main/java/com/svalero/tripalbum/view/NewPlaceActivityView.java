@@ -23,7 +23,6 @@ import com.svalero.tripalbum.contract.NewPlaceContract;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
-import com.svalero.tripalbum.presenter.MainActivityPresenter;
 import com.svalero.tripalbum.presenter.NewPlacePresenter;
 
 import java.util.ArrayList;
