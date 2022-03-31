@@ -3,6 +3,7 @@ package com.svalero.tripalbum.api;
 import com.svalero.tripalbum.domain.Country;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
@@ -32,4 +33,13 @@ public interface TripAlbumApiInterface {
 
     @POST("visits")
     Call<Visit> addVisit(@Body Visit visit);
+
+    @GET("user/{userId}/friends")
+    Call<List<User>> getFriends(@Path("userId") long userId);
+
+    @GET("user/{userId}/places")
+    Call<List<Place>> getVisited(@Path("userId") long userId);
+
+    @GET("user/{userId}/favoritePlaces")
+    Call<List<Place>> getInteresting(@Path("userId") long userId);
 }

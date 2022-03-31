@@ -8,9 +8,6 @@ import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
 import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.database.AppDatabase;
-import com.svalero.tripalbum.domain.Country;
-import com.svalero.tripalbum.domain.Place;
-import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
@@ -22,60 +19,9 @@ import retrofit2.Response;
 public class ViewVisitsModel implements ViewVisitsContract.Model {
 
     @Override
-    public void loadAllCountries(OnLoadCountriesListener listener) {
+    public void loadVisits(OnLoadVisitsListener listener, int userId, int placeId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Country>> callCountries = api.getCountries();
-        callCountries.enqueue(new Callback<List<Country>>() {
-            @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-                listener.OnLoadCountriesSuccess(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
-                listener.OnLoadCountriesError("Se ha producido un error");
-            }
-        });
-    }
-
-    @Override
-    public void loadProvinces(OnLoadProvincesListener listener, int countryId) {
-        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Province>> callProvinces = api.getProvinces(countryId);
-        callProvinces.enqueue(new Callback<List<Province>>() {
-            @Override
-            public void onResponse(Call<List<Province>> call, Response<List<Province>> response) {
-                listener.OnLoadProvincesSuccess(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Province>> call, Throwable t) {
-                listener.OnLoadProvincesError("Se ha producido un error");
-            }
-        });
-    }
-
-    @Override
-    public void loadPlaces(OnLoadPlacesListener listener, int provinceId) {
-        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Place>> callPlaces = api.getPlaces(provinceId, null);
-        callPlaces.enqueue(new Callback<List<Place>>() {
-            @Override
-            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
-                listener.OnLoadPlacesSuccess(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Place>> call, Throwable t) {
-                listener.OnLoadPlacesError("Se ha producido un error");
-            }
-        });
-    }
-
-    @Override
-    public void loadVisits(OnLoadVisitsListener listener, int placeId) {
-        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Visit>> callVisits = api.getVisits(65, placeId);
+        Call<List<Visit>> callVisits = api.getVisits(userId, placeId);
         callVisits.enqueue(new Callback<List<Visit>>() {
             @Override
             public void onResponse(Call<List<Visit>> call, Response<List<Visit>> response) {
@@ -94,13 +40,5 @@ public class ViewVisitsModel implements ViewVisitsContract.Model {
         AppDatabase db = Room.databaseBuilder(context,
                 AppDatabase.class, "visits").allowMainThreadQueries().build();
         db.visitDao().delete(visit);
-    }
-
-    @Override
-    public List<Visit> loadVisits(Context context, int placeId) {
-        AppDatabase db = Room.databaseBuilder(context,
-                AppDatabase.class, "visits").allowMainThreadQueries()
-                .fallbackToDestructiveMigration().build();
-        return db.visitDao().getVisitsByPlace(placeId);
     }
 }

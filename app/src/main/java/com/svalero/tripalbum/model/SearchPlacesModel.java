@@ -5,7 +5,6 @@ import com.svalero.tripalbum.api.TripAlbumApiInterface;
 import com.svalero.tripalbum.contract.SearchPlacesContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
-import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
 

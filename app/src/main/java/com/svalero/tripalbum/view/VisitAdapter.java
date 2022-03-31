@@ -1,5 +1,6 @@
 package com.svalero.tripalbum.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class VisitAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Visit> listaVisits;
     private LayoutInflater inflater;
+    private String ratingText;
 
     public VisitAdapter(Activity context, ArrayList<Visit> listaVisits) {
         this.context = context;
@@ -28,24 +30,26 @@ public class VisitAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView foto;
+//        ImageView foto;
         TextView rating;
         TextView date;
+        TextView commentary;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         // Si la View es null se crea de nuevo
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.visit, null);
+            convertView = inflater.inflate(R.layout.visit, parent, false);
 
             holder = new ViewHolder();
-            holder.foto = (ImageView) convertView.findViewById(R.id.visit_image);
+//            holder.foto = (ImageView) convertView.findViewById(R.id.visit_image);
             holder.rating = (TextView) convertView.findViewById(R.id.visit_rating);
             holder.date = (TextView) convertView.findViewById(R.id.visit_date);
+            holder.commentary = (TextView) convertView.findViewById(R.id.visit_commentary);
 
             convertView.setTag(holder);
         }
@@ -58,11 +62,12 @@ public class VisitAdapter extends BaseAdapter {
         }
 
         Visit visit = listaVisits.get(position);
-//        holder.foto.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
-        String text = context.getString(R.string.visit_rating, visit.getRating());
-        holder.rating.setText(text);
-        holder.date.setText(visit.getDate().toString());
-//
+//        holder.foto.setImageBitmap(null);
+        ratingToString(visit.getRating());
+        holder.commentary.setText(visit.getCommentary());
+        holder.rating.setText(ratingText);
+        holder.date.setText(visit.getDate());
+
         return convertView;
     }
 
@@ -79,6 +84,14 @@ public class VisitAdapter extends BaseAdapter {
     @Override
     public long getItemId(int posicion) {
         return posicion;
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void ratingToString(double d) {
+        if(d == (long) d)
+             ratingText = String.format("%d",(long) d);
+        else
+            ratingText = String.format("%s",d);
     }
 
 }
