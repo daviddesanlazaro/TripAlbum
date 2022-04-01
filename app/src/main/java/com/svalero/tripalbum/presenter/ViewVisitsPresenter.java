@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVisitsContract.Model.OnLoadVisitsListener {
 
-    private ViewVisitsModel model;
-    private ViewVisitsView view;
+    private final ViewVisitsModel model;
+    private final ViewVisitsView view;
 
     public ViewVisitsPresenter(ViewVisitsView view) {
         model = new ViewVisitsModel();
@@ -22,28 +22,21 @@ public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVi
     }
 
     @Override
-    public void loadVisits(int userId, int placeId) {
+    public void loadVisits(long userId, long placeId) {
         model.loadVisits(this, userId, placeId);
     }
 
     @Override
-    public void deleteVisit(Visit visit) {
-        model.deleteVisit(view.getApplicationContext(), visit);
+    public void deleteVisit(long visitId) {
+
     }
 
-    public void openModifyVisit(Visit visit, Place place) {
+    @Override
+    public void openNewVisit(Place place, Visit visit, boolean modify) {
         Intent intent = new Intent(view, NewVisitView.class);
-        intent.putExtra("modify", true);
-        intent.putExtra("placeName", place.getName());
-        intent.putExtra("Visit", visit);
-        view.startActivity(intent);
-    }
-
-    public void openNewVisit(Place place) {
-        Intent intent = new Intent(view, NewVisitView.class);
-        intent.putExtra("modify", false);
-        intent.putExtra("placeId", place.getId());
-        intent.putExtra("placeName", place.getName());
+        intent.putExtra("place", place);
+        intent.putExtra("visit", visit);
+        intent.putExtra("modify", modify);
         view.startActivity(intent);
     }
 

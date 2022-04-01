@@ -1,14 +1,43 @@
 package com.svalero.tripalbum.presenter;
 
+import android.content.Intent;
+
 import com.svalero.tripalbum.contract.ViewPlaceContract;
-import com.svalero.tripalbum.view.ViewPlaceActivityView;
+import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.model.ViewPlaceModel;
+import com.svalero.tripalbum.view.NewVisitView;
+import com.svalero.tripalbum.view.ViewPlaceView;
 
-public class ViewPlacePresenter implements ViewPlaceContract.Presenter {
+public class ViewPlacePresenter implements ViewPlaceContract.Presenter, ViewPlaceContract.Model.OnAddFavoriteListener {
 
-    private ViewPlaceActivityView view;
+    private final ViewPlaceModel model;
+    private final ViewPlaceView view;
 
-    public ViewPlacePresenter(ViewPlaceActivityView view) {
+    public ViewPlacePresenter(ViewPlaceView view) {
+        model = new ViewPlaceModel();
         this.view = view;
     }
 
+    @Override
+    public void addFavorite(Favorite favorite) {
+        model.addFavorite(this, favorite);
+    }
+
+    @Override
+    public void openNewVisit(Place place) {
+        Intent intent = new Intent(view, NewVisitView.class);
+        intent.putExtra("place", place);
+        view.startActivity(intent);
+    }
+
+    @Override
+    public void OnAddFavoriteSuccess(Favorite favorite) {
+        view.showErrorMessage("Registrado con éxito");
+    }
+
+    @Override
+    public void OnAddFavoriteError(String message) {
+        view.showErrorMessage(message);
+    }
 }

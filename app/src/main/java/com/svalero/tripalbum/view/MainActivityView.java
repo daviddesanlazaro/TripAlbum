@@ -40,10 +40,4 @@ public class MainActivityView extends AppCompatActivity {
         Intent intent = new Intent(this, NewVisitView.class);
         startActivity(intent);
     }
-
-    // Placeholder
-    public void openViewVisits(View view) {
-        Intent intent = new Intent(this, ViewVisitsView.class);
-        startActivity(intent);
-    }
 }

@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class MyAlbumModel implements MyAlbumContract.Model {
 
     @Override
-    public void loadVisited(OnLoadVisitedListener listener, int userId) {
+    public void loadVisited(OnLoadVisitedListener listener, long userId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Place>> callVisited = api.getVisited(userId);
         callVisited.enqueue(new Callback<List<Place>>() {
@@ -31,7 +31,7 @@ public class MyAlbumModel implements MyAlbumContract.Model {
     }
 
     @Override
-    public void loadInteresting(OnLoadInterestingListener listener, int userId) {
+    public void loadInteresting(OnLoadInterestingListener listener, long userId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Place>> callInteresting = api.getInteresting(userId);
         callInteresting.enqueue(new Callback<List<Place>>() {

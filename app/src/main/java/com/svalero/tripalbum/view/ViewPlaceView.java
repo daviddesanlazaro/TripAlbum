@@ -7,6 +7,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,14 +18,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.ViewPlaceContract;
+import com.svalero.tripalbum.domain.Favorite;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.presenter.ViewPlacePresenter;
 
-public class ViewPlaceActivityView extends AppCompatActivity implements ViewPlaceContract.View, OnMapReadyCallback,
+public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContract.View, OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
-    private Place place = new Place (0, null, null, 0, 0, 0);
     private ViewPlacePresenter presenter;
+
+    private Place place;
+
+    private final int USER_ID = 65; // Solución hasta hacer control de sesión
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +40,19 @@ public class ViewPlaceActivityView extends AppCompatActivity implements ViewPlac
         Intent intent = getIntent();
         place = (Place) intent.getSerializableExtra("place");
 
+        initializeView();
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.view_place_map);
         if (mapFragment!=null) {
             mapFragment.getMapAsync(this);
         }
+    }
+
+    private void initializeView() {
+        TextView name = findViewById(R.id.view_place_name);
+        TextView description = findViewById(R.id.view_place_description);
+        name.setText(place.getName());
+        description.setText(place.getDescription());
     }
 
     @Override
@@ -64,5 +80,23 @@ public class ViewPlaceActivityView extends AppCompatActivity implements ViewPlac
             return;
         }
         googleMap.setMyLocationEnabled(true);
+    }
+
+    public void openNewVisit(View view) {
+        presenter.openNewVisit(place);
+    }
+
+    public void addFavorite(View view) {
+        Favorite favorite = new Favorite(0, USER_ID, place.getId());
+        presenter.addFavorite(favorite);
+    }
+
+    public void removeInteresting(View view) {
+
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

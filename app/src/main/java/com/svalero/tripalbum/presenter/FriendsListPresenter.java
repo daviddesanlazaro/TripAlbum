@@ -12,8 +12,8 @@ import java.util.List;
 
 public class FriendsListPresenter implements FriendsListContract.Presenter, FriendsListContract.Model.OnLoadFriendsListener {
 
-    private FriendsListView view;
-    private FriendsListModel model;
+    private final FriendsListView view;
+    private final FriendsListModel model;
 
     public FriendsListPresenter(FriendsListView view) {
         model = new FriendsListModel();
@@ -21,7 +21,7 @@ public class FriendsListPresenter implements FriendsListContract.Presenter, Frie
     }
 
     @Override
-    public void loadFriends(int userId) {
+    public void loadFriends(long userId) {
         model.loadFriends(this, userId);
     }
 
@@ -36,7 +36,7 @@ public class FriendsListPresenter implements FriendsListContract.Presenter, Frie
     }
 
     @Override
-    public void openMyAlbum(int userId) {
+    public void openMyAlbum(long userId) {
         Intent intent = new Intent(view, MyAlbumView.class);
         intent.putExtra("userId", userId);
         view.startActivity(intent);

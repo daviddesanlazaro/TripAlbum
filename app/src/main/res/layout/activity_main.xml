@@ -74,12 +74,5 @@
                 android:text="@string/main_add_visit" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openViewVisits"
-            android:text="View visits" />
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

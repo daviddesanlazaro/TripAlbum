@@ -16,9 +16,14 @@ public interface SearchPlacesContract {
             void OnLoadPlacesSuccess(List<Place> places);
             void OnLoadPlacesError(String message);
         }
+        interface OnLoadAllPlacesListener {
+            void OnLoadAllPlacesSuccess(List<Place> places);
+            void OnLoadAllPlacesError(String message);
+        }
 
-        void loadProvinces(OnLoadProvincesListener listener, int countryId);
-        void loadPlaces(OnLoadPlacesListener listener, int provinceId, String name);
+        void loadProvinces(OnLoadProvincesListener listener, long countryId);
+        void loadPlaces(OnLoadPlacesListener listener, long provinceId, String name);
+        void loadAllPlaces(OnLoadAllPlacesListener listener, String name);
     }
 
     interface View {
@@ -28,7 +33,10 @@ public interface SearchPlacesContract {
     }
 
     interface Presenter {
-        void loadProvinces(int countryId);
-        void loadPlaces(int provinceId, String name);
+        void loadProvinces(long countryId);
+        void loadPlaces(long provinceId, String name);
+
+        void openNewVisit(long userId, Place place);
+        void openViewPlace(Place place);
     }
 }

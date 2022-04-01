@@ -1,29 +1,21 @@
 package com.svalero.tripalbum.domain;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity
 public class Province {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    @ColumnInfo
+    private long id;
     private String name;
-    @ColumnInfo
-    private int countryId;
+    private long countryId;
 
-    public Province(int id, String name, int countryId) {
+    public Province(long id, String name, long countryId) {
         this.id = id;
         this.name = name;
         this.countryId = countryId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -35,11 +27,11 @@ public class Province {
         this.name = name;
     }
 
-    public int getCountryId() {
+    public long getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(int countryId) {
+    public void setCountryId(long countryId) {
         this.countryId = countryId;
     }
 

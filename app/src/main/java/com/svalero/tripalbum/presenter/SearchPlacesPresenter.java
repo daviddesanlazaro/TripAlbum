@@ -1,17 +1,22 @@
 package com.svalero.tripalbum.presenter;
 
+import android.content.Intent;
+
 import com.svalero.tripalbum.contract.SearchPlacesContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.model.SearchPlacesModel;
+import com.svalero.tripalbum.view.NewVisitView;
 import com.svalero.tripalbum.view.SearchPlacesView;
+import com.svalero.tripalbum.view.ViewPlaceView;
 
 import java.util.List;
 
-public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, SearchPlacesContract.Model.OnLoadProvincesListener, SearchPlacesContract.Model.OnLoadPlacesListener {
+public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, SearchPlacesContract.Model.OnLoadProvincesListener, SearchPlacesContract.Model.OnLoadPlacesListener,
+        SearchPlacesContract.Model.OnLoadAllPlacesListener {
 
-    private SearchPlacesView view;
-    private SearchPlacesModel model;
+    private final SearchPlacesView view;
+    private final SearchPlacesModel model;
 
     public SearchPlacesPresenter(SearchPlacesView view) {
         model = new SearchPlacesModel();
@@ -19,13 +24,16 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     }
 
     @Override
-    public void loadProvinces(int countryId) {
+    public void loadProvinces(long countryId) {
         model.loadProvinces(this, countryId);
     }
 
     @Override
-    public void loadPlaces(int provinceId, String name) {
-        model.loadPlaces(this, provinceId, name);
+    public void loadPlaces(long provinceId, String name) {
+        if (provinceId == 0)
+            model.loadAllPlaces(this, name);
+        else
+            model.loadPlaces(this, provinceId, name);
     }
 
     @Override
@@ -46,5 +54,30 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     @Override
     public void OnLoadPlacesError(String message) {
         view.showErrorMessage(message);
+    }
+
+    @Override
+    public void OnLoadAllPlacesSuccess(List<Place> places) {
+        view.listPlaces(places);
+    }
+
+    @Override
+    public void OnLoadAllPlacesError(String message) {
+        view.showErrorMessage(message);
+    }
+
+    @Override
+    public void openNewVisit(long userId, Place place) {
+        Intent intent = new Intent(view, NewVisitView.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("place", place);
+        view.startActivity(intent);
+    }
+
+    @Override
+    public void openViewPlace(Place place) {
+        Intent intent = new Intent(view, ViewPlaceView.class);
+        intent.putExtra("place", place);
+        view.startActivity(intent);
     }
 }
