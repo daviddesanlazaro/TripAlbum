@@ -6,7 +6,6 @@ import com.svalero.tripalbum.contract.SearchPlacesContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.model.SearchPlacesModel;
-import com.svalero.tripalbum.view.NewVisitView;
 import com.svalero.tripalbum.view.SearchPlacesView;
 import com.svalero.tripalbum.view.ViewPlaceView;
 
@@ -64,14 +63,6 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     @Override
     public void OnLoadAllPlacesError(String message) {
         view.showErrorMessage(message);
-    }
-
-    @Override
-    public void openNewVisit(long userId, Place place) {
-        Intent intent = new Intent(view, NewVisitView.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra("place", place);
-        view.startActivity(intent);
     }
 
     @Override

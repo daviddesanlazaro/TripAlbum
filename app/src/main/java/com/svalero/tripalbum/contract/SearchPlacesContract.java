@@ -36,7 +36,6 @@ public interface SearchPlacesContract {
         void loadProvinces(long countryId);
         void loadPlaces(long provinceId, String name);
 
-        void openNewVisit(long userId, Place place);
         void openViewPlace(Place place);
     }
 }

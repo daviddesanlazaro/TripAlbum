@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.svalero.tripalbum.R;
@@ -20,7 +20,7 @@ import com.svalero.tripalbum.presenter.SearchPlacesPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPlacesView extends AppCompatActivity implements SearchPlacesContract.View, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+public class SearchPlacesView extends AppCompatActivity implements SearchPlacesContract.View, AdapterView.OnItemClickListener {
 
     private SearchPlacesPresenter presenter;
 
@@ -29,9 +29,10 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     public List<Place> placesList;
     private ArrayAdapter<Place> placesAdapter;
     private Province all;
+    private Province province;
 
-    private Spinner spinner;
     private EditText search;
+    private AutoCompleteTextView autocomplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,17 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
         all = new Province(0, "Todo", 0);
         provincesList = new ArrayList<>();
         provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provincesList);
-        spinner = findViewById(R.id.search_places_provinces);
-        spinner.setAdapter(provincesAdapter);
-        spinner.setOnItemSelectedListener(this);
+        autocomplete = findViewById(R.id.search_places_provinces);
+        autocomplete.setAdapter(provincesAdapter);
+        province = new Province(0, null, 0);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                province = (Province) parent.getItemAtPosition(position);
+                presenter.loadPlaces(province.getId(), null);
+            }
+        });
     }
 
     private void initializePlacesList() {
@@ -85,25 +94,18 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent,
-                               View view, int pos, long id) {
-        Province province = (Province) spinner.getSelectedItem();
-        presenter.loadPlaces(province.getId(), null);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
     public void showErrorMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public void searchPlaces(View view) {
-        Province province = (Province) spinner.getSelectedItem();
         presenter.loadPlaces(province.getId(), search.getText().toString());
+    }
+
+    public void clear(View view) {
+        autocomplete.setText("");
+        province.setId(0);
+        presenter.loadPlaces(province.getId(), null);
     }
 
     @Override
