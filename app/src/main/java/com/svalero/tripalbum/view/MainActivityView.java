@@ -35,9 +35,4 @@ public class MainActivityView extends AppCompatActivity {
         Intent intent = new Intent(this, SearchPlacesView.class);
         startActivity(intent);
     }
-
-    public void openNewVisit(View view) {
-        Intent intent = new Intent(this, NewVisitView.class);
-        startActivity(intent);
-    }
 }

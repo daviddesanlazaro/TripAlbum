@@ -28,21 +28,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+                android:insetLeft="10dp"
+                android:insetTop="10dp"
+                android:insetRight="10dp"
+                android:insetBottom="10dp"
                 android:onClick="openMyAlbum"
                 android:text="@string/main_my_album" />
-
-            <Button
-                android:id="@+id/button_main_2"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_orange_light"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:onClick="openFriendsList"
-                android:text="@string/main_friends" />
 
         </LinearLayout>
 
@@ -57,21 +48,26 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+                android:insetLeft="10dp"
+                android:insetTop="10dp"
+                android:insetRight="10dp"
+                android:insetBottom="10dp"
                 android:onClick="openSearchPlaces"
                 android:text="@string/main_places" />
 
             <Button
-                android:id="@+id/button_main_4"
+                android:id="@+id/button_main_2"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@color/purple_700"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:onClick="openNewVisit"
-                android:text="@string/main_add_visit" />
+                android:backgroundTint="@android:color/holo_orange_light"
+                android:insetLeft="10dp"
+                android:insetTop="10dp"
+                android:insetRight="10dp"
+                android:insetBottom="10dp"
+                android:onClick="openFriendsList"
+                android:text="@string/main_friends" />
+
         </LinearLayout>
 
     </LinearLayout>
