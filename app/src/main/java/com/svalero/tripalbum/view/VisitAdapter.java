@@ -1,5 +1,7 @@
 package com.svalero.tripalbum.view;
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -24,12 +26,15 @@ public class VisitAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
     private String ratingText;
     private Button modify;
+    private Button delete;
+    private final long userId;
 
-    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view) {
+    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, long userId) {
         this.context = context;
         this.listaVisits = listaVisits;
         inflater = LayoutInflater.from(context);
         this.view = view;
+        this.userId = userId;
     }
 
     static class ViewHolder {
@@ -70,8 +75,7 @@ public class VisitAdapter extends BaseAdapter {
         holder.rating.setText(ratingText);
         holder.date.setText(visit.getDate());
 
-        modify = (Button) convertView.findViewById(R.id.visit_modify);
-        modify.setOnClickListener(modifyClickListener);
+        initializeButtons(convertView);
 
         return convertView;
     }
@@ -110,4 +114,28 @@ public class VisitAdapter extends BaseAdapter {
             view.openModifyVisit(visit);
         }
     };
+
+    private View.OnClickListener deleteClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            View parentRow = (View) v.getParent();
+            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent();
+            final int position = listView.getPositionForView(parentRow);
+            delete.setTag(position);
+            Visit visit = listaVisits.get(position);
+            view.deleteVisit(visit.getId());
+        }
+    };
+
+    private void initializeButtons(View convertView) {
+        modify = (Button) convertView.findViewById(R.id.visit_modify);
+        delete = (Button) convertView.findViewById(R.id.visit_delete);
+        modify.setOnClickListener(modifyClickListener);
+        delete.setOnClickListener(deleteClickListener);
+
+        if (userId != 65) { // Solución hasta hacer control de sesión
+            modify.setVisibility(GONE);
+            delete.setVisibility(GONE);
+        }
+    }
 }

@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.ViewPlaceContract;
-import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.FavoriteDTO;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.presenter.ViewPlacePresenter;
 
@@ -87,8 +87,8 @@ public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContrac
     }
 
     public void addFavorite(View view) {
-        Favorite favorite = new Favorite(0, USER_ID, place.getId());
-        presenter.addFavorite(favorite);
+        FavoriteDTO favoriteDto = new FavoriteDTO(USER_ID, place.getId());
+        presenter.addFavorite(favoriteDto);
     }
 
     public void removeInteresting(View view) {

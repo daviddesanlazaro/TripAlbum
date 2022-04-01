@@ -1,6 +1,7 @@
 package com.svalero.tripalbum.contract;
 
 import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.FavoriteDTO;
 import com.svalero.tripalbum.domain.Place;
 
 public interface ViewPlaceContract {
@@ -10,7 +11,7 @@ public interface ViewPlaceContract {
             void OnAddFavoriteSuccess(Favorite favorite);
             void OnAddFavoriteError(String message);
         }
-        void addFavorite(OnAddFavoriteListener listener, Favorite favorite);
+        void addFavorite(OnAddFavoriteListener listener, FavoriteDTO favoriteDto);
     }
 
     interface View {
@@ -18,7 +19,7 @@ public interface ViewPlaceContract {
     }
 
     interface Presenter {
-        void addFavorite(Favorite favorite);
+        void addFavorite(FavoriteDTO favoriteDto);
         void openNewVisit(Place place);
     }
 }

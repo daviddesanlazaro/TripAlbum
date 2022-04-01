@@ -1,7 +1,9 @@
 package com.svalero.tripalbum.view;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.domain.Place;
@@ -24,7 +27,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
 
     public ArrayList<Visit> visitsList;
     private VisitAdapter visitsAdapter;
-    private int userId;
+    private long userId;
     private Place place;
 
     @Override
@@ -34,18 +37,21 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         presenter = new ViewVisitsPresenter(this);
 
         Intent intent = getIntent();
-        userId = intent.getIntExtra("userId", 65);
+        userId = intent.getLongExtra("userId", 65);
         place = (Place) intent.getSerializableExtra("place");
 
         initializeVisitsList();
+
+        FloatingActionButton newVisit = findViewById(R.id.contextual_add_visit);
+        if (userId != 65)   // Solución hasta hacer control de sesión
+            newVisit.setVisibility(View.GONE);
     }
 
     private void initializeVisitsList() {
         visitsList = new ArrayList<>();
-        visitsAdapter = new VisitAdapter(this, visitsList, this);
+        visitsAdapter = new VisitAdapter(this, visitsList, this, userId);
         ListView lvVisits = (ListView) findViewById(R.id.visit_list_main);
         lvVisits.setAdapter(visitsAdapter);
-        lvVisits.setOnItemClickListener(this);
     }
 
     @Override
@@ -83,4 +89,22 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         presenter.openNewVisit(place, visit, true);
     }
 
+    public void deleteVisit(long visitId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_confirm_dialog)
+                .setPositiveButton(R.string.confirm_yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                presenter.deleteVisit(visitId);
+                                presenter.loadVisits(userId, place.getId());
+                            }})
+                .setNegativeButton(R.string.confirm_no,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }});
+        builder.create().show();
+    }
 }

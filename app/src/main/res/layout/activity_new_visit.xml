@@ -25,85 +25,55 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/modify_visit_date"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/date"
+            android:inputType="date"
+            android:minHeight="48dp" />
 
-            <EditText
-                android:id="@+id/modify_visit_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="false"
-                android:hint="@string/date"
-                android:inputType="date" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/modify_visit_rating"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:hint="@string/rating"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
 
-            <EditText
-                android:id="@+id/modify_visit_rating"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/rating"
-                android:inputType="numberDecimal" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/modify_visit_commentary"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/modify_visit_commentary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start|top"
-                android:inputType="textMultiLine" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:hint="@string/commentary"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp" />
 
         <ImageView
             android:id="@+id/modify_visit_image"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
             android:onClick="selectPicture"
             android:scaleType="center"
             android:visibility="visible"
             app:srcCompat="@android:drawable/ic_menu_add"
+            tools:ignore="SpeakableTextPresentCheck"
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:onClick="modifyVisit"
+        android:text="@string/modify_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="10dp">
-
-        <Button
-            android:id="@+id/update_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:onClick="modifyVisit"
-            android:text="Modificar" />
-
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:onClick="deleteVisit"
-            android:text="Eliminar"
-            android:visibility="visible" />
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

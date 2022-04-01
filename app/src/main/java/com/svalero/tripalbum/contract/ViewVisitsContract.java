@@ -12,7 +12,12 @@ public interface ViewVisitsContract {
             void OnLoadVisitsSuccess(List<Visit> visits);
             void OnLoadVisitsError(String message);
         }
+        interface OnDeleteVisitsListener {
+            void OnDeleteVisitsSuccess();
+            void OnDeleteVisitsError(String message);
+        }
         void loadVisits(OnLoadVisitsListener listener, long userId, long placeId);
+        void deleteVisit(OnDeleteVisitsListener listener, long visitId);
     }
 
     interface View {

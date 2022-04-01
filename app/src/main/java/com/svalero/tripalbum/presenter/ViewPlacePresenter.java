@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.svalero.tripalbum.contract.ViewPlaceContract;
 import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.FavoriteDTO;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.model.ViewPlaceModel;
 import com.svalero.tripalbum.view.NewVisitView;
@@ -20,8 +21,8 @@ public class ViewPlacePresenter implements ViewPlaceContract.Presenter, ViewPlac
     }
 
     @Override
-    public void addFavorite(Favorite favorite) {
-        model.addFavorite(this, favorite);
+    public void addFavorite(FavoriteDTO favoriteDto) {
+        model.addFavorite(this, favoriteDto);
     }
 
     @Override

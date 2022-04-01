@@ -32,4 +32,5 @@
     <string name="add_visit">Añadir visita</string>
     <string name="add_interested">Añadir a interesantes</string>
     <string name="remove_interested">Eliminar de interesantes</string>
+    <string name="friend_album_title">ÁLBUM DE %1$s %2$s</string>
 </resources>

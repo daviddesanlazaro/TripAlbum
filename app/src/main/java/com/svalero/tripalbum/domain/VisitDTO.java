@@ -3,7 +3,6 @@ package com.svalero.tripalbum.domain;
 import java.io.Serializable;
 
 public class VisitDTO implements Serializable {
-    private long id;
     private long user;
     private long place;
     private String date;
@@ -23,14 +22,6 @@ public class VisitDTO implements Serializable {
 
     public VisitDTO() {
 
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDate() {
@@ -83,6 +74,6 @@ public class VisitDTO implements Serializable {
 
     @Override
     public String toString() {
-        return date + ", " + rating + ", " + commentary + ", " + id;
+        return date + ", " + rating + ", " + commentary;
     }
 }

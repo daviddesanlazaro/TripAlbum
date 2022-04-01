@@ -4,6 +4,7 @@ import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
 import com.svalero.tripalbum.contract.ViewPlaceContract;
 import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.FavoriteDTO;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,9 +13,9 @@ import retrofit2.Response;
 public class ViewPlaceModel implements ViewPlaceContract.Model {
 
     @Override
-    public void addFavorite(OnAddFavoriteListener listener, Favorite favorite) {
+    public void addFavorite(OnAddFavoriteListener listener, FavoriteDTO favoriteDto) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<Favorite> callFavorites = api.addFavorite(favorite);
+        Call<Favorite> callFavorites = api.addFavorite(favoriteDto);
         callFavorites.enqueue(new Callback<Favorite>() {
             @Override
             public void onResponse(Call<Favorite> call, Response<Favorite> response) {

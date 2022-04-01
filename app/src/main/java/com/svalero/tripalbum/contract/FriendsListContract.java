@@ -21,6 +21,6 @@ public interface FriendsListContract {
 
     interface Presenter {
         void loadFriends(long userId);
-        void openMyAlbum(long userId);
+        void openMyAlbum(User user);
     }
 }

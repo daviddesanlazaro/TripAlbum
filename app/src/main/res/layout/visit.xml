@@ -25,13 +25,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/visit_commentary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -44,6 +45,7 @@
                     android:id="@+id/visit_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
                     android:layout_weight="1"
                     android:textSize="16sp" />
 
@@ -51,6 +53,7 @@
                     android:id="@+id/visit_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
                     android:layout_weight="1"
                     android:textSize="16sp" />
 
@@ -65,8 +68,8 @@
                 <Button
                     android:id="@+id/visit_modify"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:onClick="modifyVisit"
                     android:text="@string/modify_button" />
@@ -74,8 +77,8 @@
                 <Button
                     android:id="@+id/visit_delete"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:text="@string/delete_button" />
             </LinearLayout>

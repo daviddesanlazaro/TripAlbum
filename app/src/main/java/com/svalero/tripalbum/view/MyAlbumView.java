@@ -8,15 +8,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.MyAlbumContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.presenter.MyAlbumPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.View, AdapterView.OnItemClickListener {
 
@@ -26,7 +29,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     private ArrayAdapter<Place> visitedAdapter;
     public List<Place> interestingPlaces;
     private ArrayAdapter<Place> interestingAdapter;
-    private int userId;
+    private User user;
 
     private ListView lvVisited;
     private ListView lvInteresting;
@@ -38,18 +41,18 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
         presenter = new MyAlbumPresenter(this);
 
         Intent intent = getIntent();
-        userId = intent.getIntExtra("userId", 65);
+        user = (User) intent.getSerializableExtra("user");
 
+        checkUser();
         initializeVisitedPlaces();
         initializeInterestingPlaces();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadVisited(userId);
-        presenter.loadInteresting(userId);
+        presenter.loadVisited(user.getId());
+        presenter.loadInteresting(user.getId());
     }
 
     private void initializeVisitedPlaces() {
@@ -65,6 +68,16 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
         interestingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, interestingPlaces);
         lvInteresting = findViewById(R.id.interresting_places);
         lvInteresting.setAdapter(interestingAdapter);
+    }
+
+    private void checkUser() {
+        TextView title = findViewById(R.id.my_album_title);
+        if (user.getId() == 65) {
+            title.setText(getString(R.string.main_my_album));
+        }
+        else {
+            title.setText(getString(R.string.friend_album_title, user.getName().toUpperCase(Locale.ROOT), user.getSurname().toUpperCase(Locale.ROOT)));
+        }
     }
 
     @Override
@@ -104,7 +117,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.visited_places) {
             Place place = visitedPlaces.get(position);
-            presenter.openViewVisits(userId, place);
+            presenter.openViewVisits(user.getId(), place);
         }
     }
 }
