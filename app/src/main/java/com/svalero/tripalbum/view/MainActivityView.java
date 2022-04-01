@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.domain.User;
 
 public class MainActivityView extends AppCompatActivity {
+
+    private final User user = new User(65, null, null, null, null, false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class MainActivityView extends AppCompatActivity {
 
     public void openMyAlbum(View view) {
         Intent intent = new Intent(this, MyAlbumView.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 

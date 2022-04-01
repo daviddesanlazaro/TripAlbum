@@ -29,4 +29,21 @@ public class ViewVisitsModel implements ViewVisitsContract.Model {
             }
         });
     }
+
+    @Override
+    public void deleteVisit(OnDeleteVisitsListener listener, long visitId) {
+        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
+        Call<Void> callVisits = api.deleteVisit(visitId);
+        callVisits.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                listener.OnDeleteVisitsSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                listener.OnDeleteVisitsError("Se ha producido un error");
+            }
+        });
+    }
 }

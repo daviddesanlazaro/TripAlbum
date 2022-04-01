@@ -36,9 +36,9 @@ public class FriendsListPresenter implements FriendsListContract.Presenter, Frie
     }
 
     @Override
-    public void openMyAlbum(long userId) {
+    public void openMyAlbum(User user) {
         Intent intent = new Intent(view, MyAlbumView.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("user", user);
         view.startActivity(intent);
     }
 }

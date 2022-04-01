@@ -1,6 +1,7 @@
 package com.svalero.tripalbum.api;
 
 import com.svalero.tripalbum.domain.Favorite;
+import com.svalero.tripalbum.domain.FavoriteDTO;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.domain.User;
@@ -48,7 +49,7 @@ public interface TripAlbumApiInterface {
     Call<Visit> modifyVisit(@Path("visitId") long visitId, @Body VisitDTO visitDto);
 
     @DELETE("visit/{visitId}")
-    Call<Visit> deleteVisit(@Path("visitId") long visitId);
+    Call<Void> deleteVisit(@Path("visitId") long visitId);
 
     // Amigos
     @GET("user/{userId}/friends")
@@ -56,7 +57,7 @@ public interface TripAlbumApiInterface {
 
     // Favoritos
     @POST("favorites")
-    Call<Favorite> addFavorite(@Body Favorite favorite);
+    Call<Favorite> addFavorite(@Body FavoriteDTO favoriteDto);
 
 
 }

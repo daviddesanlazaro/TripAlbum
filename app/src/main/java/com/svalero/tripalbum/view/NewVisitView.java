@@ -166,8 +166,6 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     }
 
     private void changeButton() {
-        Button deleteButton = findViewById(R.id.delete_button);
-        deleteButton.setVisibility(View.GONE);
         Button modifyButton = findViewById(R.id.update_button);
         modifyButton.setText(R.string.add_button);
     }

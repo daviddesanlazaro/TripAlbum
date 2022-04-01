@@ -29,8 +29,8 @@ public class NewVisitPresenter implements NewVisitContract.Presenter, NewVisitCo
         }
         else {
             model.addVisit(this, visitDto);
-            view.finish();
         }
+        view.finish();
     }
 
     @Override

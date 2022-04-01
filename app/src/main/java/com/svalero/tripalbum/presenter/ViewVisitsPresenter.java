@@ -11,7 +11,7 @@ import com.svalero.tripalbum.view.NewVisitView;
 
 import java.util.List;
 
-public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVisitsContract.Model.OnLoadVisitsListener {
+public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVisitsContract.Model.OnLoadVisitsListener, ViewVisitsContract.Model.OnDeleteVisitsListener {
 
     private final ViewVisitsModel model;
     private final ViewVisitsView view;
@@ -28,7 +28,7 @@ public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVi
 
     @Override
     public void deleteVisit(long visitId) {
-
+        model.deleteVisit(this, visitId);
     }
 
     @Override
@@ -47,6 +47,16 @@ public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVi
 
     @Override
     public void OnLoadVisitsError(String message) {
+        view.showErrorMessage(message);
+    }
+
+    @Override
+    public void OnDeleteVisitsSuccess() {
+        view.showErrorMessage("Bien");
+    }
+
+    @Override
+    public void OnDeleteVisitsError(String message) {
         view.showErrorMessage(message);
     }
 }

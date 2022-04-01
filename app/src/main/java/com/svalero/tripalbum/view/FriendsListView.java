@@ -63,7 +63,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.friends_list) {
             User user = friendsList.get(position);
-            presenter.openMyAlbum(user.getId());
+            presenter.openMyAlbum(user);
         }
     }
 }

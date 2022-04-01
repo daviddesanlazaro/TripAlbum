@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class Favorite implements Serializable {
     private long id;
-    private long user;
-    private long place;
+    private User user;
+    private Place place;
 
-    public Favorite(long id, long user, long place) {
+    public Favorite(long id, User user, Place place) {
         this.id = id;
         this.user = user;
         this.place = place;
@@ -21,19 +21,19 @@ public class Favorite implements Serializable {
         this.id = id;
     }
 
-    public long getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(long user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public long getPlace() {
+    public Place getPlace() {
         return place;
     }
 
-    public void setPlace(long place) {
+    public void setPlace(Place place) {
         this.place = place;
     }
 }
