@@ -104,7 +104,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.visited_places) {
             Place place = visitedPlaces.get(position);
-            presenter.openViewVisits(userId, place.getId());
+            presenter.openViewVisits(userId, place);
         }
     }
 }

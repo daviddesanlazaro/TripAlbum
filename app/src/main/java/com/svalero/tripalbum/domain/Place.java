@@ -1,27 +1,16 @@
 package com.svalero.tripalbum.domain;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 
-@Entity
 public class Place implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    @ColumnInfo
+    private long id;
     private String name;
-    @ColumnInfo
     private String description;
-    @ColumnInfo
     private float latitude;
-    @ColumnInfo
     private float longitude;
-    @ColumnInfo
-    private int provinceId;
+    private long provinceId;
 
-    public Place(int id, String name, String description, float latitude, float longitude, int provinceId) {
+    public Place(long id, String name, String description, float latitude, float longitude, long provinceId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,11 +19,11 @@ public class Place implements Serializable {
         this.provinceId = provinceId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -70,11 +59,11 @@ public class Place implements Serializable {
         this.longitude = longitude;
     }
 
-    public int getProvinceId() {
+    public long getProvinceId() {
         return provinceId;
     }
 
-    public void setProvinceId(int provinceId) {
+    public void setProvinceId(long provinceId) {
         this.provinceId = provinceId;
     }
 

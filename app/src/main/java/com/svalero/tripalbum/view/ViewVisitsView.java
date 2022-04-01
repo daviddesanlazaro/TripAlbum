@@ -1,15 +1,9 @@
 package com.svalero.tripalbum.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,16 +18,14 @@ import com.svalero.tripalbum.presenter.ViewVisitsPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContract.View, AdapterView.OnItemClickListener, View.OnCreateContextMenuListener {
+public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContract.View, AdapterView.OnItemClickListener {
 
     private ViewVisitsPresenter presenter;
 
     public ArrayList<Visit> visitsList;
     private VisitAdapter visitsAdapter;
     private int userId;
-    private Place place = new Place (0, null, null, 0, 0, 0);
-
-    private ListView lvVisits;
+    private Place place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +35,17 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("userId", 65);
-        place.setId(intent.getIntExtra("placeId", 0));
+        place = (Place) intent.getSerializableExtra("place");
 
         initializeVisitsList();
     }
 
     private void initializeVisitsList() {
         visitsList = new ArrayList<>();
-        visitsAdapter = new VisitAdapter(this, visitsList);
-        lvVisits = (ListView) findViewById(R.id.visit_list_main);
+        visitsAdapter = new VisitAdapter(this, visitsList, this);
+        ListView lvVisits = (ListView) findViewById(R.id.visit_list_main);
         lvVisits.setAdapter(visitsAdapter);
         lvVisits.setOnItemClickListener(this);
-        registerForContextMenu(lvVisits);
     }
 
     @Override
@@ -80,78 +71,16 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.visit_list_main) {
             Visit visit = visitsList.get(position);
-            presenter.openModifyVisit(visit, place);
+            presenter.openNewVisit(place, visit, true);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent(this, NewPlaceActivityView.class);
-        startActivity(intent);
-        return true;
     }
 
     public void openNewVisit(View view) {
-        presenter.openNewVisit(place);
+        presenter.openNewVisit(place, null, false);
     }
 
-    public void openViewPlace(View view) {
-        if (place.getId() == 0) {
-            Toast.makeText(this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
-        } else {
-            Intent intent = new Intent(this, ViewPlaceActivityView.class);
-            intent.putExtra("place", place);
-            startActivity(intent);
-        }
+    public void openModifyVisit(Visit visit) {
+        presenter.openNewVisit(place, visit, true);
     }
 
-    @Override
-    public void onCreateContextMenu (ContextMenu menu, View v,
-                                     ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.contextual, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        final int itemSeleccionado = info.position;
-
-        if (item.getItemId() == R.id.modify_context) {
-            Visit visit = visitsList.get(itemSeleccionado);
-            presenter.openModifyVisit(visit, place);
-        }
-        if (item.getItemId() == R.id.delete_context) {
-            deleteVisit(info);
-        }
-        return true;
-    }
-
-    private void deleteVisit(AdapterView.AdapterContextMenuInfo info) {
-        Visit visit = visitsList.get(info.position);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_confirm_dialog)
-                .setPositiveButton(R.string.confirm_yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                presenter.deleteVisit(visit);
-                                presenter.loadVisits(userId, place.getId());
-                            }})
-                .setNegativeButton(R.string.confirm_no,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }});
-        builder.create().show();
-    }
 }

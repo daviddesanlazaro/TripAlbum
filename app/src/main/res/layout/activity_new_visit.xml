@@ -27,23 +27,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/date"
-                android:textSize="16sp" />
-
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
+            <EditText
+                android:id="@+id/modify_visit_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/date"
+                android:inputType="date" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,20 +45,11 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Valoración"
-                android:textSize="16sp" />
-
             <EditText
                 android:id="@+id/modify_visit_rating"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
+                android:hint="@string/rating"
                 android:inputType="numberDecimal" />
         </LinearLayout>
 
@@ -73,21 +58,12 @@
             android:layout_height="100dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Comentario"
-                android:textSize="16sp" />
-
             <EditText
-                android:id="@+id/modify_visit_comment"
-                android:layout_width="200dp"
+                android:id="@+id/modify_visit_commentary"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
 
         </LinearLayout>
 

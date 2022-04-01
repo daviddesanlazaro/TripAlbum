@@ -23,9 +23,6 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
 
     public List<User> friendsList;
     private ArrayAdapter<User> friendsAdapter;
-    private User user = new User(0, null, null, null, null, false);
-
-    private ListView lvFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     private void initializeFriendshipsList() {
         friendsList = new ArrayList<>();
         friendsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, friendsList);
-        lvFriends = findViewById(R.id.friends_list);
+        ListView lvFriends = findViewById(R.id.friends_list);
         lvFriends.setAdapter(friendsAdapter);
         lvFriends.setOnItemClickListener(this);
     }
@@ -65,7 +62,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.friends_list) {
-            user = friendsList.get(position);
+            User user = friendsList.get(position);
             presenter.openMyAlbum(user.getId());
         }
     }

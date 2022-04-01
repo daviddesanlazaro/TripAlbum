@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class FriendsListModel implements FriendsListContract.Model {
 
     @Override
-    public void loadFriends(OnLoadFriendsListener listener, int userId) {
+    public void loadFriends(OnLoadFriendsListener listener, long userId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<User>> callFriends = api.getFriends(userId);
         callFriends.enqueue(new Callback<List<User>>() {

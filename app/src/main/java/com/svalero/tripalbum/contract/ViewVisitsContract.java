@@ -1,7 +1,6 @@
 package com.svalero.tripalbum.contract;
 
-import android.content.Context;
-
+import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
@@ -13,9 +12,7 @@ public interface ViewVisitsContract {
             void OnLoadVisitsSuccess(List<Visit> visits);
             void OnLoadVisitsError(String message);
         }
-        void loadVisits(OnLoadVisitsListener listener, int userId, int placeId);
-
-        void deleteVisit(Context context, Visit visit);
+        void loadVisits(OnLoadVisitsListener listener, long userId, long placeId);
     }
 
     interface View {
@@ -25,7 +22,9 @@ public interface ViewVisitsContract {
     }
 
     interface Presenter {
-        void loadVisits(int userId, int placeId);
-        void deleteVisit(Visit visit);
+        void loadVisits(long userId, long placeId);
+        void deleteVisit(long visitId);
+
+        void openNewVisit(Place place, Visit visit, boolean modify);
     }
 }

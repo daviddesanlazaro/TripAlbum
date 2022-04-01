@@ -1,14 +1,10 @@
 package com.svalero.tripalbum.model;
 
-import android.content.Context;
-
-import androidx.room.Room;
-
 import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
 import com.svalero.tripalbum.contract.NewVisitContract;
-import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Visit;
+import com.svalero.tripalbum.domain.VisitDTO;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,16 +13,9 @@ import retrofit2.Response;
 public class NewVisitModel implements NewVisitContract.Model {
 
     @Override
-    public void addVisit(Context context, Visit visit) {
-        AppDatabase db = Room.databaseBuilder(context,
-                AppDatabase.class, "visits").allowMainThreadQueries().build();
-        db.visitDao().insert(visit);
-    }
-
-    @Override
-    public void addVisit(OnAddVisitListener listener, Visit visit) {
+    public void addVisit(OnAddVisitListener listener, VisitDTO visitDto) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<Visit> callVisits = api.addVisit(visit);
+        Call<Visit> callVisits = api.addVisit(visitDto);
         callVisits.enqueue(new Callback<Visit>() {
             @Override
             public void onResponse(Call<Visit> call, Response<Visit> response) {
@@ -41,16 +30,19 @@ public class NewVisitModel implements NewVisitContract.Model {
     }
 
     @Override
-    public void modifyVisit(Context context, Visit visit) {
-        AppDatabase db = Room.databaseBuilder(context,
-                AppDatabase.class, "visits").allowMainThreadQueries().build();
-        db.visitDao().update(visit);
-    }
+    public void modifyVisit(OnModifyVisitListener listener, long visitId, VisitDTO visitDto) {
+        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
+        Call<Visit> callVisits = api.modifyVisit(visitId, visitDto);
+        callVisits.enqueue(new Callback<Visit>() {
+            @Override
+            public void onResponse(Call<Visit> call, Response<Visit> response) {
+                listener.OnModifyVisitSuccess(response.body());
+            }
 
-    @Override
-    public void deleteVisit(Context context, Visit visit) {
-        AppDatabase db = Room.databaseBuilder(context,
-                AppDatabase.class, "visits").allowMainThreadQueries().build();
-        db.visitDao().delete(visit);
+            @Override
+            public void onFailure(Call<Visit> call, Throwable t) {
+                listener.OnModifyVisitError("Se ha producido un error");
+            }
+        });
     }
 }

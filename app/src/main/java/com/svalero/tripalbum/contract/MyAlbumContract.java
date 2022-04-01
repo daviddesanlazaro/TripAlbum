@@ -16,8 +16,8 @@ public interface MyAlbumContract {
             void OnLoadInterestingError(String message);
         }
 
-        void loadVisited(MyAlbumContract.Model.OnLoadVisitedListener listener, int userId);
-        void loadInteresting(MyAlbumContract.Model.OnLoadInterestingListener listener, int userId);
+        void loadVisited(MyAlbumContract.Model.OnLoadVisitedListener listener, long userId);
+        void loadInteresting(MyAlbumContract.Model.OnLoadInterestingListener listener, long userId);
     }
 
     interface View {
@@ -27,8 +27,8 @@ public interface MyAlbumContract {
     }
 
     interface Presenter {
-        void loadVisited(int userId);
-        void loadInteresting(int userId);
-        void openViewVisits(int userId, int placeId);
+        void loadVisited(long userId);
+        void loadInteresting(long userId);
+        void openViewVisits(long userId, Place place);
     }
 }

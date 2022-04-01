@@ -11,7 +11,7 @@ public interface FriendsListContract {
             void OnLoadFriendsSuccess(List<User> friends);
             void OnLoadFriendsError(String message);
         }
-        void loadFriends(FriendsListContract.Model.OnLoadFriendsListener listener, int userId);
+        void loadFriends(FriendsListContract.Model.OnLoadFriendsListener listener, long userId);
     }
 
     interface View {
@@ -20,7 +20,7 @@ public interface FriendsListContract {
     }
 
     interface Presenter {
-        void loadFriends(int userId);
-        void openMyAlbum(int userId);
+        void loadFriends(long userId);
+        void openMyAlbum(long userId);
     }
 }

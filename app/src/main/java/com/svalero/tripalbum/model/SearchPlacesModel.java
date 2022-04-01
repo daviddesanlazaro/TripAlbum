@@ -15,7 +15,7 @@ import retrofit2.Response;
 public class SearchPlacesModel implements SearchPlacesContract.Model {
 
     @Override
-    public void loadProvinces(SearchPlacesContract.Model.OnLoadProvincesListener listener, int countryId) {
+    public void loadProvinces(SearchPlacesContract.Model.OnLoadProvincesListener listener, long countryId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Province>> callProvinces = api.getProvinces(countryId);
         callProvinces.enqueue(new Callback<List<Province>>() {
@@ -32,7 +32,7 @@ public class SearchPlacesModel implements SearchPlacesContract.Model {
     }
 
     @Override
-    public void loadPlaces(SearchPlacesContract.Model.OnLoadPlacesListener listener, int provinceId, String name) {
+    public void loadPlaces(SearchPlacesContract.Model.OnLoadPlacesListener listener, long provinceId, String name) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Place>> callPlaces = api.getPlaces(provinceId, name);
         callPlaces.enqueue(new Callback<List<Place>>() {
@@ -44,6 +44,23 @@ public class SearchPlacesModel implements SearchPlacesContract.Model {
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 listener.OnLoadPlacesError("Se ha producido un error");
+            }
+        });
+    }
+
+    @Override
+    public void loadAllPlaces(OnLoadAllPlacesListener listener, String name) {
+        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
+        Call<List<Place>> callPlaces = api.getAllPlaces(name);
+        callPlaces.enqueue(new Callback<List<Place>>() {
+            @Override
+            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
+                listener.OnLoadAllPlacesSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
+                listener.OnLoadAllPlacesError("Se ha producido un error");
             }
         });
     }

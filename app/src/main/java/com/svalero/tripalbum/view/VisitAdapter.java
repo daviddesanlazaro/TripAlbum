@@ -7,26 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.domain.Visit;
-import com.svalero.tripalbum.util.ImageUtils;
 
 import java.util.ArrayList;
 
 public class VisitAdapter extends BaseAdapter {
 
-    private Context context;
-    private ArrayList<Visit> listaVisits;
-    private LayoutInflater inflater;
+    private final ViewVisitsView view;
+    private final Context context;
+    private final ArrayList<Visit> listaVisits;
+    private final LayoutInflater inflater;
     private String ratingText;
+    private Button modify;
 
-    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits) {
+    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view) {
         this.context = context;
         this.listaVisits = listaVisits;
         inflater = LayoutInflater.from(context);
+        this.view = view;
     }
 
     static class ViewHolder {
@@ -38,7 +41,6 @@ public class VisitAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
 
         // Si la View es null se crea de nuevo
@@ -68,6 +70,9 @@ public class VisitAdapter extends BaseAdapter {
         holder.rating.setText(ratingText);
         holder.date.setText(visit.getDate());
 
+        modify = (Button) convertView.findViewById(R.id.visit_modify);
+        modify.setOnClickListener(modifyClickListener);
+
         return convertView;
     }
 
@@ -89,9 +94,20 @@ public class VisitAdapter extends BaseAdapter {
     @SuppressLint("DefaultLocale")
     public void ratingToString(double d) {
         if(d == (long) d)
-             ratingText = String.format("%d",(long) d);
+            ratingText = String.format("%d",(long) d);
         else
             ratingText = String.format("%s",d);
     }
 
+    private View.OnClickListener modifyClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            View parentRow = (View) v.getParent();
+            ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent();
+            final int position = listView.getPositionForView(parentRow);
+            modify.setTag(position);
+            Visit visit = listaVisits.get(position);
+            view.openModifyVisit(visit);
+        }
+    };
 }

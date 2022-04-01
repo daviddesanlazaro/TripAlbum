@@ -1,22 +1,13 @@
 package com.svalero.tripalbum.domain;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import java.io.Serializable;
 
-//@Entity
-public class User {
-//    @PrimaryKey(autoGenerate = true)
+public class User implements Serializable {
     private int id;
-//    @ColumnInfo
     private String name;
-//    @ColumnInfo
     private String surname;
-//    @ColumnInfo
     private String email;
-//    @ColumnInfo
     private String phone;
-//    @ColumnInfo
     private boolean sendData;
 
     public User(int id, String name, String surname, String email, String phone, boolean sendData) {

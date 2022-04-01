@@ -4,14 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ViewPlaceActivityView">
+    android:padding="10dp"
+    tools:context=".view.ViewPlaceView">
 
-    <fragment
-        android:id="@+id/view_place_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".view.ViewPlaceActivityView" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/view_place_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:id="@+id/view_place_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/view_place_interested_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addFavorite"
+            android:text="@string/add_interested" />
+
+        <Button
+            android:id="@+id/view_place_interested_remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="removeInteresting"
+            android:text="@string/remove_interested" />
+
+        <fragment
+            android:id="@+id/view_place_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            tools:context=".view.ViewPlaceView" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/view_place_add_visit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:onClick="openNewVisit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

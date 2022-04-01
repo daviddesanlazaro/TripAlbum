@@ -12,8 +12,8 @@ import java.util.List;
 
 public class MyAlbumPresenter implements MyAlbumContract.Presenter, MyAlbumContract.Model.OnLoadVisitedListener, MyAlbumContract.Model.OnLoadInterestingListener {
 
-    private MyAlbumView view;
-    private MyAlbumModel model;
+    private final MyAlbumView view;
+    private final MyAlbumModel model;
 
     public MyAlbumPresenter(MyAlbumView view) {
         model = new MyAlbumModel();
@@ -21,20 +21,20 @@ public class MyAlbumPresenter implements MyAlbumContract.Presenter, MyAlbumContr
     }
 
     @Override
-    public void loadVisited(int userId) {
+    public void loadVisited(long userId) {
         model.loadVisited(this, userId);
     }
 
     @Override
-    public void loadInteresting(int userId) {
+    public void loadInteresting(long userId) {
         model.loadInteresting(this, userId);
     }
 
     @Override
-    public void openViewVisits(int userId, int placeId) {
+    public void openViewVisits(long userId, Place place) {
         Intent intent = new Intent(view, ViewVisitsView.class);
         intent.putExtra("userId",userId);
-        intent.putExtra("placeId", placeId);
+        intent.putExtra("place", place);
         view.startActivity(intent);
     }
 

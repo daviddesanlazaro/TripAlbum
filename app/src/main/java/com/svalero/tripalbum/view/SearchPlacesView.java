@@ -20,7 +20,7 @@ import com.svalero.tripalbum.presenter.SearchPlacesPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPlacesView extends AppCompatActivity implements SearchPlacesContract.View, AdapterView.OnItemSelectedListener {
+public class SearchPlacesView extends AppCompatActivity implements SearchPlacesContract.View, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private SearchPlacesPresenter presenter;
 
@@ -28,10 +28,10 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     private ArrayAdapter<Province> provincesAdapter;
     public List<Place> placesList;
     private ArrayAdapter<Place> placesAdapter;
+    private Province all;
 
     private Spinner spinner;
     private EditText search;
-    private ListView lvPlaces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,11 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     protected void onResume() {
         super.onResume();
         presenter.loadProvinces(97);
-        presenter.loadPlaces(67, null);
+        presenter.loadPlaces(0, null);
     }
 
     private void initializeProvincesList() {
+        all = new Province(0, "Todo", 0);
         provincesList = new ArrayList<>();
         provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provincesList);
         spinner = findViewById(R.id.search_places_provinces);
@@ -62,13 +63,16 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     private void initializePlacesList() {
         placesList = new ArrayList<>();
         placesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, placesList);
-        lvPlaces = findViewById(R.id.search_places_list);
+        ListView lvPlaces = findViewById(R.id.search_places_list);
         lvPlaces.setAdapter(placesAdapter);
+        lvPlaces.setOnItemClickListener(this);
+        registerForContextMenu(lvPlaces);
     }
 
     @Override
     public void listProvinces(List<Province> provinces) {
         provincesList.clear();
+        provincesList.add(0, all);
         provincesList.addAll(provinces);
         provincesAdapter.notifyDataSetChanged();
     }
@@ -98,6 +102,15 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     }
 
     public void searchPlaces(View view) {
-        presenter.loadPlaces(67, search.getText().toString());
+        Province province = (Province) spinner.getSelectedItem();
+        presenter.loadPlaces(province.getId(), search.getText().toString());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.search_places_list) {
+            Place place = placesList.get(position);
+            presenter.openViewPlace(place);
+        }
     }
 }

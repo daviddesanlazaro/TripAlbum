@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,28 +23,30 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.NewVisitContract;
+import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.presenter.NewVisitPresenter;
-import com.svalero.tripalbum.util.ImageUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
-public class NewVisitView extends AppCompatActivity implements NewVisitContract.View, CalendarView.OnDateChangeListener {
+public class NewVisitView extends AppCompatActivity implements NewVisitContract.View, CalendarView.OnDateChangeListener, View.OnClickListener {
 
     private final int SELECT_PICTURE_RESULT = 1;
-    private Visit visit = new Visit (0, 0, null, 0, null);
+    private Visit visit = new Visit (0, null, null, null, 0, null);
+    private Place place;
+    private final User user = new User(65, null, null, null, null, false);
     private boolean modify = false;
 
-    EditText etRating;
-    EditText etComment;
-    ImageView ivImage;
-    TextView tvInfo;
-    CalendarView calendar;
-    Calendar cal;
+    private EditText etDate;
+    private EditText etRating;
+    private EditText etComment;
+    private ImageView ivImage;
+    private TextView tvInfo;
+    private Calendar cal;
 
     private NewVisitPresenter presenter;
 
@@ -55,88 +60,34 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
 
         Intent intent = getIntent();
         modify = intent.getBooleanExtra("modify", false);
-        String placeName = intent.getStringExtra("placeName");
+        place = (Place) intent.getSerializableExtra("place");
 
         if (modify) { // Modificar visita
-            visit = (Visit)intent.getSerializableExtra("Visit");
-            String text = getString(R.string.modify_visit_title, placeName);
+            visit = (Visit) intent.getSerializableExtra("visit");
+            String text = getString(R.string.modify_visit_title, place.getName());
             displayVisitInfo(visit);
             tvInfo.setText(text);
 
         } else { // Insertar visita
-            visit.setPlaceId(intent.getIntExtra("placeId", 0));
-            String text = getString(R.string.add_visit_title, placeName);
+            visit.setUser(user);
+            visit.setPlace(place);
+            String text = getString(R.string.add_visit_title, place.getName());
             tvInfo.setText(text);
             changeButton();
         }
-
-        calendar = (CalendarView) findViewById(R.id.calendarView);
-        cal = new Calendar() {
-
-            @Override
-            protected void computeTime() {
-
-            }
-
-            @Override
-            protected void computeFields() {
-
-            }
-
-            @Override
-            public void add(int field, int amount) {
-
-            }
-
-            @Override
-            public void roll(int field, boolean up) {
-
-            }
-
-            @Override
-            public int getMinimum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getMaximum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getGreatestMinimum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getLeastMaximum(int field) {
-                return 0;
-            }
-        };
-
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                TimeZone tz = TimeZone.getTimeZone("UTC");
-                cal = Calendar.getInstance(tz);
-                cal.set(year, month, dayOfMonth);
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = dateFormat.format(cal.getTime());
-                Toast.makeText(getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public void modifyVisit(View view) {
+        String date = etDate.getText().toString();
         String ratingString = etRating.getText().toString();
         String comment = etComment.getText().toString();
         ivImage.getDrawable();
 
-//        if ((dateString.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
-        if ((ratingString.equals("")) || (comment.equals(""))) {
+        if ((date.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.modify_confirm_dialog)
                     .setPositiveButton(R.string.confirm_yes,
@@ -144,6 +95,9 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     setVisitData(cal.getTime(), ratingString, comment);
+                                    visit.setUser(user);
+                                    visit.setPlace(place);
+
                                     presenter.addVisit(visit, modify);
                                     clearFields();
                                 }})
@@ -164,7 +118,7 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                presenter.deleteVisit(visit);
+//                                presenter.deleteVisit(visit);
                             }})
                 .setNegativeButton(R.string.confirm_no,
                         new DialogInterface.OnClickListener() {
@@ -176,13 +130,17 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     }
 
     private void initializeViews() {
+        etDate = findViewById(R.id.modify_visit_date);
+        etDate.setOnClickListener(this);
         etRating = findViewById(R.id.modify_visit_rating);
-        etComment = findViewById(R.id.modify_visit_comment);
+        etComment = findViewById(R.id.modify_visit_commentary);
         ivImage = findViewById(R.id.modify_visit_image);
         tvInfo = findViewById(R.id.modify_visit_info);
+        cal = Calendar.getInstance();
     }
 
     private void displayVisitInfo(Visit visit) {
+        etDate.setText(visit.getDate());
         etRating.setText(Float.toString(visit.getRating()));
         etComment.setText(visit.getCommentary());
 //        ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
@@ -192,10 +150,9 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(date);
         float rating = Float.parseFloat(ratingString);
-        byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
+//        byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
 
-        visit.setUserId(65);
-        visit.setPlaceId(visit.getPlaceId());
+        visit.setUser(user);
         visit.setDate(dateString);
         visit.setRating(rating);
         visit.setCommentary(comment);
@@ -203,6 +160,7 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     }
 
     private void clearFields() {
+        etDate.setText("");
         etRating.setText("");
         etComment.setText("");
     }
@@ -212,6 +170,21 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
         deleteButton.setVisibility(View.GONE);
         Button modifyButton = findViewById(R.id.update_button);
         modifyButton.setText(R.string.add_button);
+    }
+
+    private void showCalendar() {
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                etDate.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        }, year, month, day);
+        datePickerDialog.show();
     }
 
     @Override
@@ -250,5 +223,11 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.modify_visit_date)
+            showCalendar();
     }
 }
