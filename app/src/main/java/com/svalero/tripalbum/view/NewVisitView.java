@@ -111,24 +111,6 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
         }
     }
 
-    public void deleteVisit(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_confirm_dialog)
-                .setPositiveButton(R.string.confirm_yes,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-//                                presenter.deleteVisit(visit);
-                            }})
-                .setNegativeButton(R.string.confirm_no,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }});
-        builder.create().show();
-    }
-
     private void initializeViews() {
         etDate = findViewById(R.id.modify_visit_date);
         etDate.setOnClickListener(this);

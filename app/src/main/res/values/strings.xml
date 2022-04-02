@@ -5,7 +5,7 @@
     <string name="add_missing_data">Tienes que completar todos los campos</string>
     <string name="add_missing_location">Tienes que seleccionar una posición</string>
     <string name="modify_confirm_dialog">¿Confirmar cambios?</string>
-    <string name="delete_confirm_dialog">Eliminar la visita permanentemente. ¿Estás seguro?</string>
+    <string name="delete_visit_dialog">Eliminar la visita permanentemente. ¿Estás seguro?</string>
     <string name="confirm_yes">Sí</string>
     <string name="confirm_no">No</string>
     <string name="date">Fecha</string>
@@ -33,4 +33,8 @@
     <string name="add_interested">Añadir a interesantes</string>
     <string name="remove_interested">Eliminar de interesantes</string>
     <string name="friend_album_title">ÁLBUM DE %1$s %2$s</string>
+    <string name="user_not_found">la búsqueda no coincide con ningún usuario</string>
+    <string name="empty_phone">Debes introducir un número de teléfono</string>
+    <string name="select">Seleccionar</string>
+    <string name="delete_friend_dialog">Eliminar de la lista de amigos. ¿Estás seguro?</string>
 </resources>

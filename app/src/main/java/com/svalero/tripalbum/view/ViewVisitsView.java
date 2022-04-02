@@ -50,7 +50,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     private void initializeVisitsList() {
         visitsList = new ArrayList<>();
         visitsAdapter = new VisitAdapter(this, visitsList, this, userId);
-        ListView lvVisits = (ListView) findViewById(R.id.visit_list_main);
+        ListView lvVisits = findViewById(R.id.visit_list_main);
         lvVisits.setAdapter(visitsAdapter);
     }
 
@@ -91,7 +91,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
 
     public void deleteVisit(long visitId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_confirm_dialog)
+        builder.setMessage(R.string.delete_visit_dialog)
                 .setPositiveButton(R.string.confirm_yes,
                         new DialogInterface.OnClickListener() {
                             @Override

@@ -1,8 +1,11 @@
 package com.svalero.tripalbum.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +31,6 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     private ArrayAdapter<Province> provincesAdapter;
     public List<Place> placesList;
     private ArrayAdapter<Place> placesAdapter;
-    private Province all;
     private Province province;
 
     private EditText search;
@@ -53,7 +55,6 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     }
 
     private void initializeProvincesList() {
-        all = new Province(0, "Todo", 0);
         provincesList = new ArrayList<>();
         provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provincesList);
         autocomplete = findViewById(R.id.search_places_provinces);
@@ -81,7 +82,6 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     @Override
     public void listProvinces(List<Province> provinces) {
         provincesList.clear();
-        provincesList.add(0, all);
         provincesList.addAll(provinces);
         provincesAdapter.notifyDataSetChanged();
     }
