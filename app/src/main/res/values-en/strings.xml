@@ -5,7 +5,7 @@
     <string name="add_missing_data">You have to fill in all the fields</string>
     <string name="add_missing_location">You have to select a position</string>
     <string name="modify_confirm_dialog">Confirm changes?</string>
-    <string name="delete_confirm_dialog">Delete visit. Sure?</string>
+    <string name="delete_visit_dialog">Delete visit. Sure?</string>
     <string name="confirm_yes">Yes</string>
     <string name="confirm_no">No</string>
     <string name="date">Date</string>
@@ -33,4 +33,8 @@
     <string name="add_interested">Add to interesting</string>
     <string name="remove_interested">Remove from interesting</string>
     <string name="friend_album_title">%1$s %2$s ALBUM</string>
+    <string name="user_not_found">Search did not match any user</string>
+    <string name="empty_phone">You must insert a phone number</string>
+    <string name="select">Select</string>
+    <string name="delete_friend_dialog">Remove from friends list. Sure?</string>
 </resources>

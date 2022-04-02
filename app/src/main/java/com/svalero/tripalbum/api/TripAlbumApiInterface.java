@@ -2,6 +2,8 @@ package com.svalero.tripalbum.api;
 
 import com.svalero.tripalbum.domain.Favorite;
 import com.svalero.tripalbum.domain.FavoriteDTO;
+import com.svalero.tripalbum.domain.Friendship;
+import com.svalero.tripalbum.domain.FriendshipDTO;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 import com.svalero.tripalbum.domain.User;
@@ -51,13 +53,24 @@ public interface TripAlbumApiInterface {
     @DELETE("visit/{visitId}")
     Call<Void> deleteVisit(@Path("visitId") long visitId);
 
+    // Usuarios
+    @GET("user/{userId}/searchForFriend")
+    Call<List<User>> getUsers(@Path("userId") long userId, @Query("phone") String phone);
+
     // Amigos
     @GET("user/{userId}/friends")
     Call<List<User>> getFriends(@Path("userId") long userId);
 
+    @GET("user/{userId}/user/{friendId}/friendship")
+    Call<Friendship> getFriendship(@Path("userId") long userId, @Path("friendId") long friendId);
+
+    @POST("friendships")
+    Call<Friendship> addFriend(@Body FriendshipDTO friendshipDTO);
+
+    @DELETE("friendship/{friendshipId}")
+    Call<Void> deleteFriendship(@Path("friendshipId") long friendshipId);
+
     // Favoritos
     @POST("favorites")
     Call<Favorite> addFavorite(@Body FavoriteDTO favoriteDto);
-
-
 }
