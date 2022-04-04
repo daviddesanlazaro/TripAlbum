@@ -8,6 +8,7 @@ import com.svalero.tripalbum.domain.FavoriteDTO;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.model.ViewPlaceModel;
 import com.svalero.tripalbum.view.NewVisitView;
+import com.svalero.tripalbum.view.PlaceMapView;
 import com.svalero.tripalbum.view.ViewPlaceView;
 
 public class ViewPlacePresenter implements ViewPlaceContract.Presenter, ViewPlaceContract.Model.OnAddFavoriteListener {
@@ -28,6 +29,13 @@ public class ViewPlacePresenter implements ViewPlaceContract.Presenter, ViewPlac
     @Override
     public void openNewVisit(Place place) {
         Intent intent = new Intent(view, NewVisitView.class);
+        intent.putExtra("place", place);
+        view.startActivity(intent);
+    }
+
+    @Override
+    public void openViewMap(Place place) {
+        Intent intent = new Intent(view, PlaceMapView.class);
         intent.putExtra("place", place);
         view.startActivity(intent);
     }
