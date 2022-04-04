@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">TripAlbum</string>
-    <string name="google_maps_key">AIzaSyAWJfWDrnJM2eIplqtUxW_X7_p1KN-w4tA</string>
     <string name="visit_added">Se ha añadido la visita</string>
     <string name="add_missing_data">Tienes que completar todos los campos</string>
     <string name="add_missing_location">Tienes que seleccionar una posición</string>

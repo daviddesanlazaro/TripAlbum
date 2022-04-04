@@ -21,5 +21,6 @@ public interface ViewPlaceContract {
     interface Presenter {
         void addFavorite(FavoriteDTO favoriteDto);
         void openNewVisit(Place place);
+        void openViewMap(Place place);
     }
 }
