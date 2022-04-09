@@ -30,7 +30,7 @@ public class NewVisitModel implements NewVisitContract.Model {
     }
 
     @Override
-    public void modifyVisit(OnModifyVisitListener listener, long visitId, VisitDTO visitDto) {
+    public void modifyVisit(OnModifyVisitListener listener, String visitId, VisitDTO visitDto) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<Visit> callVisits = api.modifyVisit(visitId, visitDto);
         callVisits.enqueue(new Callback<Visit>() {

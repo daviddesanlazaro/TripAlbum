@@ -36,14 +36,6 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/modify_visit_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rating"
-            android:inputType="numberDecimal"
-            android:minHeight="48dp" />
-
-        <EditText
             android:id="@+id/modify_visit_commentary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,6 +43,17 @@
             android:hint="@string/commentary"
             android:inputType="textMultiLine"
             android:minHeight="48dp" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:isIndicator="false"
+            android:numStars="5"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/modify_visit_image"

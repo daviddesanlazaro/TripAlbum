@@ -1,34 +1,40 @@
 package com.svalero.tripalbum.contract;
 
+import android.content.Context;
+
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
 
 public interface MyAlbumContract {
 
     interface Model {
+        interface OnLoadPlaceListener {
+            void OnLoadPlaceSuccess(Place place);
+            void OnLoadPlaceError(String message);
+        }
         interface OnLoadVisitedListener {
-            void OnLoadVisitedSuccess(List<Place> places);
+            void OnLoadVisitedSuccess(List<Visit> visits);
             void OnLoadVisitedError(String message);
         }
-        interface OnLoadInterestingListener {
-            void OnLoadInterestingSuccess(List<Place> places);
-            void OnLoadInterestingError(String message);
-        }
 
-        void loadVisited(MyAlbumContract.Model.OnLoadVisitedListener listener, long userId);
-        void loadInteresting(MyAlbumContract.Model.OnLoadInterestingListener listener, long userId);
+        void loadPlace(MyAlbumContract.Model.OnLoadPlaceListener listener, String placeId);
+        void loadVisited(MyAlbumContract.Model.OnLoadVisitedListener listener, String userId);
+        List<Place> loadFavorites(Context context);
     }
 
     interface View {
-        void listVisited(List<Place> places);
-        void listInteresting(List<Place> places);
+        void refreshVisited();
+        void listFavorites(List<Place> places);
         void showErrorMessage(String message);
     }
 
     interface Presenter {
-        void loadVisited(long userId);
-        void loadInteresting(long userId);
-        void openViewVisits(long userId, Place place);
+        void loadVisited(String userId);
+        void loadFavorites();
+
+        void openViewVisits(String userId, Place place);
+        void openViewPlace(Place place);
     }
 }

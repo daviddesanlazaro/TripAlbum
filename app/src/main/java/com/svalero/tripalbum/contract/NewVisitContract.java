@@ -1,5 +1,6 @@
 package com.svalero.tripalbum.contract;
 
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.domain.VisitDTO;
 
@@ -14,7 +15,7 @@ public interface NewVisitContract {
             void OnModifyVisitSuccess(Visit visit);
             void OnModifyVisitError(String message);
         }
-        void modifyVisit(OnModifyVisitListener listener, long visitId, VisitDTO visitDto);
+        void modifyVisit(OnModifyVisitListener listener, String visitId, VisitDTO visitDto);
 
         void addVisit(OnAddVisitListener listener, VisitDTO visitDto);
     }
@@ -25,6 +26,6 @@ public interface NewVisitContract {
     }
 
     interface Presenter {
-        void addVisit(Visit visit, boolean modify);
+        void addVisit(Visit visit, Action action);
     }
 }

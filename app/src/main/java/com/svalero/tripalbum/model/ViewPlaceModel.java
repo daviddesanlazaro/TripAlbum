@@ -1,31 +1,36 @@
 package com.svalero.tripalbum.model;
 
-import com.svalero.tripalbum.api.TripAlbumApi;
-import com.svalero.tripalbum.api.TripAlbumApiInterface;
-import com.svalero.tripalbum.contract.ViewPlaceContract;
-import com.svalero.tripalbum.domain.Favorite;
-import com.svalero.tripalbum.domain.FavoriteDTO;
+import android.content.Context;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import androidx.room.Room;
+
+import com.svalero.tripalbum.contract.ViewPlaceContract;
+import com.svalero.tripalbum.database.AppDatabase;
+import com.svalero.tripalbum.domain.Place;
+
+import java.util.List;
 
 public class ViewPlaceModel implements ViewPlaceContract.Model {
 
     @Override
-    public void addFavorite(OnAddFavoriteListener listener, FavoriteDTO favoriteDto) {
-        TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<Favorite> callFavorites = api.addFavorite(favoriteDto);
-        callFavorites.enqueue(new Callback<Favorite>() {
-            @Override
-            public void onResponse(Call<Favorite> call, Response<Favorite> response) {
-                listener.OnAddFavoriteSuccess(response.body());
-            }
+    public void addFavorite(Place place, Context context) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries().build();
+        db.placeDao().insert(place);
+    }
 
-            @Override
-            public void onFailure(Call<Favorite> call, Throwable t) {
-                listener.OnAddFavoriteError("Se ha producido un error");
-            }
-        });
+    @Override
+    public void deleteFavorite(Place place, Context context) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries().build();
+        db.placeDao().delete(place);
+    }
+
+    @Override
+    public List<Place> loadFavorites(Context context) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        return db.placeDao().getAll();
     }
 }

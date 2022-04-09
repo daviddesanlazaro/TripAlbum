@@ -38,7 +38,7 @@
             android:id="@+id/view_place_interested_remove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="removeInteresting"
+            android:onClick="deleteFavorite"
             android:text="@string/remove_interested" />
 
     </LinearLayout>

@@ -1,21 +1,21 @@
 package com.svalero.tripalbum.domain;
 
 public class Province {
-    private long id;
+    private String id;
     private String name;
-    private long countryId;
+    private String countryId;
 
-    public Province(long id, String name, long countryId) {
+    public Province(String id, String name, String countryId) {
         this.id = id;
         this.name = name;
         this.countryId = countryId;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -27,11 +27,11 @@ public class Province {
         this.name = name;
     }
 
-    public long getCountryId() {
+    public String getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(long countryId) {
+    public void setCountryId(String countryId) {
         this.countryId = countryId;
     }
 

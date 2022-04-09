@@ -15,9 +15,9 @@ import retrofit2.Response;
 public class SearchPlacesModel implements SearchPlacesContract.Model {
 
     @Override
-    public void loadProvinces(SearchPlacesContract.Model.OnLoadProvincesListener listener, long countryId) {
+    public void loadProvinces(SearchPlacesContract.Model.OnLoadProvincesListener listener) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
-        Call<List<Province>> callProvinces = api.getProvinces(countryId);
+        Call<List<Province>> callProvinces = api.getProvinces();
         callProvinces.enqueue(new Callback<List<Province>>() {
             @Override
             public void onResponse(Call<List<Province>> call, Response<List<Province>> response) {
@@ -32,7 +32,7 @@ public class SearchPlacesModel implements SearchPlacesContract.Model {
     }
 
     @Override
-    public void loadPlaces(SearchPlacesContract.Model.OnLoadPlacesListener listener, long provinceId, String name) {
+    public void loadPlaces(SearchPlacesContract.Model.OnLoadPlacesListener listener, String provinceId, String name) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Place>> callPlaces = api.getPlaces(provinceId, name);
         callPlaces.enqueue(new Callback<List<Place>>() {

@@ -1,5 +1,7 @@
 package com.svalero.tripalbum.view;
 
+import static com.svalero.tripalbum.api.Constants.Action.PUT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,16 +19,19 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.contract.NewVisitContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.presenter.NewVisitPresenter;
+import com.svalero.tripalbum.util.ImageUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,13 +41,13 @@ import java.util.Date;
 public class NewVisitView extends AppCompatActivity implements NewVisitContract.View, CalendarView.OnDateChangeListener, View.OnClickListener {
 
     private final int SELECT_PICTURE_RESULT = 1;
-    private Visit visit = new Visit (0, null, null, null, 0, null);
+    private Visit visit = new Visit (null, null, null, null, 0, null);
     private Place place;
-    private final User user = new User(65, null, null, null, null, false);
-    private boolean modify = false;
+    private final User user = new User("624c4ba4e6a95b2e80b77bed", null, null, null, null);
+    private Action action;
 
     private EditText etDate;
-    private EditText etRating;
+    private RatingBar ratingBar;
     private EditText etComment;
     private ImageView ivImage;
     private TextView tvInfo;
@@ -59,15 +64,14 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
         initializeViews();
 
         Intent intent = getIntent();
-        modify = intent.getBooleanExtra("modify", false);
         place = (Place) intent.getSerializableExtra("place");
+        action = Action.valueOf(getIntent().getStringExtra("ACTION"));
 
-        if (modify) { // Modificar visita
-            visit = (Visit) intent.getSerializableExtra("visit");
+        if (action == PUT) { // Modificar
+            visit = (Visit) getIntent().getSerializableExtra("visit");
             String text = getString(R.string.modify_visit_title, place.getName());
             displayVisitInfo(visit);
             tvInfo.setText(text);
-
         } else { // Insertar visita
             visit.setUser(user);
             visit.setPlace(place);
@@ -80,11 +84,10 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     @Override
     public void modifyVisit(View view) {
         String date = etDate.getText().toString();
-        String ratingString = etRating.getText().toString();
         String comment = etComment.getText().toString();
         ivImage.getDrawable();
 
-        if ((date.equals("")) || (ratingString.equals("")) || (comment.equals(""))) {
+        if ((date.equals("")) || (comment.equals(""))) {
             Toast.makeText(this, getString(R.string.add_missing_data), Toast.LENGTH_SHORT).show();
         } else {
 
@@ -94,11 +97,11 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    setVisitData(cal.getTime(), ratingString, comment);
+                                    setVisitData(cal.getTime(), comment);
                                     visit.setUser(user);
                                     visit.setPlace(place);
 
-                                    presenter.addVisit(visit, modify);
+                                    presenter.addVisit(visit, action);
                                     clearFields();
                                 }})
                     .setNegativeButton(R.string.confirm_no,
@@ -114,7 +117,7 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
     private void initializeViews() {
         etDate = findViewById(R.id.modify_visit_date);
         etDate.setOnClickListener(this);
-        etRating = findViewById(R.id.modify_visit_rating);
+        ratingBar = findViewById(R.id.ratingBar);
         etComment = findViewById(R.id.modify_visit_commentary);
         ivImage = findViewById(R.id.modify_visit_image);
         tvInfo = findViewById(R.id.modify_visit_info);
@@ -123,27 +126,31 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
 
     private void displayVisitInfo(Visit visit) {
         etDate.setText(visit.getDate());
-        etRating.setText(Float.toString(visit.getRating()));
+        ratingBar.setRating(visit.getRating());
         etComment.setText(visit.getCommentary());
-//        ivImage.setImageBitmap(ImageUtils.getBitmap(visit.getImage()));
+//        if (visit.getImage() != null) {
+//            byte[] image = visit.getImage().getBytes(StandardCharsets.UTF_8);
+//            ivImage.setImageBitmap(ImageUtils.getBitmap(image));
+//        }
     }
 
-    private void setVisitData(Date date, String ratingString, String comment) {
+    private void setVisitData(Date date, String comment) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(date);
-        float rating = Float.parseFloat(ratingString);
+        float rating = ratingBar.getRating();
 //        byte[] visitImage = ImageUtils.fromImageViewToByteArray(ivImage);
+//        String image = new String(visitImage, StandardCharsets.UTF_8);
 
         visit.setUser(user);
         visit.setDate(dateString);
         visit.setRating(rating);
         visit.setCommentary(comment);
-//        visit.setImage(visitImage);
+//        visit.setImage(image);
     }
 
     private void clearFields() {
         etDate.setText("");
-        etRating.setText("");
+        ratingBar.setRating(0);
         etComment.setText("");
     }
 

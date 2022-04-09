@@ -27,7 +27,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
 
     public ArrayList<Visit> visitsList;
     private VisitAdapter visitsAdapter;
-    private long userId;
+    private String userId;
     private Place place;
 
     @Override
@@ -37,21 +37,14 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         presenter = new ViewVisitsPresenter(this);
 
         Intent intent = getIntent();
-        userId = intent.getLongExtra("userId", 65);
+        userId = intent.getStringExtra("userId");
         place = (Place) intent.getSerializableExtra("place");
 
         initializeVisitsList();
 
         FloatingActionButton newVisit = findViewById(R.id.contextual_add_visit);
-        if (userId != 65)   // Solución hasta hacer control de sesión
+        if (!userId.equals("624c4ba4e6a95b2e80b77bed"))   // Solución hasta hacer control de sesión
             newVisit.setVisibility(View.GONE);
-    }
-
-    private void initializeVisitsList() {
-        visitsList = new ArrayList<>();
-        visitsAdapter = new VisitAdapter(this, visitsList, this, userId);
-        ListView lvVisits = findViewById(R.id.visit_list_main);
-        lvVisits.setAdapter(visitsAdapter);
     }
 
     @Override
@@ -60,6 +53,12 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         presenter.loadVisits(userId, place.getId());
     }
 
+    private void initializeVisitsList() {
+        visitsList = new ArrayList<>();
+        visitsAdapter = new VisitAdapter(this, visitsList, this, userId);
+        ListView lvVisits = findViewById(R.id.visit_list_main);
+        lvVisits.setAdapter(visitsAdapter);
+    }
 
     @Override
     public void listVisits(List<Visit> visits) {
@@ -77,19 +76,19 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.visit_list_main) {
             Visit visit = visitsList.get(position);
-            presenter.openNewVisit(place, visit, true);
+            presenter.openNewVisit(place, visit, "PUT");
         }
     }
 
     public void openNewVisit(View view) {
-        presenter.openNewVisit(place, null, false);
+        presenter.openNewVisit(place, null, "POST");
     }
 
     public void openModifyVisit(Visit visit) {
-        presenter.openNewVisit(place, visit, true);
+        presenter.openNewVisit(place, visit, "PUT");
     }
 
-    public void deleteVisit(long visitId) {
+    public void deleteVisit(String visitId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_visit_dialog)
                 .setPositiveButton(R.string.confirm_yes,

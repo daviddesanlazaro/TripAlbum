@@ -25,14 +25,14 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
 
     private MyAlbumContract.Presenter presenter;
 
-    public List<Place> visitedPlaces;
+    public List<Place> visitedList;
     private ArrayAdapter<Place> visitedAdapter;
-    public List<Place> interestingPlaces;
-    private ArrayAdapter<Place> interestingAdapter;
+    public List<Place> favoritesList;
+    private ArrayAdapter<Place> favoritesAdapter;
     private User user;
 
     private ListView lvVisited;
-    private ListView lvInteresting;
+    private ListView lvFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,47 +51,48 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     @Override
     protected void onResume() {
         super.onResume();
+        Toast.makeText(this, user.getId(), Toast.LENGTH_SHORT).show();
+        visitedList.clear();
         presenter.loadVisited(user.getId());
-        presenter.loadInteresting(user.getId());
+        presenter.loadFavorites();
     }
 
     private void initializeVisitedPlaces() {
-        visitedPlaces = new ArrayList<>();
-        visitedAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitedPlaces);
-        lvVisited = findViewById(R.id.visited_places);
+        visitedList = new ArrayList<>();
+        visitedAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, visitedList);
+        lvVisited = findViewById(R.id.my_album_visited);
         lvVisited.setAdapter(visitedAdapter);
         lvVisited.setOnItemClickListener(this);
     }
 
     private void initializeInterestingPlaces() {
-        interestingPlaces = new ArrayList<>();
-        interestingAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, interestingPlaces);
-        lvInteresting = findViewById(R.id.interresting_places);
-        lvInteresting.setAdapter(interestingAdapter);
+        favoritesList = new ArrayList<>();
+        favoritesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favoritesList);
+        lvFavorites = findViewById(R.id.my_album_favorites);
+        lvFavorites.setAdapter(favoritesAdapter);
+        lvFavorites.setOnItemClickListener(this);
     }
 
     private void checkUser() {
         TextView title = findViewById(R.id.my_album_title);
-        if (user.getId() == 65) {
+        if (user.getId().equals("624c4ba4e6a95b2e80b77bed")) {
             title.setText(getString(R.string.main_my_album));
         }
         else {
-            title.setText(getString(R.string.friend_album_title, user.getName().toUpperCase(Locale.ROOT), user.getSurname().toUpperCase(Locale.ROOT)));
+            title.setText(getString(R.string.friend_album_title, user.getUsername().toUpperCase(Locale.ROOT)));
         }
     }
 
     @Override
-    public void listVisited(List<Place> places) {
-        visitedPlaces.clear();
-        visitedPlaces.addAll(places);
+    public void refreshVisited() {
         visitedAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void listInteresting(List<Place> places) {
-        interestingPlaces.clear();
-        interestingPlaces.addAll(places);
-        interestingAdapter.notifyDataSetChanged();
+    public void listFavorites(List<Place> places) {
+        favoritesList.clear();
+        favoritesList.addAll(places);
+        favoritesAdapter.notifyDataSetChanged();
     }
 
     public void toggleVisited(View view) {
@@ -101,11 +102,11 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
             lvVisited.setVisibility(View.GONE);
     }
 
-    public void toggleInteresting(View view) {
-        if (lvInteresting.getVisibility() == View.GONE)
-            lvInteresting.setVisibility(View.VISIBLE);
+    public void toggleFavorites(View view) {
+        if (lvFavorites.getVisibility() == View.GONE)
+            lvFavorites.setVisibility(View.VISIBLE);
         else
-            lvInteresting.setVisibility(View.GONE);
+            lvFavorites.setVisibility(View.GONE);
     }
 
     @Override
@@ -115,9 +116,12 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.visited_places) {
-            Place place = visitedPlaces.get(position);
+        if (parent.getId() == R.id.my_album_visited) {
+            Place place = visitedList.get(position);
             presenter.openViewVisits(user.getId(), place);
+        } else if (parent.getId() == R.id.my_album_favorites) {
+            Place place = favoritesList.get(position);
+            presenter.openViewPlace(place);
         }
     }
 }

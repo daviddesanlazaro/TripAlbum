@@ -47,8 +47,8 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadProvinces(97);
-        presenter.loadPlaces(0, null);
+        presenter.loadProvinces();
+        presenter.loadPlaces(null, null);
     }
 
     private void initializeProvincesList() {
@@ -56,7 +56,7 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
         provincesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, provincesList);
         autocomplete = findViewById(R.id.search_places_provinces);
         autocomplete.setAdapter(provincesAdapter);
-        province = new Province(0, null, 0);
+        province = new Province(null, null, null);
 
         autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -101,7 +101,7 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
 
     public void clear(View view) {
         autocomplete.setText("");
-        province.setId(0);
+        province.setId(null);
         presenter.loadPlaces(province.getId(), null);
     }
 

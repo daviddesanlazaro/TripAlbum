@@ -1,17 +1,17 @@
 package com.svalero.tripalbum.contract;
 
-import com.svalero.tripalbum.domain.Favorite;
-import com.svalero.tripalbum.domain.FavoriteDTO;
+import android.content.Context;
+
 import com.svalero.tripalbum.domain.Place;
+
+import java.util.List;
 
 public interface ViewPlaceContract {
 
     interface Model {
-        interface OnAddFavoriteListener {
-            void OnAddFavoriteSuccess(Favorite favorite);
-            void OnAddFavoriteError(String message);
-        }
-        void addFavorite(OnAddFavoriteListener listener, FavoriteDTO favoriteDto);
+        void addFavorite(Place place, Context context);
+        void deleteFavorite(Place place, Context context);
+        List<Place> loadFavorites(Context context);
     }
 
     interface View {
@@ -19,7 +19,9 @@ public interface ViewPlaceContract {
     }
 
     interface Presenter {
-        void addFavorite(FavoriteDTO favoriteDto);
+        void addFavorite(Place place);
+        void deleteFavorite(Place place);
+        void checkFavorite(Place place);
         void openNewVisit(Place place);
         void openViewMap(Place place);
     }

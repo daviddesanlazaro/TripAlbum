@@ -3,21 +3,20 @@ package com.svalero.tripalbum.domain;
 import java.io.Serializable;
 
 public class VisitDTO implements Serializable {
-    private long user;
-    private long place;
+    private String user;
+    private String place;
     private String date;
     private float rating;
     private String commentary;
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    private byte[] image;
+    private String image;
 
-    public VisitDTO(long user, long place, String date, float rating, String commentary) {
+    public VisitDTO(String user, String place, String date, float rating, String commentary, String image) {
         this.user = user;
         this.place = place;
         this.date = date;
         this.rating = rating;
         this.commentary = commentary;
-//        this.image = image;
+        this.image = image;
     }
 
     public VisitDTO() {
@@ -48,29 +47,29 @@ public class VisitDTO implements Serializable {
         this.commentary = commentary;
     }
 
-    public long getPlace() {
+    public String getPlace() {
         return place;
     }
 
-    public void setPlace(long place) {
+    public void setPlace(String place) {
         this.place = place;
     }
 
-    public long getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(long user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
-//    public byte[] getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(byte[] image) {
-//        this.image = image;
-//    }
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {

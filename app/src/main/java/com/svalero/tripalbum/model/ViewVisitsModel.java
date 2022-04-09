@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class ViewVisitsModel implements ViewVisitsContract.Model {
 
     @Override
-    public void loadVisits(OnLoadVisitsListener listener, long userId, long placeId) {
+    public void loadVisits(OnLoadVisitsListener listener, String userId, String placeId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<List<Visit>> callVisits = api.getVisits(userId, placeId);
         callVisits.enqueue(new Callback<List<Visit>>() {
@@ -31,7 +31,7 @@ public class ViewVisitsModel implements ViewVisitsContract.Model {
     }
 
     @Override
-    public void deleteVisit(OnDeleteVisitsListener listener, long visitId) {
+    public void deleteVisit(OnDeleteVisitsListener listener, String visitId) {
         TripAlbumApiInterface api = TripAlbumApi.buildInstance();
         Call<Void> callVisits = api.deleteVisit(visitId);
         callVisits.enqueue(new Callback<Void>() {

@@ -3,16 +3,15 @@ package com.svalero.tripalbum.domain;
 import java.io.Serializable;
 
 public class Visit implements Serializable {
-    private long id;
+    private String id;
     private User user;
     private Place place;
     private String date;
     private float rating;
     private String commentary;
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    private byte[] image;
+//    private String image;
 
-    public Visit(long id, User user, Place place, String date, float rating, String commentary) {
+    public Visit(String id, User user, Place place, String date, float rating, String commentary) {
         this.id = id;
         this.user = user;
         this.place = place;
@@ -22,11 +21,11 @@ public class Visit implements Serializable {
 //        this.image = image;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -70,11 +69,11 @@ public class Visit implements Serializable {
         this.user = user;
     }
 
-//    public byte[] getImage() {
+//    public String getImage() {
 //        return image;
 //    }
 //
-//    public void setImage(byte[] image) {
+//    public void setImage(String image) {
 //        this.image = image;
 //    }
 
