@@ -22,21 +22,21 @@ public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVi
     }
 
     @Override
-    public void loadVisits(long userId, long placeId) {
+    public void loadVisits(String userId, String placeId) {
         model.loadVisits(this, userId, placeId);
     }
 
     @Override
-    public void deleteVisit(long visitId) {
+    public void deleteVisit(String visitId) {
         model.deleteVisit(this, visitId);
     }
 
     @Override
-    public void openNewVisit(Place place, Visit visit, boolean modify) {
+    public void openNewVisit(Place place, Visit visit, String action) {
         Intent intent = new Intent(view, NewVisitView.class);
         intent.putExtra("place", place);
         intent.putExtra("visit", visit);
-        intent.putExtra("modify", modify);
+        intent.putExtra("ACTION", action);
         view.startActivity(intent);
     }
 

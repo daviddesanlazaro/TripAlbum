@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.FriendsListContract;
+import com.svalero.tripalbum.domain.Friend;
 import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.presenter.FriendsListPresenter;
 
@@ -42,7 +43,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     private EditText phone;
 
     private User friend;
-    private User user = new User(65, null, null, null, null, false);    // Solución hasta hacer control de sesión
+    private User user = new User("624c4ba4e6a95b2e80b77bed", null, null, null, null);    // Solución hasta hacer control de sesión
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadFriends(user.getId());
+        presenter.loadFriends();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
         else {
             customLayout = getLayoutInflater().inflate(R.layout.search_friend, null, false);
             initializeSearchList();
-            presenter.loadSearchFriends(user.getId(), phone.getText().toString());
+            presenter.loadUsers(phone.getText().toString());
         }
     }
 
@@ -129,8 +130,9 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
             builder.setPositiveButton(R.string.select, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    Friend newFriend = new Friend(friend.getId(), friend.getUsername(), friend.getEmail(), friend.getPhone());
                     layout.setVisibility(View.GONE);
-                    presenter.addFriend(user.getId(), friend.getId());
+                    presenter.addFriend(newFriend, user.getId());
                 }
             });
             AlertDialog dialog = builder.create();
@@ -171,7 +173,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                presenter.loadFriendshipForDelete(user.getId(), friend.getId());
+                                presenter.deleteFriend(friend.getId());
                                 }})
                     .setNegativeButton(R.string.confirm_no,
                             new DialogInterface.OnClickListener() {

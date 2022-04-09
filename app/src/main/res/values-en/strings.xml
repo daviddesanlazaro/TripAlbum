@@ -31,9 +31,13 @@
     <string name="add_visit">Add visit</string>
     <string name="add_interested">Add to interesting</string>
     <string name="remove_interested">Remove from interesting</string>
-    <string name="friend_album_title">%1$s %2$s ALBUM</string>
+    <string name="friend_album_title">%1$s ALBUM</string>
     <string name="user_not_found">Search did not match any user</string>
     <string name="empty_phone">You must insert a phone number</string>
     <string name="select">Select</string>
     <string name="delete_friend_dialog">Remove from friends list. Sure?</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="deleted_from_favorites">Removed from favorites</string>
+    <string name="friend_already_exists">This user is already your friend</string>
+    <string name="this_is_you">You can´t add yourself</string>
 </resources>

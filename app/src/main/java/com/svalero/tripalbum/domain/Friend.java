@@ -5,26 +5,21 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.io.Serializable;
-
 @Entity
-public class User implements Serializable {
+public class Friend {
     @PrimaryKey
     @NonNull
     private String id;
     @ColumnInfo
     private String username;
     @ColumnInfo
-    private String password;
-    @ColumnInfo
     private String email;
     @ColumnInfo
     private String phone;
 
-    public User(@NonNull String id, String username, String password, String email, String phone) {
+    public Friend(@NonNull String id, String username, String email, String phone) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.phone = phone;
     }
@@ -43,14 +38,6 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -72,5 +59,34 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return username;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof Friend)) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+
+        final Friend other = (Friend) o;
+        return other.username.equals(this.username);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+
+        result = prime * result;
+        if (this.username != null) {
+            result += this.username.hashCode();
+        }
+
+        return result;
     }
 }

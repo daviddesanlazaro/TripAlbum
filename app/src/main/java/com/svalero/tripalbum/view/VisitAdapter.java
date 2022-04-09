@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.domain.Visit;
+import com.svalero.tripalbum.util.ImageUtils;
 
 import java.util.ArrayList;
 
@@ -27,9 +29,9 @@ public class VisitAdapter extends BaseAdapter {
     private String ratingText;
     private Button modify;
     private Button delete;
-    private final long userId;
+    private final String userId;
 
-    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, long userId) {
+    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, String userId) {
         this.context = context;
         this.listaVisits = listaVisits;
         inflater = LayoutInflater.from(context);
@@ -69,7 +71,8 @@ public class VisitAdapter extends BaseAdapter {
         }
 
         Visit visit = listaVisits.get(position);
-//        holder.foto.setImageBitmap(null);
+//        byte[] bytes = visit.getImage().getBytes(StandardCharsets.UTF_8);
+//        holder.foto.setImageBitmap(ImageUtils.getBitmap(bytes));
         ratingToString(visit.getRating());
         holder.commentary.setText(visit.getCommentary());
         holder.rating.setText(ratingText);
@@ -133,7 +136,7 @@ public class VisitAdapter extends BaseAdapter {
         modify.setOnClickListener(modifyClickListener);
         delete.setOnClickListener(deleteClickListener);
 
-        if (userId != 65) { // Solución hasta hacer control de sesión
+        if (!userId.equals("624c4ba4e6a95b2e80b77bed")) { // Solución hasta hacer control de sesión
             modify.setVisibility(GONE);
             delete.setVisibility(GONE);
         }

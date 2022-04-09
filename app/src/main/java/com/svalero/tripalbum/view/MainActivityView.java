@@ -11,12 +11,13 @@ import com.svalero.tripalbum.domain.User;
 
 public class MainActivityView extends AppCompatActivity {
 
-    private final User user = new User(65, null, null, null, null, false);
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = new User("624c4ba4e6a95b2e80b77bed", null, null, null, null);
     }
 
     @Override

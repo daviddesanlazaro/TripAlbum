@@ -1,5 +1,8 @@
 package com.svalero.tripalbum.presenter;
 
+import static com.svalero.tripalbum.api.Constants.Action.PUT;
+
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.contract.NewVisitContract;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.domain.VisitDTO;
@@ -17,14 +20,17 @@ public class NewVisitPresenter implements NewVisitContract.Presenter, NewVisitCo
     }
 
     @Override
-    public void addVisit(Visit visit, boolean modify) {
+    public void addVisit(Visit visit, Action action) {
         VisitDTO visitDto = new VisitDTO();
         visitDto.setUser(visit.getUser().getId());
         visitDto.setPlace(visit.getPlace().getId());
         visitDto.setDate(visit.getDate());
         visitDto.setRating(visit.getRating());
         visitDto.setCommentary(visit.getCommentary());
-        if (modify) {
+//        String image = new String(visit.getImage(), StandardCharsets.UTF_8);
+//        visitDto.setImage(visit.getImage());
+
+        if (action == PUT) {
             model.modifyVisit(this, visit.getId(), visitDto);
         }
         else {

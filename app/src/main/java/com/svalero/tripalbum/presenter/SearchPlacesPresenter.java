@@ -23,13 +23,13 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     }
 
     @Override
-    public void loadProvinces(long countryId) {
-        model.loadProvinces(this, countryId);
+    public void loadProvinces() {
+        model.loadProvinces(this);
     }
 
     @Override
-    public void loadPlaces(long provinceId, String name) {
-        if (provinceId == 0)
+    public void loadPlaces(String provinceId, String name) {
+        if (provinceId == null)
             model.loadAllPlaces(this, name);
         else
             model.loadPlaces(this, provinceId, name);

@@ -16,8 +16,8 @@ public interface ViewVisitsContract {
             void OnDeleteVisitsSuccess();
             void OnDeleteVisitsError(String message);
         }
-        void loadVisits(OnLoadVisitsListener listener, long userId, long placeId);
-        void deleteVisit(OnDeleteVisitsListener listener, long visitId);
+        void loadVisits(OnLoadVisitsListener listener, String userId, String placeId);
+        void deleteVisit(OnDeleteVisitsListener listener, String visitId);
     }
 
     interface View {
@@ -27,9 +27,9 @@ public interface ViewVisitsContract {
     }
 
     interface Presenter {
-        void loadVisits(long userId, long placeId);
-        void deleteVisit(long visitId);
+        void loadVisits(String userId, String placeId);
+        void deleteVisit(String visitId);
 
-        void openNewVisit(Place place, Visit visit, boolean modify);
+        void openNewVisit(Place place, Visit visit, String action);
     }
 }

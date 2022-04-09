@@ -152,10 +152,6 @@ public class PlaceMapView extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-//        userLocation = map.addMarker(new MarkerOptions()
-//                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-//                .snippet("description")
-//                .title("title"));
         userLocation = new LatLng(location.getLatitude(), location.getLongitude());
     }
 
