@@ -1,9 +1,12 @@
 package com.svalero.tripalbum.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.svalero.tripalbum.R;
@@ -17,6 +20,7 @@ public class MainActivityView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         user = new User("624c4ba4e6a95b2e80b77bed", null, null, null, null);
     }
 
@@ -39,5 +43,21 @@ public class MainActivityView extends AppCompatActivity {
     public void openSearchPlaces(View view) {
         Intent intent = new Intent(this, SearchPlacesView.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.main_preferences) {
+            Intent intent = new Intent(this, PreferencesView.class);
+            startActivity(intent);
+            return true;
+        }
+        return true;
     }
 }

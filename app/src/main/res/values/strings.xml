@@ -40,4 +40,13 @@
     <string name="deleted_from_favorites">Eliminado de favoritos</string>
     <string name="friend_already_exists">Este usuario ya es tu amigo</string>
     <string name="this_is_you">No te puedes añadir a ti mismo</string>
+    <string name="preferences">Preferencias</string>
+    <string name="preferences_favorites_title">Sólo favoritos</string>
+    <string name="preferences_detail_title">Vista detallada</string>
+    <string name="preferences_modify_title">Permitir editar</string>
+    <string name="preferences_favorites_summary">Ver sólo los lugares favoritos</string>
+    <string name="preferences_detail_summary">Mostrar fecha y valoración de las visitas</string>
+    <string name="preferences_modify_summary">Editar y eliminar visitas</string>
+    <string name="preferences_visits">Visitas</string>
+    <string name="preferences_places">Lugares</string>
 </resources>

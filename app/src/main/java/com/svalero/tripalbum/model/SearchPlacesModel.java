@@ -1,8 +1,13 @@
 package com.svalero.tripalbum.model;
 
+import android.content.Context;
+
+import androidx.room.Room;
+
 import com.svalero.tripalbum.api.TripAlbumApi;
 import com.svalero.tripalbum.api.TripAlbumApiInterface;
 import com.svalero.tripalbum.contract.SearchPlacesContract;
+import com.svalero.tripalbum.database.AppDatabase;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
 
@@ -63,5 +68,37 @@ public class SearchPlacesModel implements SearchPlacesContract.Model {
                 listener.OnLoadAllPlacesError("Se ha producido un error");
             }
         });
+    }
+
+    @Override
+    public List<Place> loadAllFavorites(Context context) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        return db.placeDao().getAll();
+    }
+
+    @Override
+    public List<Place> loadFavoritesByName(Context context, String name) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        return db.placeDao().getByName(name);
+    }
+
+    @Override
+    public List<Place> loadFavoritesByProvince(Context context, String provinceId) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        return db.placeDao().getByProvince(provinceId);
+    }
+
+    @Override
+    public List<Place> loadFavoritesByProvinceAndName(Context context, String provinceId, String name) {
+        AppDatabase db = Room.databaseBuilder(context,
+                AppDatabase.class, "places").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        return db.placeDao().getByProvinceAndName(provinceId, name);
     }
 }

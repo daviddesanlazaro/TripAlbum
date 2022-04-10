@@ -1,9 +1,17 @@
 package com.svalero.tripalbum.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,15 +37,18 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     public List<Place> placesList;
     private ArrayAdapter<Place> placesAdapter;
     private Province province;
-
     private EditText search;
     private AutoCompleteTextView autocomplete;
+    private SharedPreferences preferences;
+    private boolean favorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_places);
         presenter = new SearchPlacesPresenter(this);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeProvincesList();
         initializePlacesList();
@@ -48,7 +59,11 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     protected void onResume() {
         super.onResume();
         presenter.loadProvinces();
-        presenter.loadPlaces(null, null);
+        favorites = preferences.getBoolean("preferences_favorites", false);
+        if (favorites)
+            presenter.loadFavorites(null, null);
+        else
+            presenter.loadPlaces(null, null);
     }
 
     private void initializeProvincesList() {
@@ -62,7 +77,10 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
                 province = (Province) parent.getItemAtPosition(position);
-                presenter.loadPlaces(province.getId(), null);
+                if (favorites)
+                    presenter.loadFavorites(province.getId(), null);
+                else
+                    presenter.loadPlaces(province.getId(), null);
             }
         });
     }
@@ -96,13 +114,19 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     }
 
     public void searchPlaces(View view) {
-        presenter.loadPlaces(province.getId(), search.getText().toString());
+        if (favorites)
+            presenter.loadFavorites(province.getId(), search.getText().toString());
+        else
+            presenter.loadPlaces(province.getId(), search.getText().toString());
     }
 
     public void clear(View view) {
         autocomplete.setText("");
         province.setId(null);
-        presenter.loadPlaces(province.getId(), null);
+        if (favorites)
+            presenter.loadFavorites(null, null);
+        else
+            presenter.loadPlaces(null, null);
     }
 
     @Override
@@ -111,5 +135,21 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
             Place place = placesList.get(position);
             presenter.openViewPlace(place);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_search_places, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.search_places_preferences) {
+            Intent intent = new Intent(this, PreferencesView.class);
+            startActivity(intent);
+            return true;
+        }
+        return true;
     }
 }

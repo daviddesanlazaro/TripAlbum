@@ -21,15 +21,15 @@ public class Place implements Serializable {
     @ColumnInfo
     private float longitude;
     @ColumnInfo
-    private String provinceId;
+    private String province_id;
 
-    public Place(@NonNull String id, String name, String description, float latitude, float longitude, String provinceId) {
+    public Place(@NonNull String id, String name, String description, float latitude, float longitude, String province_id) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.provinceId = provinceId;
+        this.province_id = province_id;
     }
 
     public String getId() {
@@ -72,17 +72,25 @@ public class Place implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public String getProvince_id() {
+        return province_id;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince_id(String province_id) {
+        this.province_id = province_id;
     }
+
+//    public String getProvinceId() {
+//        return province_id;
+//    }
+//
+//    public void setProvinceId(String province_id) {
+//        this.province_id = province_id;
+//    }
 
     @Override
     public String toString() {
-        return name;
+        return name + province_id;
     }
 
     @Override

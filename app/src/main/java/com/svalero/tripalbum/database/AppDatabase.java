@@ -10,7 +10,7 @@ import com.svalero.tripalbum.domain.Friend;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.User;
 
-@Database(entities = {Place.class, User.class, Friend.class}, version = 2)
+@Database(entities = {Place.class, User.class, Friend.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract PlaceDao placeDao();
     public abstract UserDao userDao();
