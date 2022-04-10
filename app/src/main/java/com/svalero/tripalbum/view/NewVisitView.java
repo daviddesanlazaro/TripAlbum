@@ -31,7 +31,6 @@ import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.presenter.NewVisitPresenter;
-import com.svalero.tripalbum.util.ImageUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -181,14 +180,20 @@ public class NewVisitView extends AppCompatActivity implements NewVisitContract.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_visit, menu);
+        getMenuInflater().inflate(R.menu.actionbar_new_visit, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        clearFields();
-        ivImage.setImageResource(android.R.drawable.ic_menu_add);
+        if (item.getItemId() == R.id.new_visit_preferences) {
+            Intent intent = new Intent(this, PreferencesView.class);
+            startActivity(intent);
+            return true;
+        } else {
+            clearFields();
+            ivImage.setImageResource(android.R.drawable.ic_menu_add);
+        }
         return true;
     }
 

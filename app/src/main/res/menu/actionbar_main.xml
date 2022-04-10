@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/add_button"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/friends_list_preferences"
+        android:id="@+id/main_preferences"
         android:title="@string/preferences"
         app:showAsAction="never" />
 </menu>

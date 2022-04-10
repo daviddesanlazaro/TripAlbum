@@ -15,9 +15,11 @@
         android:theme="@style/Theme.TripAlbum"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.PreferencesView"
+            android:exported="false" />
+        <activity
             android:name=".view.PlaceMapView"
             android:exported="false" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

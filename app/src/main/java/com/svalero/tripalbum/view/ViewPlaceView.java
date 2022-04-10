@@ -3,10 +3,13 @@ package com.svalero.tripalbum.view;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -80,5 +83,21 @@ public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContrac
     @Override
     public void showErrorMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_view_place, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.view_place_preferences) {
+            Intent intent = new Intent(this, PreferencesView.class);
+            startActivity(intent);
+            return true;
+        }
+        return true;
     }
 }

@@ -1,11 +1,16 @@
 package com.svalero.tripalbum.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,6 +34,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     private VisitAdapter visitsAdapter;
     private String userId;
     private Place place;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         userId = intent.getStringExtra("userId");
         place = (Place) intent.getSerializableExtra("place");
 
-        initializeVisitsList();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         FloatingActionButton newVisit = findViewById(R.id.contextual_add_visit);
         if (!userId.equals("624c4ba4e6a95b2e80b77bed"))   // Solución hasta hacer control de sesión
@@ -50,12 +56,15 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     @Override
     protected void onResume() {
         super.onResume();
+        initializeVisitsList();
         presenter.loadVisits(userId, place.getId());
     }
 
     private void initializeVisitsList() {
+        boolean detailView = preferences.getBoolean("preferences_detail", false);
+        boolean modify = preferences.getBoolean("preferences_modify", false);
         visitsList = new ArrayList<>();
-        visitsAdapter = new VisitAdapter(this, visitsList, this, userId);
+        visitsAdapter = new VisitAdapter(this, visitsList, this, userId, detailView, modify);
         ListView lvVisits = findViewById(R.id.visit_list_main);
         lvVisits.setAdapter(visitsAdapter);
     }
@@ -105,5 +114,18 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
                                 dialog.dismiss();
                             }});
         builder.create().show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_view_visits, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = new Intent(this, PreferencesView.class);
+        startActivity(intent);
+        return true;
     }
 }

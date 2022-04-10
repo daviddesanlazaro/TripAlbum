@@ -36,6 +36,19 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     }
 
     @Override
+    public void loadFavorites(String provinceId, String name) {
+        if ((provinceId == null) && (name == null))
+            view.listPlaces(model.loadAllFavorites(view));
+        if ((provinceId == null) && (name != null))
+            view.listPlaces(model.loadFavoritesByName(view, name));
+        if ((provinceId != null) && (name == null))
+            view.listPlaces(model.loadFavoritesByProvince(view, provinceId));
+        if ((provinceId != null) && (name != null))
+            view.listPlaces(model.loadFavoritesByProvinceAndName(view, provinceId, name));
+
+    }
+
+    @Override
     public void OnLoadProvincesSuccess(List<Province> provinces) {
         view.listProvinces(provinces);
     }

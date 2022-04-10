@@ -1,6 +1,7 @@
 package com.svalero.tripalbum.view;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,16 +28,19 @@ public class VisitAdapter extends BaseAdapter {
     private final ArrayList<Visit> listaVisits;
     private final LayoutInflater inflater;
     private String ratingText;
-    private Button modify;
-    private Button delete;
+    private Button modifyButton;
+    private Button deleteButton;
     private final String userId;
+    private boolean detailView, modify;
 
-    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, String userId) {
+    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, String userId, boolean detailView, boolean modify) {
         this.context = context;
         this.listaVisits = listaVisits;
         inflater = LayoutInflater.from(context);
         this.view = view;
         this.userId = userId;
+        this.detailView = detailView;
+        this.modify = modify;
     }
 
     static class ViewHolder {
@@ -71,12 +75,15 @@ public class VisitAdapter extends BaseAdapter {
         }
 
         Visit visit = listaVisits.get(position);
+//
 //        byte[] bytes = visit.getImage().getBytes(StandardCharsets.UTF_8);
 //        holder.foto.setImageBitmap(ImageUtils.getBitmap(bytes));
-        ratingToString(visit.getRating());
         holder.commentary.setText(visit.getCommentary());
-        holder.rating.setText(ratingText);
-        holder.date.setText(visit.getDate());
+        if (detailView) {
+            ratingToString(visit.getRating());
+            holder.rating.setText(ratingText);
+            holder.date.setText(visit.getDate());
+        }
 
         initializeButtons(convertView);
 
@@ -112,7 +119,7 @@ public class VisitAdapter extends BaseAdapter {
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent();
             final int position = listView.getPositionForView(parentRow);
-            modify.setTag(position);
+            modifyButton.setTag(position);
             Visit visit = listaVisits.get(position);
             view.openModifyVisit(visit);
         }
@@ -124,21 +131,24 @@ public class VisitAdapter extends BaseAdapter {
             View parentRow = (View) v.getParent();
             ListView listView = (ListView) parentRow.getParent().getParent().getParent().getParent();
             final int position = listView.getPositionForView(parentRow);
-            delete.setTag(position);
+            deleteButton.setTag(position);
             Visit visit = listaVisits.get(position);
             view.deleteVisit(visit.getId());
         }
     };
 
     private void initializeButtons(View convertView) {
-        modify = (Button) convertView.findViewById(R.id.visit_modify);
-        delete = (Button) convertView.findViewById(R.id.visit_delete);
-        modify.setOnClickListener(modifyClickListener);
-        delete.setOnClickListener(deleteClickListener);
+        modifyButton = (Button) convertView.findViewById(R.id.visit_modify);
+        deleteButton = (Button) convertView.findViewById(R.id.visit_delete);
+        modifyButton.setOnClickListener(modifyClickListener);
+        deleteButton.setOnClickListener(deleteClickListener);
 
-        if (!userId.equals("624c4ba4e6a95b2e80b77bed")) { // Solución hasta hacer control de sesión
-            modify.setVisibility(GONE);
-            delete.setVisibility(GONE);
+        if (userId.equals("624c4ba4e6a95b2e80b77bed") && modify) { // Solución hasta hacer control de sesión
+            modifyButton.setVisibility(VISIBLE);
+            deleteButton.setVisibility(VISIBLE);
+        } else {
+            modifyButton.setVisibility(GONE);
+            deleteButton.setVisibility(GONE);
         }
     }
 }

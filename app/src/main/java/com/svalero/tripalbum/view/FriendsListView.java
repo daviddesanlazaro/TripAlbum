@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -68,16 +69,22 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        layout = findViewById(R.id.search_friends_layout);
-        if (layout.getVisibility() == View.GONE) {
-            layout.setVisibility(View.VISIBLE);
-            phone = findViewById(R.id.search_friend_phone);
-            phone.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(phone, InputMethodManager.SHOW_IMPLICIT);
+        if (item.getItemId() == R.id.friends_list_preferences) {
+            Intent intent = new Intent(this, PreferencesView.class);
+            startActivity(intent);
+            return true;
+        } else {
+            layout = findViewById(R.id.search_friends_layout);
+            if (layout.getVisibility() == View.GONE) {
+                layout.setVisibility(View.VISIBLE);
+                phone = findViewById(R.id.search_friend_phone);
+                phone.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(phone, InputMethodManager.SHOW_IMPLICIT);
+            }
+            else
+                layout.setVisibility(View.GONE);
         }
-        else
-            layout.setVisibility(View.GONE);
         return true;
     }
 
