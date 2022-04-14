@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.svalero.tripalbum.contract.SearchPlacesContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.model.SearchPlacesModel;
 import com.svalero.tripalbum.view.SearchPlacesView;
 import com.svalero.tripalbum.view.ViewPlaceView;
@@ -79,9 +80,10 @@ public class SearchPlacesPresenter implements SearchPlacesContract.Presenter, Se
     }
 
     @Override
-    public void openViewPlace(Place place) {
+    public void openViewPlace(Place place, User user) {
         Intent intent = new Intent(view, ViewPlaceView.class);
         intent.putExtra("place", place);
+        intent.putExtra("user", user);
         view.startActivity(intent);
     }
 }

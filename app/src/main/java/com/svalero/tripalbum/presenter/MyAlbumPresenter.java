@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.svalero.tripalbum.contract.MyAlbumContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.model.MyAlbumModel;
 import com.svalero.tripalbum.view.MyAlbumView;
@@ -33,17 +34,18 @@ public class MyAlbumPresenter implements MyAlbumContract.Presenter, MyAlbumContr
     }
 
     @Override
-    public void openViewVisits(String userId, Place place, String action) {
+    public void openViewVisits(User user, Place place, String action) {
         Intent intent = new Intent(view, ViewVisitsView.class);
-        intent.putExtra("userId",userId);
+        intent.putExtra("user",user);
         intent.putExtra("place", place);
         intent.putExtra("ACTION", action);
         view.startActivity(intent);
     }
 
     @Override
-    public void openViewPlace(Place place) {
+    public void openViewPlace(User user, Place place) {
         Intent intent = new Intent(view, ViewPlaceView.class);
+        intent.putExtra("user", user);
         intent.putExtra("place", place);
         view.startActivity(intent);
     }

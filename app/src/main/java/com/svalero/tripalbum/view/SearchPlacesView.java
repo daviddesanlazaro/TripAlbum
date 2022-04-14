@@ -25,6 +25,7 @@ import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.SearchPlacesContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.presenter.SearchPlacesPresenter;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     private AutoCompleteTextView autocomplete;
     private SharedPreferences preferences;
     private boolean favorites;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
         initializeProvincesList();
         initializePlacesList();
         search = findViewById(R.id.search_places_search);
@@ -140,7 +144,7 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.search_places_list) {
             Place place = placesList.get(position);
-            presenter.openViewPlace(place);
+            presenter.openViewPlace(place, user);
         }
     }
 

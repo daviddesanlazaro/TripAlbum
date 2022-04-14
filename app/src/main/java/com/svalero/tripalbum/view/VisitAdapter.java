@@ -13,14 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.domain.Visit;
-import com.svalero.tripalbum.util.ImageUtils;
 
 import java.util.ArrayList;
 
@@ -47,7 +45,6 @@ public class VisitAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-//        ImageView foto;
         TextView rating;
         TextView date;
         TextView commentary;
@@ -62,10 +59,9 @@ public class VisitAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.visit, parent, false);
 
             holder = new ViewHolder();
-//            holder.foto = (ImageView) convertView.findViewById(R.id.visit_image);
-            holder.rating = (TextView) convertView.findViewById(R.id.visit_rating);
-            holder.date = (TextView) convertView.findViewById(R.id.visit_date);
-            holder.commentary = (TextView) convertView.findViewById(R.id.visit_commentary);
+            holder.rating = convertView.findViewById(R.id.visit_rating);
+            holder.date = convertView.findViewById(R.id.visit_date);
+            holder.commentary = convertView.findViewById(R.id.visit_commentary);
 
             convertView.setTag(holder);
         }
@@ -78,9 +74,7 @@ public class VisitAdapter extends BaseAdapter {
         }
 
         Visit visit = listaVisits.get(position);
-//
-//        byte[] bytes = visit.getImage().getBytes(StandardCharsets.UTF_8);
-//        holder.foto.setImageBitmap(ImageUtils.getBitmap(bytes));
+
         holder.commentary.setText(visit.getCommentary());
         if (detailView) {
             ratingToString(visit.getRating());

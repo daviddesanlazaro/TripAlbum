@@ -8,15 +8,13 @@ public class VisitDTO implements Serializable {
     private String date;
     private float rating;
     private String commentary;
-    private String image;
 
-    public VisitDTO(String user, String place, String date, float rating, String commentary, String image) {
+    public VisitDTO(String user, String place, String date, float rating, String commentary) {
         this.user = user;
         this.place = place;
         this.date = date;
         this.rating = rating;
         this.commentary = commentary;
-        this.image = image;
     }
 
     public VisitDTO() {
@@ -61,14 +59,6 @@ public class VisitDTO implements Serializable {
 
     public void setUser(String user) {
         this.user = user;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @Override

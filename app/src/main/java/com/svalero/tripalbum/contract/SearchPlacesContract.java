@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Province;
+import com.svalero.tripalbum.domain.User;
 
 import java.util.List;
 
@@ -43,6 +44,6 @@ public interface SearchPlacesContract {
         void loadProvinces();
         void loadPlaces(String provinceId, String name);
         void loadFavorites(String provinceId, String name);
-        void openViewPlace(Place place);
+        void openViewPlace(Place place, User user);
     }
 }

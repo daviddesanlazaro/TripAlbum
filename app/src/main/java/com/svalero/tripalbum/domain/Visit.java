@@ -9,7 +9,6 @@ public class Visit implements Serializable {
     private String date;
     private float rating;
     private String commentary;
-//    private String image;
 
     public Visit(String id, User user, Place place, String date, float rating, String commentary) {
         this.id = id;
@@ -18,8 +17,9 @@ public class Visit implements Serializable {
         this.date = date;
         this.rating = rating;
         this.commentary = commentary;
-//        this.image = image;
     }
+
+    public Visit() {}
 
     public String getId() {
         return id;
@@ -68,14 +68,6 @@ public class Visit implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 
     @Override
     public String toString() {

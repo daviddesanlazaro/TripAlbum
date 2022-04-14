@@ -1,6 +1,7 @@
 package com.svalero.tripalbum.contract;
 
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
@@ -30,6 +31,6 @@ public interface ViewVisitsContract {
         void loadVisits(String userId, String placeId);
         void deleteVisit(String visitId);
 
-        void openNewVisit(Place place, Visit visit, String action);
+        void openNewVisit(Place place, User user, Visit visit, String action);
     }
 }

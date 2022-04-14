@@ -3,6 +3,7 @@ package com.svalero.tripalbum.contract;
 import android.content.Context;
 
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface MyAlbumContract {
         void loadVisited(String userId);
         void loadFavorites();
 
-        void openViewVisits(String userId, Place place, String action);
-        void openViewPlace(Place place);
+        void openViewVisits(User user, Place place, String action);
+        void openViewPlace(User user, Place place);
     }
 }

@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,19 +22,20 @@ import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.presenter.ViewVisitsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContract.View, AdapterView.OnItemClickListener {
+public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContract.View {
 
     private ViewVisitsPresenter presenter;
 
     public ArrayList<Visit> visitsList;
     private VisitAdapter visitsAdapter;
-    private String userId;
+    private User user;
     private Place place;
     private SharedPreferences preferences;
     private Action action;
@@ -47,7 +47,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         presenter = new ViewVisitsPresenter(this);
 
         Intent intent = getIntent();
-        userId = intent.getStringExtra("userId");
+        user = (User) intent.getSerializableExtra("user");
         place = (Place) intent.getSerializableExtra("place");
         action = Action.valueOf(getIntent().getStringExtra("ACTION"));
 
@@ -62,8 +62,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     protected void onResume() {
         super.onResume();
         initializeVisitsList();
-        Toast.makeText(this, userId, Toast.LENGTH_SHORT).show();
-        presenter.loadVisits(userId, place.getId());
+        presenter.loadVisits(user.getId(), place.getId());
     }
 
     private void initializeVisitsList() {
@@ -80,7 +79,6 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         visitsList.clear();
         visitsList.addAll(visits);
         visitsAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "" + visitsList.size(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -88,20 +86,12 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.visit_list_main) {
-            Visit visit = visitsList.get(position);
-            presenter.openNewVisit(place, visit, "PUT");
-        }
-    }
-
     public void openNewVisit(View view) {
-        presenter.openNewVisit(place, null, "POST");
+        presenter.openNewVisit(place, user, null, "POST");
     }
 
     public void openModifyVisit(Visit visit) {
-        presenter.openNewVisit(place, visit, "PUT");
+        presenter.openNewVisit(place, user, visit, "PUT");
     }
 
     public void deleteVisit(String visitId) {
@@ -112,7 +102,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 presenter.deleteVisit(visitId);
-                                presenter.loadVisits(userId, place.getId());
+                                presenter.loadVisits(user.getId(), place.getId());
                             }})
                 .setNegativeButton(R.string.confirm_no,
                         new DialogInterface.OnClickListener() {

@@ -142,6 +142,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
                     Friend newFriend = new Friend(friend.getId(), friend.getUsername(), friend.getEmail(), friend.getPhone());
                     layout.setVisibility(View.GONE);
                     presenter.addFriend(newFriend, user.getId());
+                    presenter.loadFriends();
                 }
             });
             AlertDialog dialog = builder.create();
@@ -182,7 +183,8 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                presenter.deleteFriend(friend.getId());
+                                    presenter.deleteFriend(friend.getId());
+                                    presenter.loadFriends();
                                 }})
                     .setNegativeButton(R.string.confirm_no,
                             new DialogInterface.OnClickListener() {
