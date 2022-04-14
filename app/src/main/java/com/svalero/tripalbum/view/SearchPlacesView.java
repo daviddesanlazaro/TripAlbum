@@ -1,21 +1,23 @@
 package com.svalero.tripalbum.view;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -59,11 +61,16 @@ public class SearchPlacesView extends AppCompatActivity implements SearchPlacesC
     protected void onResume() {
         super.onResume();
         presenter.loadProvinces();
+        LinearLayout layout = findViewById(R.id.search_places_layout);
         favorites = preferences.getBoolean("preferences_favorites", false);
-        if (favorites)
+        if (favorites) {
             presenter.loadFavorites(null, null);
-        else
+            layout.setVisibility(GONE);
+        }
+        else {
             presenter.loadPlaces(null, null);
+            layout.setVisibility(VISIBLE);
+        }
     }
 
     private void initializeProvincesList() {

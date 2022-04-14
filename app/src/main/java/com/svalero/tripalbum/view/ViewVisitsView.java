@@ -1,5 +1,7 @@
 package com.svalero.tripalbum.view;
 
+import static com.svalero.tripalbum.api.Constants.Action.FRIEND;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.Visit;
@@ -35,6 +38,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     private String userId;
     private Place place;
     private SharedPreferences preferences;
+    private Action action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,12 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         place = (Place) intent.getSerializableExtra("place");
+        action = Action.valueOf(getIntent().getStringExtra("ACTION"));
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         FloatingActionButton newVisit = findViewById(R.id.contextual_add_visit);
-        if (!userId.equals("624c4ba4e6a95b2e80b77bed"))   // Solución hasta hacer control de sesión
+        if (action == FRIEND)
             newVisit.setVisibility(View.GONE);
     }
 
@@ -57,6 +62,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
     protected void onResume() {
         super.onResume();
         initializeVisitsList();
+        Toast.makeText(this, userId, Toast.LENGTH_SHORT).show();
         presenter.loadVisits(userId, place.getId());
     }
 
@@ -64,7 +70,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         boolean detailView = preferences.getBoolean("preferences_detail", false);
         boolean modify = preferences.getBoolean("preferences_modify", false);
         visitsList = new ArrayList<>();
-        visitsAdapter = new VisitAdapter(this, visitsList, this, userId, detailView, modify);
+        visitsAdapter = new VisitAdapter(this, visitsList, this, detailView, modify, action);
         ListView lvVisits = findViewById(R.id.visit_list_main);
         lvVisits.setAdapter(visitsAdapter);
     }
@@ -74,6 +80,7 @@ public class ViewVisitsView extends AppCompatActivity implements ViewVisitsContr
         visitsList.clear();
         visitsList.addAll(visits);
         visitsAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "" + visitsList.size(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

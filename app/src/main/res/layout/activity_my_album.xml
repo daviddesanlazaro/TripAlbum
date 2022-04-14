@@ -26,7 +26,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/visited_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="toggleVisited"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/favorite_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="toggleFavorites"

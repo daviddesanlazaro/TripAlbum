@@ -90,7 +90,7 @@ public class Place implements Serializable {
 
     @Override
     public String toString() {
-        return name + province_id;
+        return name;
     }
 
     @Override
