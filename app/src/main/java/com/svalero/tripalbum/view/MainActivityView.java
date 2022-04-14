@@ -1,27 +1,18 @@
 package com.svalero.tripalbum.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.MainActivityContract;
 import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.presenter.MainActivityPresenter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivityView extends AppCompatActivity implements MainActivityContract.View {
 
@@ -70,6 +61,7 @@ public class MainActivityView extends AppCompatActivity implements MainActivityC
 
     public void openSearchPlaces(View view) {
         Intent intent = new Intent(this, SearchPlacesView.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 

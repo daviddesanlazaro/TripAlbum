@@ -11,6 +11,5 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
-        CheckBoxPreference modify = findPreference("preferences_modify");
     }
 }

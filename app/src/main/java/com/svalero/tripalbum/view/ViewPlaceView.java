@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.svalero.tripalbum.R;
 import com.svalero.tripalbum.contract.ViewPlaceContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.presenter.ViewPlacePresenter;
 
 public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContract.View {
@@ -25,6 +26,7 @@ public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContrac
     private ViewPlacePresenter presenter;
 
     private Place place;
+    private User user;
 
     private Button add, remove;
 
@@ -36,6 +38,7 @@ public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContrac
 
         Intent intent = getIntent();
         place = (Place) intent.getSerializableExtra("place");
+        user = (User) intent.getSerializableExtra("user");
 
         initializeView();
         presenter.checkFavorite(place);
@@ -51,7 +54,7 @@ public class ViewPlaceView extends AppCompatActivity implements ViewPlaceContrac
     }
 
     public void openNewVisit(View view) {
-        presenter.openNewVisit(place);
+        presenter.openNewVisit(place, user);
     }
 
     public void viewPlaceMap(View view) {

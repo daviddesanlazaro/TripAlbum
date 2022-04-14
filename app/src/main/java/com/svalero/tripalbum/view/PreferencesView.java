@@ -12,15 +12,12 @@ public class PreferencesView extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(R.string.preferences);
 
-        // below line is used to check if
-        // frame layout is empty or not.
         if (findViewById(R.id.fragment_preferences) != null) {
             if (savedInstanceState != null) {
                 return;
             }
-            // below line is to inflate our fragment.
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_preferences, new PreferenceFragment()).commit();
         }
     }

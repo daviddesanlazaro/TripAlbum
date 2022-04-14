@@ -55,18 +55,6 @@
             android:numStars="5"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <ImageView
-            android:id="@+id/modify_visit_image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:onClick="selectPicture"
-            android:scaleType="center"
-            android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:srcCompat="@tools:sample/avatars" />
-
     </LinearLayout>
 
     <Button

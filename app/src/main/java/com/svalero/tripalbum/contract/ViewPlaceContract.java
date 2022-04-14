@@ -3,6 +3,7 @@ package com.svalero.tripalbum.contract;
 import android.content.Context;
 
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface ViewPlaceContract {
         void addFavorite(Place place);
         void deleteFavorite(Place place);
         void checkFavorite(Place place);
-        void openNewVisit(Place place);
+        void openNewVisit(Place place, User user);
         void openViewMap(Place place);
     }
 }

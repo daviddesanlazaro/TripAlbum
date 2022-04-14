@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.svalero.tripalbum.contract.ViewVisitsContract;
 import com.svalero.tripalbum.domain.Place;
+import com.svalero.tripalbum.domain.User;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.model.ViewVisitsModel;
 import com.svalero.tripalbum.view.ViewVisitsView;
@@ -32,9 +33,10 @@ public class ViewVisitsPresenter implements ViewVisitsContract.Presenter, ViewVi
     }
 
     @Override
-    public void openNewVisit(Place place, Visit visit, String action) {
+    public void openNewVisit(Place place, User user, Visit visit, String action) {
         Intent intent = new Intent(view, NewVisitView.class);
         intent.putExtra("place", place);
+        intent.putExtra("user", user);
         intent.putExtra("visit", visit);
         intent.putExtra("ACTION", action);
         view.startActivity(intent);

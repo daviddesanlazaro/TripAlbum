@@ -27,8 +27,6 @@ public class NewVisitPresenter implements NewVisitContract.Presenter, NewVisitCo
         visitDto.setDate(visit.getDate());
         visitDto.setRating(visit.getRating());
         visitDto.setCommentary(visit.getCommentary());
-//        String image = new String(visit.getImage(), StandardCharsets.UTF_8);
-//        visitDto.setImage(visit.getImage());
 
         if (action == PUT) {
             model.modifyVisit(this, visit.getId(), visitDto);

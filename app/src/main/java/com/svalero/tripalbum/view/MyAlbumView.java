@@ -62,7 +62,6 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, user.getId(), Toast.LENGTH_SHORT).show();
         visitedList.clear();
         presenter.loadVisited(user.getId());
         if (action == USER)
@@ -145,12 +144,12 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
         if (parent.getId() == R.id.my_album_visited) {
             Place place = visitedList.get(position);
             if (action == USER)
-                presenter.openViewVisits(user.getId(), place, "USER");
+                presenter.openViewVisits(user, place, "USER");
             else
-                presenter.openViewVisits(user.getId(), place, "FRIEND");
+                presenter.openViewVisits(user, place, "FRIEND");
         } else if (parent.getId() == R.id.my_album_favorites) {
             Place place = favoritesList.get(position);
-            presenter.openViewPlace(place);
+            presenter.openViewPlace(user, place);
         }
     }
 
