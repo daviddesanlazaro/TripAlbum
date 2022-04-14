@@ -44,13 +44,15 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     private EditText phone;
 
     private User friend;
-    private User user = new User("624c4ba4e6a95b2e80b77bed", null, null, null, null);    // Solución hasta hacer control de sesión
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
         presenter = new FriendsListPresenter(this);
+
+        user = (User) getIntent().getSerializableExtra("user");
 
         initializeFriendsList();
     }
@@ -156,7 +158,7 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.friends_list) {
             User user = friendsList.get(position);
-            presenter.openMyAlbum(user);
+            presenter.openMyAlbum(user, "FRIEND");
         } else if (parent.getId() == R.id.search_friend_list) {
             friend = searchList.get(position);
         }

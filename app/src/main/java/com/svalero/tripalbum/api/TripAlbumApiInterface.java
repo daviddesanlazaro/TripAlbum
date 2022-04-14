@@ -51,5 +51,8 @@ public interface TripAlbumApiInterface {
 
     // Usuarios
     @GET("users")
+    Call<List<User>> getUsers();
+
+    @GET("users")
     Call<List<User>> getByPhone(@Query("phone") String phone);
 }

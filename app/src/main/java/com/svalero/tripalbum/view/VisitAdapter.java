@@ -3,6 +3,8 @@ package com.svalero.tripalbum.view;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import static com.svalero.tripalbum.api.Constants.Action.USER;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.domain.Visit;
 import com.svalero.tripalbum.util.ImageUtils;
 
@@ -30,17 +33,17 @@ public class VisitAdapter extends BaseAdapter {
     private String ratingText;
     private Button modifyButton;
     private Button deleteButton;
-    private final String userId;
     private boolean detailView, modify;
+    private Action action;
 
-    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, String userId, boolean detailView, boolean modify) {
+    public VisitAdapter(Activity context, ArrayList<Visit> listaVisits, ViewVisitsView view, boolean detailView, boolean modify, Action action) {
         this.context = context;
         this.listaVisits = listaVisits;
         inflater = LayoutInflater.from(context);
         this.view = view;
-        this.userId = userId;
         this.detailView = detailView;
         this.modify = modify;
+        this.action = action;
     }
 
     static class ViewHolder {
@@ -138,12 +141,12 @@ public class VisitAdapter extends BaseAdapter {
     };
 
     private void initializeButtons(View convertView) {
-        modifyButton = (Button) convertView.findViewById(R.id.visit_modify);
-        deleteButton = (Button) convertView.findViewById(R.id.visit_delete);
+        modifyButton = convertView.findViewById(R.id.visit_modify);
+        deleteButton = convertView.findViewById(R.id.visit_delete);
         modifyButton.setOnClickListener(modifyClickListener);
         deleteButton.setOnClickListener(deleteClickListener);
 
-        if (userId.equals("624c4ba4e6a95b2e80b77bed") && modify) { // Solución hasta hacer control de sesión
+        if ((action == USER) && modify) {
             modifyButton.setVisibility(VISIBLE);
             deleteButton.setVisibility(VISIBLE);
         } else {

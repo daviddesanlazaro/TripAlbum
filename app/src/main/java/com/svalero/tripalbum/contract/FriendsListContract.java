@@ -29,7 +29,7 @@ public interface FriendsListContract {
     interface Presenter {
         void loadFriends();
         void loadUsers(String phone);
-        void openMyAlbum(User user);
+        void openMyAlbum(User user, String action);
         void addFriend(Friend friend, String userId);
         void deleteFriend(String friendId);
     }

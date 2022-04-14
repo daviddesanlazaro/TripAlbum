@@ -26,11 +26,11 @@
     <string name="main_places">BUSCAR LUGARES</string>
     <string name="main_add_visit">AÑADIR VISITA</string>
     <string name="visited_places_title">LUGARES VISITADOS</string>
-    <string name="interesting_places_title">LUGARES INTERESANTES</string>
+    <string name="interesting_places_title">LUGARES FAVORITOS</string>
     <string name="search_places">BUSCAR</string>
     <string name="add_visit">Añadir visita</string>
-    <string name="add_interested">Añadir a interesantes</string>
-    <string name="remove_interested">Eliminar de interesantes</string>
+    <string name="add_interested">Añadir a favoritos</string>
+    <string name="remove_interested">Eliminar de favoritos</string>
     <string name="friend_album_title">ÁLBUM DE %1$s</string>
     <string name="user_not_found">la búsqueda no coincide con ningún usuario</string>
     <string name="empty_phone">Debes introducir un número de teléfono</string>
@@ -49,4 +49,5 @@
     <string name="preferences_modify_summary">Editar y eliminar visitas</string>
     <string name="preferences_visits">Visitas</string>
     <string name="preferences_places">Lugares</string>
+    <string name="change_user">Cambiar usuario</string>
 </resources>

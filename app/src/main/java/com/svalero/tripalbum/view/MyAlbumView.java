@@ -1,26 +1,25 @@
 package com.svalero.tripalbum.view;
 
+import static android.view.View.GONE;
+import static com.svalero.tripalbum.api.Constants.Action.USER;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.svalero.tripalbum.R;
+import com.svalero.tripalbum.api.Constants.Action;
 import com.svalero.tripalbum.contract.MyAlbumContract;
 import com.svalero.tripalbum.domain.Place;
 import com.svalero.tripalbum.domain.User;
@@ -39,6 +38,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     public List<Place> favoritesList;
     private ArrayAdapter<Place> favoritesAdapter;
     private User user;
+    private Action action;
 
     private ListView lvVisited;
     private ListView lvFavorites;
@@ -51,10 +51,12 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
+        action = Action.valueOf(getIntent().getStringExtra("ACTION"));
 
         checkUser();
         initializeVisitedPlaces();
-        initializeInterestingPlaces();
+        if (action == USER)
+            initializeFavoritePlaces();
     }
 
     @Override
@@ -63,7 +65,22 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
         Toast.makeText(this, user.getId(), Toast.LENGTH_SHORT).show();
         visitedList.clear();
         presenter.loadVisited(user.getId());
-        presenter.loadFavorites();
+        if (action == USER)
+            presenter.loadFavorites();
+        else {
+            Button visited = findViewById(R.id.visited_button);
+            visited.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            Button favorites = findViewById(R.id.favorite_button);
+            lvFavorites = findViewById(R.id.my_album_favorites);
+            favorites.setVisibility(GONE);
+            lvFavorites.setVisibility(GONE);
+        }
+
     }
 
     private void initializeVisitedPlaces() {
@@ -74,7 +91,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
         lvVisited.setOnItemClickListener(this);
     }
 
-    private void initializeInterestingPlaces() {
+    private void initializeFavoritePlaces() {
         favoritesList = new ArrayList<>();
         favoritesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favoritesList);
         lvFavorites = findViewById(R.id.my_album_favorites);
@@ -84,7 +101,7 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
 
     private void checkUser() {
         TextView title = findViewById(R.id.my_album_title);
-        if (user.getId().equals("624c4ba4e6a95b2e80b77bed")) {
+        if (action == USER) {
             title.setText(getString(R.string.main_my_album));
         }
         else {
@@ -105,17 +122,17 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     }
 
     public void toggleVisited(View view) {
-        if (lvVisited.getVisibility() == View.GONE)
+        if (lvVisited.getVisibility() == GONE)
             lvVisited.setVisibility(View.VISIBLE);
         else
-            lvVisited.setVisibility(View.GONE);
+            lvVisited.setVisibility(GONE);
     }
 
     public void toggleFavorites(View view) {
-        if (lvFavorites.getVisibility() == View.GONE)
+        if (lvFavorites.getVisibility() == GONE)
             lvFavorites.setVisibility(View.VISIBLE);
         else
-            lvFavorites.setVisibility(View.GONE);
+            lvFavorites.setVisibility(GONE);
     }
 
     @Override
@@ -127,7 +144,10 @@ public class MyAlbumView extends AppCompatActivity implements MyAlbumContract.Vi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.my_album_visited) {
             Place place = visitedList.get(position);
-            presenter.openViewVisits(user.getId(), place);
+            if (action == USER)
+                presenter.openViewVisits(user.getId(), place, "USER");
+            else
+                presenter.openViewVisits(user.getId(), place, "FRIEND");
         } else if (parent.getId() == R.id.my_album_favorites) {
             Place place = favoritesList.get(position);
             presenter.openViewPlace(place);

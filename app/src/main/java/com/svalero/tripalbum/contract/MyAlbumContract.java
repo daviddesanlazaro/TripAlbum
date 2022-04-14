@@ -34,7 +34,7 @@ public interface MyAlbumContract {
         void loadVisited(String userId);
         void loadFavorites();
 
-        void openViewVisits(String userId, Place place);
+        void openViewVisits(String userId, Place place, String action);
         void openViewPlace(Place place);
     }
 }

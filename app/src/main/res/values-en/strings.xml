@@ -26,11 +26,11 @@
     <string name="main_places">SEARCH PLACES</string>
     <string name="main_add_visit">ADD VISIT</string>
     <string name="visited_places_title">VISITED PLACES</string>
-    <string name="interesting_places_title">INTERESTING PLACES</string>
+    <string name="interesting_places_title">FAVORITE PLACES</string>
     <string name="search_places">SEARCH</string>
     <string name="add_visit">Add visit</string>
-    <string name="add_interested">Add to interesting</string>
-    <string name="remove_interested">Remove from interesting</string>
+    <string name="add_interested">Add to favorites</string>
+    <string name="remove_interested">Remove from favorites</string>
     <string name="friend_album_title">%1$s ALBUM</string>
     <string name="user_not_found">Search did not match any user</string>
     <string name="empty_phone">You must insert a phone number</string>
@@ -49,4 +49,5 @@
     <string name="preferences_modify_summary">Edit and delete visits</string>
     <string name="preferences_visits">Visits</string>
     <string name="preferences_places">Places</string>
+    <string name="change_user">Change user</string>
 </resources>

@@ -33,10 +33,11 @@ public class MyAlbumPresenter implements MyAlbumContract.Presenter, MyAlbumContr
     }
 
     @Override
-    public void openViewVisits(String userId, Place place) {
+    public void openViewVisits(String userId, Place place, String action) {
         Intent intent = new Intent(view, ViewVisitsView.class);
         intent.putExtra("userId",userId);
         intent.putExtra("place", place);
+        intent.putExtra("ACTION", action);
         view.startActivity(intent);
     }
 
