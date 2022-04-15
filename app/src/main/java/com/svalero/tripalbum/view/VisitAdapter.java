@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.svalero.tripalbum.R;
@@ -28,7 +29,7 @@ public class VisitAdapter extends BaseAdapter {
     private final Context context;
     private final ArrayList<Visit> listaVisits;
     private final LayoutInflater inflater;
-    private String ratingText;
+//    private RatingBar ratingBar;
     private Button modifyButton;
     private Button deleteButton;
     private boolean detailView, modify;
@@ -45,7 +46,7 @@ public class VisitAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView rating;
+        RatingBar ratingBar;
         TextView date;
         TextView commentary;
     }
@@ -59,7 +60,7 @@ public class VisitAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.visit, parent, false);
 
             holder = new ViewHolder();
-            holder.rating = convertView.findViewById(R.id.visit_rating);
+            holder.ratingBar = convertView.findViewById(R.id.visit_rating);
             holder.date = convertView.findViewById(R.id.visit_date);
             holder.commentary = convertView.findViewById(R.id.visit_commentary);
 
@@ -77,8 +78,8 @@ public class VisitAdapter extends BaseAdapter {
 
         holder.commentary.setText(visit.getCommentary());
         if (detailView) {
-            ratingToString(visit.getRating());
-            holder.rating.setText(ratingText);
+//            ratingToString(visit.getRating());
+            holder.ratingBar.setRating(visit.getRating());
             holder.date.setText(visit.getDate());
         }
 
@@ -102,13 +103,13 @@ public class VisitAdapter extends BaseAdapter {
         return posicion;
     }
 
-    @SuppressLint("DefaultLocale")
-    public void ratingToString(double d) {
-        if(d == (long) d)
-            ratingText = String.format("%d",(long) d);
-        else
-            ratingText = String.format("%s",d);
-    }
+//    @SuppressLint("DefaultLocale")
+//    public void ratingToString(double d) {
+//        if(d == (long) d)
+//            ratingText = String.format("%d",(long) d);
+//        else
+//            ratingText = String.format("%s",d);
+//    }
 
     private View.OnClickListener modifyClickListener = new View.OnClickListener() {
         @Override
