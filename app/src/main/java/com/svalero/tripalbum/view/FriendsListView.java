@@ -139,10 +139,12 @@ public class FriendsListView extends AppCompatActivity implements FriendsListCon
             builder.setPositiveButton(R.string.select, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Friend newFriend = new Friend(friend.getId(), friend.getUsername(), friend.getEmail(), friend.getPhone());
-                    layout.setVisibility(View.GONE);
-                    presenter.addFriend(newFriend, user.getId());
-                    presenter.loadFriends();
+                    if (friend != null) {
+                        Friend newFriend = new Friend(friend.getId(), friend.getUsername(), friend.getEmail(), friend.getPhone());
+                        layout.setVisibility(View.GONE);
+                        presenter.addFriend(newFriend, user.getId());
+                        presenter.loadFriends();
+                    }
                 }
             });
             AlertDialog dialog = builder.create();

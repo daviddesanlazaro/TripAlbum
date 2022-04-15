@@ -1,27 +1,15 @@
 package com.svalero.tripalbum.domain;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 
-@Entity
 public class User implements Serializable {
-    @PrimaryKey
-    @NonNull
     private String id;
-    @ColumnInfo
     private String username;
-    @ColumnInfo
     private String password;
-    @ColumnInfo
     private String email;
-    @ColumnInfo
     private String phone;
 
-    public User(@NonNull String id, String username, String password, String email, String phone) {
+    public User(String id, String username, String password, String email, String phone) {
         this.id = id;
         this.username = username;
         this.password = password;
