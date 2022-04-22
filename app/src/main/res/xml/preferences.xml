@@ -1,0 +1,19 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/preferences_visits">
+        <CheckBoxPreference
+            android:key="preferences_detail"
+            android:title="@string/preferences_detail_title"
+            android:summary="@string/preferences_detail_summary" />
+        <CheckBoxPreference
+            android:key="preferences_modify"
+            android:title="@string/preferences_modify_title"
+            android:summary="@string/preferences_modify_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_places">
+        <CheckBoxPreference
+            android:key="preferences_favorites"
+            android:title="@string/preferences_favorites_title"
+            android:summary="@string/preferences_favorites_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>
