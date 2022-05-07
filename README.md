@@ -13,3 +13,8 @@ Funcionalidades:
 - Disponible en español e inglés.
 
 La información está almacenada en una API: https://github.com/daviddesanlazaro/TripAlbumAPI
+
+
+*** IMPORTANTE ***
+
+Para probar esta aplicación es necesario acceder como uno de los usuarios registrados en la API, pero todavía no se ha implementado ningún control de sesión. Así que de momento es necesario introducir el ID del usuario que se quiera utilizar directamente en el código. Esto se realiza en el método onCreate de la MainActivityView (línea 25).
